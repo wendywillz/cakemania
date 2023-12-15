@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 import {config} from 'dotenv'
 
 config()
+
 const app = express();
 const api = process.env.API_URL
 
