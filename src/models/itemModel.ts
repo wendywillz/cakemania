@@ -1,5 +1,5 @@
 import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
-import sequelize from "../config/database.config"//could change the path to the config file
+import sequelize from "../database.config"//could change the path to the config file
 
 interface itemAtrributes{
     itemName: string;
@@ -35,4 +35,6 @@ Items.init({
     modelName: "Items"
 })
 
-Items === sequelize.models.Items 
+// Items === sequelize.models.Items 
+
+export default Items

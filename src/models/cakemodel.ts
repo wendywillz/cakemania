@@ -1,8 +1,10 @@
-import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
-import sequelize from "../config/database.config" //could change the path to the config file
-import { Orders } from "./ordermodel";
-import { Users} from "./usermodel";
+import {Sequelize, Model, DataTypes} from "sequelize" 
 
+import sequelize from "../database.config";
+
+
+// import { Orders } from "./ordermodel";
+// import { Users} from "./usermodel";
 
 
 
@@ -15,11 +17,11 @@ interface cakeAtrributes{
     flavour: string;
     price: number;
     rating: number;
-    commments: string;
+    comments: string;
     numReviews: number;
 }
 
-export class Cakes extends Model <cakeAtrributes> {}
+export class Cakes extends Model<cakeAtrributes> {}
 
 Cakes.init({
     cakeName: {
@@ -28,7 +30,7 @@ Cakes.init({
 
     },
     cakeID: {
-        type: DataTypes.UUID,
+        type: DataTypes.NUMBER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: false,
@@ -63,7 +65,7 @@ Cakes.init({
         allowNull: true
 
     },
-    commments: {
+    comments: {
         type: DataTypes.STRING,
         allowNull: true
 
@@ -72,10 +74,12 @@ Cakes.init({
         type: DataTypes.INTEGER,
         allowNull: true
 
-    },
+    }
 }, {
     sequelize,
     modelName: "Cakes"
 })
 
-Cakes === sequelize.models.Cakes 
+console.log(Cakes === sequelize.models.Cakes)
+
+export default Cakes

@@ -1,8 +1,10 @@
 import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
-import {sequelize} from "../config/database.config" //could change the path to the config file
-import {Items} from "./itemModel"
-import { Users } from "./usermodel"
-import { Cakes } from "./cakemodel"
+import sequelize from "../database.config" 
+
+//could change the path to the config file
+// import Items from "./itemModel"
+// import Users  from "./usermodel"
+// import  Cakes  from "./cakemodel"
 
 interface orderAtrributes{
     orderID: string;
@@ -21,7 +23,7 @@ export class Orders extends Model <orderAtrributes> {}
 //Ive included the LGA and State. But I need to ask: if we're already asking for the address, doesn't that make requesting those, redundant?
 
 Orders.init({
-    orderId: {
+    orderID: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
@@ -61,8 +63,10 @@ Orders.init({
     modelName: "Orders"
 })
 
-Orders.hasMany(Items, {as: "items", foreignKey: "orderId"})
-Orders.hasMany(Cakes, {as: "cakes", foreignKey: "orderId"})
+// Orders.hasMany(Items, {as: "items", foreignKey: "orderId"})
+// Orders.hasMany(Cakes, {as: "cakes", foreignKey: "orderId"})
 //I think we shoud consider putting all the association in one document
 
-Orders === sequelize.models.Orders
+// Orders === sequelize.models.Orders
+
+export default Orders

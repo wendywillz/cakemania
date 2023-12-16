@@ -166,12 +166,6 @@ export type OrderValidationType = z.infer<typeof orderSchema>;
 
 
 
-
-
-
-
-
-
 export default { signupSchema, loginSchema, cakeSchema, categorySchema, orderItemsSchema, orderSchema}
 
 

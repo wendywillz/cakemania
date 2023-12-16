@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../lib/app');
-var debug = require('debug')('week-8-cake-mania-application:server');
+const app = require('../lib/app');
+const debug = require('debug')('week-8-cake-mania-application:server');
 var http = require('http');
 const api = process.env.API_URL
 

@@ -5,9 +5,14 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan'
 import bodyParser from 'body-parser'
 import {config} from 'dotenv'
+import sequelize from './database.config';
+import Categories from './models/categorymodel';
+import Cakes from './models/cakemodel';
+import Items from './models/itemModel';
+import Orders from './models/ordermodel';
+import Users from './models/usermodel';
 
 config()
-
 const app = express();
 const api = process.env.API_URL
 
@@ -25,6 +30,41 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../', 'public')));
 
 //database connection
+const models = [Categories, Cakes, Items, Orders, Users];
+
+// Synchronize the models with the database
+async function syncDatabase() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to the database has been established successfully.');
+
+    // Sync all models
+    await sequelize.sync(); // Set force: true cautiously for development
+
+    console.log('Database synchronized successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
+
+// Call the syncDatabase function
+syncDatabase();
+
+
+
+
+
+
+
+
+// sequelize.sync()
+// .then( () => {
+//     console.log('DATABASE CONNECTED')
+// })
+// .catch((error) => {
+//     console.log('ERROR ERROR IN CONNECTING DATABASE', error)
+// })
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

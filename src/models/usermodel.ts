@@ -1,5 +1,5 @@
 import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
-import sequelize from "../config/database.config" //could change the path to the config file
+import sequelize from "../database.config" //could change the path to the config file
 import {Orders} from "./ordermodel"
 
 interface userAtrributes{
@@ -71,7 +71,7 @@ Users.init({
     },
     isAdmin: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        defaultValue: false
     },
 }, {
     sequelize,
@@ -81,4 +81,6 @@ Users.init({
 Users.hasMany(Orders, {as: "orders", foreignKey: "userId"})
 //I think we shoud consider putting all the association in one document
 
-Users === sequelize.models.Users 
+// Users === sequelize.models.Users 
+
+export default Users
