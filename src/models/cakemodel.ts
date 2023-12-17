@@ -7,7 +7,6 @@ import sequelize from "../database.config";
 // import { Users} from "./usermodel";
 
 
-
 interface cakeAtrributes{
     cakeName: string;
     cakeID: string;
