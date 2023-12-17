@@ -7,14 +7,14 @@ import sequelize from "../database.config"
 // import  Cakes  from "./cakemodel"
 
 interface orderAtrributes{
-    orderID: string;
+    orderID: number;
     total: number;
     status: string;
-    deliveryPhoneNo: number;
+    deliveryPhoneNo: string;
     deliveryAddress: string;
     deliveryState: string;
     deliveryLga: string;
-    additionalInfo: string;
+    additionalInfo: string| null;
 }
 
 export class Orders extends Model <orderAtrributes> {}
