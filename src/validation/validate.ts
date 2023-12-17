@@ -23,7 +23,7 @@ const signupSchema = z.object({
       .min(2, "minimum of 2 characters required")
       .max(50, "maximum of 50 characters required"),
 
-    userID: z.string().nullish(),
+    userID: z.string().nullable().optional(),
 
     email: z
       .string({
@@ -44,7 +44,7 @@ const signupSchema = z.object({
         "Password must contain at least one lowercase letter, one uppercase letter, and one number"
       ),
 
-    passwordConfirm: z.string().nullish(),
+    passwordConfirm: z.string(),
 
     phoneNo: z
       .string({
@@ -53,6 +53,8 @@ const signupSchema = z.object({
       })
       .min(13, "input phone number in 234 format")
       .max(13),
+
+      isAdmin: z.boolean().default(false),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "Passwords do not match",
@@ -166,7 +168,7 @@ export type OrderValidationType = z.infer<typeof orderSchema>;
 
 
 
-export default { signupSchema, loginSchema, cakeSchema, categorySchema, orderItemsSchema, orderSchema}
+export const validationSchemas = { signupSchema, loginSchema, cakeSchema, categorySchema, orderItemsSchema, orderSchema}
 
 
 
@@ -185,4 +187,3 @@ export default { signupSchema, loginSchema, cakeSchema, categorySchema, orderIte
 // userState: z.string({
 // required_error: "state is required",
 // }),
-// isAdmin: z.boolean().default(false),

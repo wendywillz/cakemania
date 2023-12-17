@@ -1,18 +1,20 @@
 import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
 import sequelize from "../database.config" //could change the path to the config file
+
+import { v4 as uuidv4 } from 'uuid';
 import {Orders} from "./ordermodel"
 
 interface userAtrributes{
     firstName: string;
     lastName: string;
-    userId: string;
+    userID: string | null;
     email: string;
     password: string;
     passwordConfirm: string;
-    phoneNo: number;
-    userAddress: string;
-    userState: string;
-    userLga: string;
+    phoneNo: string;
+    // userAddress: string;
+    // userState: string;
+    // userLga: string;
     isAdmin: boolean;
 }
 
@@ -31,11 +33,11 @@ Users.init({
         allowNull: false
 
     },
-    userId : {
-        type: DataTypes.UUID,
-        allowNull: false,
+    userID : {
+        type: DataTypes.TEXT,
+        defaultValue: () => uuidv4(),
         primaryKey: true,
-        autoIncrement: false,
+        allowNull: false,
     },
     email: {
         type: DataTypes.STRING,
@@ -53,22 +55,11 @@ Users.init({
         
     },
     phoneNo: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         
     },
-    userAddress: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    userState :{
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    userLga: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
+    
     isAdmin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
@@ -78,9 +69,23 @@ Users.init({
     modelName: "Users"
 })
 
-Users.hasMany(Orders, {as: "orders", foreignKey: "userId"})
+// Users.hasMany(Orders, {as: "orders", foreignKey: "userId"})
 //I think we shoud consider putting all the association in one document
 
 // Users === sequelize.models.Users 
 
 export default Users
+
+
+// userAddress: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false
+    // },
+    // userState :{
+    //     type: DataTypes.STRING,
+    //     allowNull: false
+    // },
+    // userLga: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false
+    // },
