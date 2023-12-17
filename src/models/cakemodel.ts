@@ -9,15 +9,15 @@ import sequelize from "../database.config";
 
 interface cakeAtrributes{
     cakeName: string;
-    cakeID: string;
+    cakeID: number | null;
     category: string;
-    description: string;
+    description: string | null;
     image: string;
     flavour: string;
-    price: number;
-    rating: number;
-    comments: string;
-    numReviews: number;
+    price: string;
+    rating: number | null;
+    comments: string | null;
+    numReviews: number |null;
 }
 
 export class Cakes extends Model<cakeAtrributes> {}

@@ -1,9 +1,16 @@
 import { RequestHandler, Request, Response } from 'express';
-import Cakes from '../models/cakemodel';  //imported cake models
+import Cakes from '../models/cakemodel'; // Import cake models
+import { ZodError } from 'zod';
+  
+import { validationSchemas } from '../validation/validate';
+
+const { cakeSchema } = validationSchemas;
 
 export const createCake: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const {
+    const validation = cakeSchema.parse(req.body);
+    
+    const{
       cakeName,
       cakeID,
       category,
@@ -14,7 +21,7 @@ export const createCake: RequestHandler = async (req: Request, res: Response) =>
       rating,
       comments,
       numReviews,
-    } = req.body;
+    } = validation;
 
     // Create a cake
     const cake = await Cakes.create({
@@ -30,10 +37,22 @@ export const createCake: RequestHandler = async (req: Request, res: Response) =>
       numReviews,
     });
 
-    res.status(201).json({ cake, status: 'success' });
+    return res.status(201).json({ cake, status: 'Cake created successfully' });
   } catch (error) {
-    console.error('Error creating cake:', error);
-    res.status(500).json({ message: 'Failed to create cake', error });
+    if (error instanceof ZodError) {
+      const formattedErrors = error.errors.map((err) => ({
+        path: err.path.join('.'),
+        message: err.message,
+      }));
+      return res.status(400).json({
+        status: 'failed',
+        message: 'Validation errors',
+        errors: formattedErrors,
+      });
+    } else {
+      console.error('Error creating cake:', error);
+      res.status(500).json({ message: 'Failed to create cake', error });
+    }
   }
 };
 
@@ -42,8 +61,20 @@ export const findAllCakes: RequestHandler = async (req: Request, res: Response) 
     const cakes = await Cakes.findAll();
     res.status(200).json({ cakes, status: 'success' });
   } catch (error) {
-    console.error('Error fetching cakes:', error);
-    res.status(500).json({ message: 'Failed to fetch cakes', error });
+    if (error instanceof ZodError) {
+      const formattedErrors = error.errors.map((err) => ({
+        path: err.path.join('.'),
+        message: err.message,
+      }));
+      return res.status(400).json({
+        status: 'failed',
+        message: 'Validation errors',
+        errors: formattedErrors,
+      });
+    } else {
+      console.error('Error fetching cakes:', error);
+      res.status(500).json({ message: 'Failed to fetch cakes', error });
+    }
   }
 };
 
@@ -73,7 +104,6 @@ export const updateCake: RequestHandler = async (req: Request, res: Response) =>
     }
 
     await cake.update({ ...req.body });
-    await cake.save();
 
     res.status(200).json({ cake, status: 'Cake updated successfully' });
   } catch (error) {

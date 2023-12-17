@@ -82,7 +82,6 @@ const loginSchema = z.object({
     ),
 });
 
-
 const cakeSchema = z.object({
 
     cakeName: z.string({
@@ -97,7 +96,7 @@ const cakeSchema = z.object({
         invalid_type_error: "category needs to be a string",
     }),
 
-    description: z.string().nullish(),
+    description: z.string().nullable(),
 
     image: z.string({
         required_error: "cake image is required",
@@ -126,11 +125,11 @@ const cakeSchema = z.object({
     //     );
     //   }, 'Invalid decimal precision or numeric range'),
 
-    cakeID: z.number().nullish(),
-    userID: z.string().nullish(),
-    rating: z.number().min(1).max(5, 'rating cannot exceed 5').nullish(),
-    comments: z.string().min(10).nullish(),
-    numReviews: z.number().nullish()
+    cakeID: z.number().nullable(),
+    userID: z.string().nullable(),
+    rating: z.number().min(1).max(5, 'rating cannot exceed 5').nullable(),
+    comments: z.string().min(10).nullable(),
+    numReviews: z.number().nullable()
 
 })
 
