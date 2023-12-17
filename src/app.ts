@@ -65,6 +65,9 @@ app.set('views', path.join(__dirname, '../', 'views'));
 app.set('view engine', 'ejs');
 
 
+
+app.get("/categories", )
+
 //routes
 app.use(`${api}`, indexRouter);
 app.use(`${api}/users`, usersRouter);
