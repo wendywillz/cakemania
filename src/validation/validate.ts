@@ -125,11 +125,11 @@ const cakeSchema = z.object({
     //     );
     //   }, 'Invalid decimal precision or numeric range'),
 
-    cakeID: z.number().nullable(),
-    userID: z.string().nullable(),
-    rating: z.number().min(1).max(5, 'rating cannot exceed 5').nullable(),
-    comments: z.string().min(10).nullable(),
-    numReviews: z.number().nullable()
+    // cakeID: z.number().optional(),
+    // userID: z.string().nullable().optional(),
+    rating: z.number().min(1).max(5, 'rating cannot exceed 5').nullable().optional(),
+    comments: z.string().min(10).nullable().optional(),
+    numReviews: z.number().nullable().optional()
 
 })
 

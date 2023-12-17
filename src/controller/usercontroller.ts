@@ -204,20 +204,3 @@ export async function deleteUser(req:Request, res:Response, next:NextFunction) {
         res.status(500).json({ message: 'server error'})
     }
 };
-
-
-
-
-
-
-
-// if (error instanceof ZodError) {
-//     const zodErrorMessage = error.issues.map((issue) => issue.message);
-//     res.render("signup", { zodError: zodErrorMessage });
-//     res.json({ zodError: zodErrorMessage })
-//   } else if (error) {
-//     console.error("Error creating user:", error);
-//     return res
-//       .status(500)
-//       .json({ status: "error", message: "Internal server error" });
-//   }

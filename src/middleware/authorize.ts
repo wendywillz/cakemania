@@ -1,43 +1,119 @@
 import Users from "../models/usermodel";
 import express, { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-const authUser = 
-(async(req: Request, res:Response, next: NextFunction)=>{
-    const id = req.body.userID
-    if(!id){
-        res.status(400).send("")
+
+interface AuthRequest extends Request {
+    user?: { userID: string }; // Add the user property
+  }
+
+
+export const authorize = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  
+    const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
+    // const token = req.cookies.token
+  
+    if (!token) {
+        return res.json({ status: "failed", message : "no token found"})
+    //   return res.redirect('/store/users/login')
     }
-    const user = await Users.findByPk(id)
-    if (!user) {
-        res.status(401).send("<h1> Not a user. Please sign up </h1>")
+  
+    try {
 
-        //res.redirect(/home/register) // not sure of the specific route nor whether or not I should redirect.
+     const secret: any = process.env.secret
+        
+      const decoded = jwt.verify(token, secret) as { loginkey: string };
+  
+      // Use Sequelize's findOne method to retrieve the user
+      const user = await Users.findOne({
+        where: { userID: decoded.loginkey },
+        attributes: ['userID'],
+      });
+  
+      if (!user || user.dataValues.userID ==  null) {
+        return res.status(401).json({ message: 'Unauthorized' });
       }
   
-      next()
-})
-
-const authAdmin = (async(req: Request, res:Response, next: NextFunction)=>{
-    const id = req.body.userID
-    const user = await Users.findByPk(id)
-    if (!user) {
-        res.status(401).send("<h1> Not a user. Please sign up </h1>")
-    }
-    if (user.isAdmin !== true) {
-        res.status(401).send("<h1> You do not have permisson </h1>")
-      }
+      req.user = { userID: user.dataValues.userID }; // Attach the user to the request for further use
+      next();
   
-      next()
-})
+    } catch (error) {
+      console.error(error);
+      res.status(401).json({ message: 'error in authorization' });
+    }
+  };
 
 
-
-
-
-export {
-    authAdmin,
-    authUser
+export function noCache(req:AuthRequest, res:Response, next:NextFunction) {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const authUser = 
+// (async(req: Request, res:Response, next: NextFunction)=>{
+//     const id = req.body.userID
+//     if(!id){
+//         res.status(400).send("")
+//     }
+//     const user = await Users.findByPk(id)
+//     if (!user) {
+//         res.status(401).send("<h1> Not a user. Please sign up </h1>")
+
+//         //res.redirect(/home/register) // not sure of the specific route nor whether or not I should redirect.
+//       }
+  
+//       next()
+// })
+
+// const authAdmin = (async(req: Request, res:Response, next: NextFunction)=>{
+//     const id = req.body.userID
+//     const user = await Users.findByPk(id)
+//     if (!user) {
+//         res.status(401).send("<h1> Not a user. Please sign up </h1>")
+//     }
+//     if (user?.dataValues.isAdmin !== true) {
+//         res.status(401).send("<h1> You do not have permisson </h1>")
+//       }
+  
+//       next()
+// })
+
+
+
+// export {
+//     authAdmin,
+//     authUser
+// }
 
 /*
 

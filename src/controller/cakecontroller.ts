@@ -5,39 +5,34 @@ import { ZodError } from 'zod';
 import { validationSchemas } from '../validation/validate';
 
 const { cakeSchema } = validationSchemas;
+import { authorize } from '../middleware/authorize';
 
-export const createCake: RequestHandler = async (req: Request, res: Response) => {
-  try {
-    const validation = cakeSchema.parse(req.body);
-    
-    const{
-      cakeName,
-      cakeID,
-      category,
-      description,
-      image,
-      flavour,
-      price,
-      rating,
-      comments,
-      numReviews,
-    } = validation;
 
+interface AuthRequest extends Request {
+  user?: { userID: string }; // Add the user property
+}
+
+export const createCake: RequestHandler = async (req: AuthRequest, res: Response) => {
+  
+
+    // const validation = cakeSchema.parse(req.body);
+
+    const{ cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,} = req.body;
+
+
+    const userID = req.user?.userID
+
+    try {
+
+    if(userID == undefined){
+        return res.status(401).json({message: "unathourized"})
+      }
     // Create a cake
     const cake = await Cakes.create({
-      cakeName,
-      cakeID,
-      category,
-      description,
-      image,
-      flavour,
-      price,
-      rating,
-      comments,
-      numReviews,
+      cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,userID
     });
 
-    return res.status(201).json({ cake, status: 'Cake created successfully' });
+    return res.status(201).json({ status: 'Cake created successfully', cake,  });
   } catch (error) {
     if (error instanceof ZodError) {
       const formattedErrors = error.errors.map((err) => ({
@@ -59,7 +54,7 @@ export const createCake: RequestHandler = async (req: Request, res: Response) =>
 export const findAllCakes: RequestHandler = async (req: Request, res: Response) => {
   try {
     const cakes = await Cakes.findAll();
-    res.status(200).json({ cakes, status: 'success' });
+    res.status(200).json({ status: 'success', cakes  });
   } catch (error) {
     if (error instanceof ZodError) {
       const formattedErrors = error.errors.map((err) => ({
@@ -80,8 +75,8 @@ export const findAllCakes: RequestHandler = async (req: Request, res: Response) 
 
 export const findCakeById: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
-    const cake = await Cakes.findByPk(id);
+    const cakeID = req.params.id;
+    const cake = await Cakes.findByPk(cakeID);
 
     if (!cake) {
       return res.status(404).json({ message: 'Cake Not Found' });
@@ -94,11 +89,17 @@ export const findCakeById: RequestHandler = async (req: Request, res: Response) 
   }
 };
 
-export const updateCake: RequestHandler = async (req: Request, res: Response) => {
+export const updateCake: RequestHandler = async (req: AuthRequest, res: Response) => {
   try {
-    const id = req.params.id;
+    const cakeID = req.params.id;
 
-    const cake = await Cakes.findByPk(id);
+    const userID = req.user?.userID
+
+    if(!userID){
+      res.json({ status: "failed", message: "unauthoried"})
+    }
+
+    const cake = await Cakes.findByPk(cakeID);
     if (!cake) {
       return res.status(404).json({ message: 'Cake Not Found' });
     }

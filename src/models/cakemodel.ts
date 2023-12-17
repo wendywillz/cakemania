@@ -1,6 +1,10 @@
 import {Sequelize, Model, DataTypes} from "sequelize" 
-
+import { v4 as uuidv4 } from 'uuid';
 import sequelize from "../database.config";
+import Users from "./usermodel";
+
+
+
 
 
 // import { Orders } from "./ordermodel";
@@ -9,7 +13,7 @@ import sequelize from "../database.config";
 
 interface cakeAtrributes{
     cakeName: string;
-    cakeID: number | null;
+    cakeID: number,
     category: string;
     description: string | null;
     image: string;
@@ -18,6 +22,7 @@ interface cakeAtrributes{
     rating: number | null;
     comments: string | null;
     numReviews: number |null;
+    userID: string | null
 }
 
 export class Cakes extends Model<cakeAtrributes> {}
@@ -29,15 +34,14 @@ Cakes.init({
 
     },
     cakeID: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
+        type: DataTypes.TEXT,
+        defaultValue: () => uuidv4(),
         primaryKey: true,
-        autoIncrement: false,
-
+        allowNull: false,
     },
     category : {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
     description: {
         type: DataTypes.STRING,
@@ -73,12 +77,23 @@ Cakes.init({
         type: DataTypes.INTEGER,
         allowNull: true
 
-    }
+    },
+
+    userID: {
+        type: DataTypes.TEXT,
+        // allowNull: false,
+        references: {
+            model: Users,
+            key: 'userID'
+        }
+        
+      }
 }, {
     sequelize,
     modelName: "Cakes"
 })
 
 console.log(Cakes === sequelize.models.Cakes)
+
 
 export default Cakes

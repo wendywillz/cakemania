@@ -1,30 +1,32 @@
-import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
-import sequelize from "../database.config" //could change the path to the config file
+// import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
+// import sequelize from "../database.config" //could change the path to the config file
+// import Cakes from "./cakemodel"
 
 
-interface categoryAtrributes{
-    categoryName: string,
-    categoryID: number
-}
 
-export class Categories extends Model <categoryAtrributes> {}
+// interface categoryAtrributes{
+//     categoryName: string,
+//     categoryID: number
+// }
 
-Categories.init({
-    categoryName: {
-        type: DataTypes.STRING,
-        allowNull: false
+// export class Categories extends Model <categoryAtrributes> {}
 
-    },
-    categoryID: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: false,
+// Categories.init({
+//     categoryName: {
+//         type: DataTypes.STRING,
+//         allowNull: false
 
-    }
-}, {
-    sequelize,
-    modelName: 'Categories'
-})
+//     },
+//     categoryID: {
+//         type: DataTypes.NUMBER,
+//         allowNull: false,
+//         primaryKey: true,
+//         autoIncrement: false,
 
-export default Categories
+//     }
+// }, {
+//     sequelize,
+//     modelName: 'Categories'
+// })
+
+// export default Categories
