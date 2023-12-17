@@ -1,4 +1,4 @@
-import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
+import { Model, DataTypes } from "sequelize" //I did not install any package
 import sequelize from "../database.config" 
 
 //could change the path to the config file
@@ -6,7 +6,9 @@ import sequelize from "../database.config"
 // import Users  from "./usermodel"
 // import  Cakes  from "./cakemodel"
 
-interface orderAtrributes{
+
+
+interface OrderAttributes {
     orderID: string;
     total: number;
     status: string;
@@ -17,10 +19,60 @@ interface orderAtrributes{
     additionalInfo: string;
 }
 
-export class Orders extends Model <orderAtrributes> {}
+class Orders extends Model<OrderAttributes> implements OrderAttributes {
+    public orderID!: string;
+    public total!: number;
+    public status!: string;
+    public deliveryPhoneNo!: number;
+    public deliveryAddress!: string;
+    public deliveryState!: string;
+    public deliveryLga!: string;
+    public additionalInfo!: string;
+}
 
+Orders.init(
+    {
+        orderID: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: false,
+        },
+        total: {
+            type: DataTypes.DOUBLE,
+            allowNull: false,
+        },
+        status: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        deliveryPhoneNo: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        deliveryAddress: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        deliveryState: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        deliveryLga: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        additionalInfo: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+    },
+    {
+        sequelize,
+        modelName: "Orders",
+    }
+);
 
-//Ive included the LGA and State. But I need to ask: if we're already asking for the address, doesn't that make requesting those, redundant?
 
 Orders.init({
     orderID: {

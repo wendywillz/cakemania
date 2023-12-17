@@ -6,7 +6,7 @@ import logger from 'morgan'
 import bodyParser from 'body-parser'
 import {config} from 'dotenv'
 import sequelize from './database.config';
-import Categories from './models/categorymodel';
+import Categories from './models/categoryModel';
 import Cakes from './models/cakemodel';
 import Items from './models/itemModel';
 import Orders from './models/ordermodel';
