@@ -1,11 +1,22 @@
 import express, { Request, Response, NextFunction} from 'express';
 
-// const express = require('express');
+import { signup, login, getAllUsers, getUserByID, editUser, deleteUser } from '../controller/usercontroller';
+
+
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+
+router.post('/signup', signup)
+
+router.post('/login', login)
+
+router.get('/', getAllUsers)
+
+router.get('/:id', getUserByID)
+
+router.put('/:id', editUser)
+
+router.delete('/:id', deleteUser)
+
 
 export default router

@@ -23,7 +23,7 @@ const signupSchema = z.object({
       .min(2, "minimum of 2 characters required")
       .max(50, "maximum of 50 characters required"),
 
-    userID: z.string().nullish(),
+    userID: z.string().nullable().optional(),
 
     email: z
       .string({
@@ -44,7 +44,7 @@ const signupSchema = z.object({
         "Password must contain at least one lowercase letter, one uppercase letter, and one number"
       ),
 
-    passwordConfirm: z.string().nullish(),
+    passwordConfirm: z.string(),
 
     phoneNo: z
       .string({
@@ -53,6 +53,8 @@ const signupSchema = z.object({
       })
       .min(13, "input phone number in 234 format")
       .max(13),
+
+      isAdmin: z.boolean().default(false),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "Passwords do not match",
@@ -80,7 +82,6 @@ const loginSchema = z.object({
     ),
 });
 
-
 const cakeSchema = z.object({
 
     cakeName: z.string({
@@ -95,7 +96,7 @@ const cakeSchema = z.object({
         invalid_type_error: "category needs to be a string",
     }),
 
-    description: z.string().nullish(),
+    description: z.string().nullable(),
 
     image: z.string({
         required_error: "cake image is required",
@@ -124,11 +125,11 @@ const cakeSchema = z.object({
     //     );
     //   }, 'Invalid decimal precision or numeric range'),
 
-    cakeID: z.number().nullish(),
-    userID: z.string().nullish(),
-    rating: z.number().min(1).max(5, 'rating cannot exceed 5').nullish(),
-    comments: z.string().min(10).nullish(),
-    numReviews: z.number().nullish()
+    cakeID: z.number().nullable(),
+    userID: z.string().nullable(),
+    rating: z.number().min(1).max(5, 'rating cannot exceed 5').nullable(),
+    comments: z.string().min(10).nullable(),
+    numReviews: z.number().nullable()
 
 })
 
@@ -185,4 +186,3 @@ export const validationSchemas = { signupSchema, loginSchema, cakeSchema, catego
 // userState: z.string({
 // required_error: "state is required",
 // }),
-// isAdmin: z.boolean().default(false),
