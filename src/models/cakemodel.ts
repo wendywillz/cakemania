@@ -2,6 +2,7 @@ import {Sequelize, Model, DataTypes} from "sequelize"
 import { v4 as uuidv4 } from 'uuid';
 import sequelize from "../database.config";
 import Users from "./usermodel";
+import Categories from "./categorymodel";
 
 
 
@@ -13,7 +14,7 @@ import Users from "./usermodel";
 
 interface cakeAtrributes{
     cakeName: string;
-    cakeID: number,
+    cakeID: string|null
     category: string;
     description: string | null;
     image: string;
@@ -41,7 +42,10 @@ Cakes.init({
     },
     category : {
         type: DataTypes.STRING,
-        allowNull: false,
+        references: {
+            model: Categories,
+            key: 'categoryName'
+        }
     },
     description: {
         type: DataTypes.STRING,
@@ -59,7 +63,7 @@ Cakes.init({
         
     },
     price: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.STRING,
         allowNull: false,
         
     },

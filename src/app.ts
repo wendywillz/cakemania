@@ -7,7 +7,7 @@ import bodyParser from 'body-parser'
 import {config} from 'dotenv'
 import sequelize from './database.config';
 import Users from './models/usermodel';
-
+import Categories from './models/categorymodel';
 import Cakes from './models/cakemodel';
 import Items from './models/itemmodel';
 import Orders from './models/ordermodel';
@@ -39,7 +39,7 @@ app.use(`${api}/admin`, adminRouter)
 app.use(`${api}/cakes`, cakeRouter)
 
 //database connection
-const models = [ Cakes, Items, Orders, Users];
+const models = [ Cakes, Categories, Items, Orders, Users];
 
 // Synchronize the models with the database
 async function syncDatabase() {
@@ -58,6 +58,8 @@ async function syncDatabase() {
 
 // Call the syncDatabase function
 syncDatabase();
+//associations
+Categories.hasMany(Cakes, { foreignKey: 'categoryName' });
 
 
 // sequelize.sync()
@@ -74,7 +76,9 @@ app.set('views', path.join(__dirname, '../', 'views'));
 app.set('view engine', 'ejs');
 
 
-
+app.get(`${api}`, (req, res) => {
+  res.render('index')
+})
 
 
 // catch 404 and forward to error handler

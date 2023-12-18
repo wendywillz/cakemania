@@ -108,12 +108,11 @@ const cakeSchema = z.object({
         invalid_type_error: "category needs to be a string",
     }),
 
-    price: z.string().refine(value => {
-        const regex = /^(\d{1,3}(,\d{3})*|\d+)(\.\d{1,2})?$/;
-        return regex.test(value);
-      }, {
-        message: 'Invalid price format',
-      }),
+    price: z.string({
+      required_error: "price is required",
+      invalid_type_error: "price needs to be a string",
+  }).trim(),
+
 
     // price: z.string().refine(value => {
     //     const numberValue = Number(value);
@@ -125,7 +124,7 @@ const cakeSchema = z.object({
     //     );
     //   }, 'Invalid decimal precision or numeric range'),
 
-    // cakeID: z.number().optional(),
+    cakeID: z.string().nullable().optional(),
     // userID: z.string().nullable().optional(),
     rating: z.number().min(1).max(5, 'rating cannot exceed 5').nullable().optional(),
     comments: z.string().min(10).nullable().optional(),

@@ -9,7 +9,7 @@ interface userAtrributes{
     userID: string | null;
     email: string;
     password: string;
-    passwordConfirm: string;
+    // passwordConfirm: string;
     phoneNo: string;
     // userAddress: string;
     // userState: string;
@@ -47,11 +47,11 @@ Users.init({
         allowNull: false
         
     },
-    passwordConfirm: {
-        type: DataTypes.STRING,
-        allowNull: false
+    // passwordConfirm: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false
         
-    },
+    // },
     phoneNo: {
         type: DataTypes.STRING,
         allowNull: false,
