@@ -10,6 +10,7 @@ router.post('/signup', signup)
 
 router.post('/login', login)
 
+
 router.get('/', getAllUsers)
 
 router.get('/:id', getUserByID)
