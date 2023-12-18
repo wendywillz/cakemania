@@ -9,7 +9,7 @@ import sequelize from './database.config';
 import Users from './models/usermodel';
 
 import Cakes from './models/cakemodel';
-import Items from './models/itemmodel';
+import Items from './models/itemModel';
 import Orders from './models/ordermodel';
 
 config()
