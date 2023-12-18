@@ -49,7 +49,7 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
       userID,
       email,
       password: hashedPassword,
-      passwordConfirm: hashedPassword,
+      // passwordConfirm: hashedPassword,
       phoneNo,
       isAdmin,
     });
@@ -164,7 +164,10 @@ export async function getAllUsers(req:Request, res:Response, next:NextFunction) 
 
 export async function getUserByID(req:Request, res:Response, next:NextFunction) {
     try {
-        const user = await Users.findByPk(req.params.id);
+        const user = await Users.findByPk(req.params.id,  {
+          attributes: { exclude: ['password'] }, 
+          
+        });
         if (user) {
             res.status(200).json(user)
         } else {

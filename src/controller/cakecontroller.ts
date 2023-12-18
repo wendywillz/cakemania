@@ -15,9 +15,9 @@ interface AuthRequest extends Request {
 export const createCake: RequestHandler = async (req: AuthRequest, res: Response) => {
   
 
-    // const validation = cakeSchema.parse(req.body);
+    const validation = cakeSchema.parse(req.body);
 
-    const{ cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,} = req.body;
+    const{ cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,} =  validation;
 
 
     const userID = req.user?.userID
