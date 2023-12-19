@@ -48,7 +48,7 @@ nav {
 {
   color: #fff; 
   font-family:  'Great Vibes', cursive;
-  font-size: 3em;
+  font-size: 2em;
 }
 
 
@@ -96,5 +96,44 @@ nav {
 }
 
 .payment {
+  @media screen and (max-width: 768px) {
+      padding-left: 0.6em;
+  }
   padding-left: 4em;
+
 }
+
+
+/* product page styles*/
+
+.filter-container {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+.products-section {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+.product-card {
+  margin-bottom: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.product-card:hover {
+  border-radius: 0.25rem; /* Rounded corners on hover */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Visible box shadow on hover */
+}
+
+.product-card:hover .add-to-cart-btn {
+  display: block;
+}
+
+.add-to-cart-btn {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+} 
