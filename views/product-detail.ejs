@@ -1,0 +1,55 @@
+<%- include('./includes/header.ejs') %>
+
+<%- include('./includes/navbar.ejs') %>
+
+
+<div class="container product-details-container mb-5">
+    <div class="row">
+        <!-- Left Column - Product Image -->
+        <div class="col-md-4">
+            <img src="./images/chrismas-cake.jpeg" alt="Product Image" class="product-image img-fluid">
+        </div>
+
+        <!-- Center Column - Product Information -->
+        <div class="col-md-4">
+            <div class="product-info">
+                <div class="product-price">$19.99</div>
+                <div class="product-description">
+                    <p>Product description goes here.</p>
+                </div>
+                <div class="product-review">
+                    <p>Product reviews go here.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Delivery Details and Quantity -->
+        <div class="col-md-4 delivery-container">
+            <div class="delivery-details mb-5">
+                <p>Delivery details go here.</p>
+            </div>
+            
+            <p class="mt-2">Quantity</p>
+            <!-- Quantity Adjustment -->
+            <div class="quantity-container">
+                
+                <i class="bi bi-dash quantity-icon"></i>
+                <span class="quantity">1</span>
+                <i class="bi bi-plus quantity-icon"></i>
+            </div>
+
+            <!-- Buy Now and Add to Cart Buttons -->
+            <div class="d-grid gap-2"> 
+                <button class="btn btn-info buy-now-btn btn-block">Buy Now</button>
+                <button class="btn btn-secondary buy-now-btn">Add to Cart Button</button><br>
+            
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<%- include('./includes/footer.ejs') %>
+
+
+
