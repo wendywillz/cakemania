@@ -33,8 +33,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../', 'public')));
 
 
-
-
 //routes
 app.use(`${api}`, indexRouter);
 app.use(`${api}/users`, usersRouter);
