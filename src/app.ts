@@ -12,6 +12,12 @@ import Cakes from './models/cakemodel';
 import Items from './models/itemmodel';
 import Orders from './models/ordermodel';
 
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
+import adminRouter from './routes/admin';
+import cakeRouter from './routes/cakes'
+import categoryRouter from './routes/cat'
+
 config()
 const app = express();
 const api = process.env.API_URL
@@ -26,10 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, '../', 'public')));
 
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
-import adminRouter from './routes/admin';
-import cakeRouter from './routes/cakes'
+
 
 
 //routes
@@ -37,6 +40,7 @@ app.use(`${api}`, indexRouter);
 app.use(`${api}/users`, usersRouter);
 app.use(`${api}/admin`, adminRouter)
 app.use(`${api}/cakes`, cakeRouter)
+app.use(`${api}/categories`, categoryRouter)
 
 //database connection
 const models = [ Cakes, Categories, Items, Orders, Users];

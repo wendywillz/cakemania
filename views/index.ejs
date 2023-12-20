@@ -23,60 +23,69 @@
             <h2 class="category-desc">Popular Categories</h2> 
         </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
-            <div class="card rounded-3">
-                <img src="./images/birthday_cake.jpeg" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
-                <div class="card-body">
-                  <p class="card-text"> Birthday Cakes </p>
+        <% allCategories.forEach(category => { %>
+            <div class="col-xs-12 col-sm-12 col-md-4 card-content">
+                <div class="card rounded-3">
+                    <img src="<%= category.categoryImage %>" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"><%= category.categoryName %></p>
+                    </div>
                 </div>
             </div>
-        </div>
+        <% }); %>
 
-        <div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
-            <div class="card rounded-3">
-                <img src="./images/wedding-cake.jpeg" width="200" height="200" class="card-img-top  img-fluid rounded-3" alt="...">
-                <div class="card-body">
-                  <p class="card-text"> Wedding Cakes </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
-            <div class="card rounded-3">
-                <img src="./images/birthday_cake.jpeg" width="200" height="200" class="card-img-top  img-fluid rounded-3" alt="...">
-                <div class="card-body">
-                  <p class="card-text"> Birthday Cakes </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
-            <div class="card rounded-3">
-                <img src="./images/chrismas-cake.jpeg" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
-                <div class="card-body">
-                  <p class="card-text"> Christmas Cakes </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
-            <div class="card rounded-3">
-                <img src="./images/cupcake.jpeg" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
-                <div class="card-body">
-                  <p class="card-text"> Cup Cakes </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
-            <div class="card rounded-3">
-                <img src="./images/valentine.jpeg" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
-                <div class="card-body">
-                  <p class="card-text"> Valentine Cakes </p>
-                </div>
-            </div>
-        </div>
+        
+        
     </div>
 </div>
 
 
 <%- include('./includes/footer.ejs') %>
+
+
+
+
+
+<!-- <div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
+    <div class="card rounded-3">
+        <img src="./images/wedding-cake.jpeg" width="200" height="200" class="card-img-top  img-fluid rounded-3" alt="...">
+        <div class="card-body">
+          <p class="card-text"> Wedding Cakes </p>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
+    <div class="card rounded-3">
+        <img src="./images/birthday_cake.jpeg" width="200" height="200" class="card-img-top  img-fluid rounded-3" alt="...">
+        <div class="card-body">
+          <p class="card-text"> Birthday Cakes </p>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
+    <div class="card rounded-3">
+        <img src="./images/chrismas-cake.jpeg" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
+        <div class="card-body">
+          <p class="card-text"> Christmas Cakes </p>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
+    <div class="card rounded-3">
+        <img src="./images/cupcake.jpeg" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
+        <div class="card-body">
+          <p class="card-text"> Cup Cakes </p>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-4 card-content"> 
+    <div class="card rounded-3">
+        <img src="./images/valentine.jpeg" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
+        <div class="card-body">
+          <p class="card-text"> Valentine Cakes </p>
+        </div>
+    </div>
+</div> -->

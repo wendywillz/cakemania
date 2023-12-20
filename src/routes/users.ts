@@ -8,6 +8,11 @@ const router = express.Router();
 
 router.post('/signup', signup)
 
+
+router.get('/login', function(req, res, next) {
+    res.render('login', { currentPage: 'login' });
+  });
+
 router.post('/login', login)
 
 

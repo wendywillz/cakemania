@@ -12,24 +12,21 @@ const getAllCategories = (async(req:Request , res:Response )=> {
         res.status(404).send("NO CATEGORIES FOUND")
     }
 
-    res.status(200).json(allCategories)
-    
+    res.status(200).render('index', { allCategories, currentPage: 'index' })
 })
 
 
 const getCategory = (async(req:Request , res:Response )=> {
-    const {categoryName, categoryID} = req.body
 
-    const category = Categories.findOne({
-        where: {
-            categoryName: categoryName
-        }
-    })
-/*
-OR IT COULD BE
-const category = Categories.findByPk(req.params.id)
-*/
+    // const {categoryName, categoryID} = req.body
 
+    // const category = Categories.findOne({
+    //     where: {
+    //         categoryName: categoryName
+    //     }
+    // })
+
+const category = await Categories.findByPk(req.params.id)
 
     if(!category){
         res.status(400).send("CATEGORY DOES NOT EXIST")
@@ -38,25 +35,44 @@ const category = Categories.findByPk(req.params.id)
 })
 
 const addCategory = (async(req:Request , res:Response )=> {
-    const {categoryName, categoryID} = req.body
+    const {categoryName, categoryImage} = req.body
+
     const existingCategory = await Categories.findOne({
         where: {
             categoryName: categoryName
         }
     })
-    
-
     /*
-    OR IT COULD BE THIS
      const existingCategory = Categories.findByPk(categoryID)
     */
 
     if(existingCategory){
-        res.status(400).send("CATEGORY ALREADY EXISTS")
+        res.status(400).json({ status: "failed", message: "Category already exists"})
     }
-    const newCategory = Categories.create(req.body)
-    res.status(200).json(newCategory)
+    const newCategory = await Categories.create(req.body)
+    
+    res.status(200).json({ status: "successful", category: newCategory})
 })
+
+
+export async function editCategory(req:Request, res:Response) {
+
+    try {
+        const category = await Categories.findByPk(req.params.id);
+
+    if (category) {
+
+        await category.update(req.body);
+        res.status(200).json({ status: "category edited successfully", category});
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+
+    } catch (error) {
+        res.status(500).json({ message: 'server error'})
+    } 
+};
+
 
 const removeCategory = (async(req:Request , res:Response )=> {
     const {categoryName, categoryID} = req.body

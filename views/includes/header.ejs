@@ -14,10 +14,22 @@
     <!--poppins font-->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
+
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/stylesheets/index.css">
+    <% if (currentPage === 'index') { %>
+        <link rel="stylesheet" href="/stylesheets/index.css">
+      <% } else if (currentPage === 'product-detail') { %>
+        <link rel="stylesheet" href="/stylesheets/product-detail.css">
+      <% } else if (currentPage === 'login') { %>
+        <link rel="stylesheet" href="/stylesheets/login.css">
+      <% } %>
+
+    <!-- Custom styles -->
+    <!-- <link rel="stylesheet" href="/stylesheets/index.css">
+
     <link rel="stylesheet" href="/stylesheets/product-detail.css"> 
-    <link rel="stylesheet" href="/stylesheets/login.css"> 
+
+    <link rel="stylesheet" href="/stylesheets/login.css">  -->
     
     <style>
         
