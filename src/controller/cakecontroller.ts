@@ -130,3 +130,29 @@ export const deleteCake: RequestHandler = async (req: Request, res: Response) =>
     res.status(500).json({ message: 'Failed to delete cake', error });
   }
 };
+
+
+export const getCakeByCategory: RequestHandler = async (req: Request, res: Response) => {
+  
+  const categoryID = req.params.categoryid;
+
+  try {
+    // Find cakes by category ID
+    const cakes = await Cakes.findAll({
+      where: { category: categoryID },
+    });
+
+    if(!cakes){
+      res.json({ status: "successful", message: "No cakes in this category"})
+    }
+
+    res.status(200).render('products', { cakes, currentPage: 'products'});
+  } 
+  catch (error) {
+    console.error('Error fetching cakes by category:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+
+};
+
+

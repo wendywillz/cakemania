@@ -7,7 +7,7 @@
 
 <div class="container-fluid cake-container overlay">
     <div class="row">
-        <div class="col-xs-12 colsm-12 col-md-12 text-center">
+        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <h1 class="text-center">Cake Mania</h1>
             <p class="text-center overlay-text"> Home of tasteful cakes </p>
             <div class="text-center">
@@ -26,7 +26,9 @@
         <% allCategories.forEach(category => { %>
             <div class="col-xs-12 col-sm-12 col-md-4 card-content">
                 <div class="card rounded-3">
-                    <img src="<%= category.categoryImage %>" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="...">
+                    <a href="/cakemania.ng/cakes/:<%=category.categoryID%>">
+                        <img src="<%= category.categoryImage %>" width="200" height="200" class="card-img-top img-fluid rounded-3" alt="Images of the cake categories">
+                    </a>
                     <div class="card-body">
                         <p class="card-text"><%= category.categoryName %></p>
                     </div>

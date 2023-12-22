@@ -41,10 +41,10 @@ Cakes.init({
         allowNull: false,
     },
     category : {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         references: {
             model: Categories,
-            key: 'categoryName'
+            key: 'categoryID'
         }
     },
     description: {
