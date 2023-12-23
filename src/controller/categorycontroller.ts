@@ -3,11 +3,7 @@ import Categories from "../models/categorymodel";
 
 
 const getAllCategories = (async(req:Request , res:Response )=> {
-    const allCategories = await Categories.findAll({
-        attributes: {
-            exclude: ['categoryID']
-        }
-    })
+    const allCategories = await Categories.findAll({})
     if(!allCategories){
         res.status(404).send("NO CATEGORIES FOUND")
     }

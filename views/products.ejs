@@ -1,6 +1,6 @@
-<%- include('./includes/header.ejs') %>
+<%-include('./includes/header.ejs')%>
 
-<%- include('./includes/navbar.ejs') %>
+<%-include('./includes/navbar.ejs')%>
 
 
 <div class="container filter-container">
@@ -21,126 +21,31 @@
         <div class="col-md-9 products-section">
             <h4 class="text-center">Featured Cakes</h4>
             <div class="row">
-               
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
+                <% if (cakes.length === 0) { %>
+                    <p>No cakes available in this category.</p>
+                <% } else { %>
+                    <% cakes.forEach(cake => { %>
+                        <div class="col-md-4">
+                            <div class="card product-card position-relative">
+                                <a href="/cakemania.ng/cakes/details/<%=cake.cakeID%>">
+                                    <img src="<%= cake.image%>" class="card-img-top img-fluid" alt="Cake Image">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= cake.cakeName %></h5>
+                                    <p class="card-text"><%= cake.description %></p>
+                                    <p class="card-text">Price: <%= cake.price%></p>
+                                </div>
+                                <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
+                            </div>
                         </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
+                    <% }) %>
+                <% } %>
             </div>
         </div>
+        
+
     </div>
 </div>
+
 
 <%- include('./includes/footer.ejs') %>

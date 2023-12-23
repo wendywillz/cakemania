@@ -5,13 +5,16 @@ import { signup, login, getAllUsers, getUserByID, editUser, deleteUser } from '.
 
 const router = express.Router();
 
+router.get('/signup', function(req, res, next) {
+  res.render('signup', { currentPage: 'signup' });
+});
 
 router.post('/signup', signup)
 
 
 router.get('/login', function(req, res, next) {
     res.render('login', { currentPage: 'login' });
-  });
+});
 
 router.post('/login', login)
 
