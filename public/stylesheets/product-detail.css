@@ -1,4 +1,13 @@
+body {
+    background-color: #ffe8d6;
+    font-family: 'Poppins', sans-serif;
+    padding-top: 70px;
   
+  }  
+
+
+
+
        .product-details-container { 
         margin-top: 4em;
    }

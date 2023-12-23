@@ -15,7 +15,7 @@ import Categories from "./categorymodel";
 interface cakeAtrributes{
     cakeName: string;
     cakeID: string|null
-    category: string;
+    category: number;
     description: string | null;
     image: string;
     flavour: string;

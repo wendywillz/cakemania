@@ -6,11 +6,17 @@
 body {
   background-color: #ffe8d6;
   font-family: 'Poppins', sans-serif;
+  padding-top: 110px;
+
 }
+
 
 nav {
   background-color: #ffe8d6;
+  
 }
+
+/* landing page styles*/
 
 .img-fluid-contained{
   object-fit: contain;
@@ -102,7 +108,6 @@ nav {
   padding-left: 4em;
 
 }
-
 
 /* product page styles*/
 
