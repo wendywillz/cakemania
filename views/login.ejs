@@ -7,8 +7,18 @@
 
 <div class="login-container">
     <div class="bkground-img">
+
+        
+
         <form action="/cakemania.ng/users/login" method="post">
+
             <h2>Log In</h2>
+
+            <% if (message) { %>
+                <div class="error-message"><%= message %></div>
+            <% } %>
+            
+
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
     
@@ -20,9 +30,9 @@
     </div>
 </div>
 
+  
 
-
-</html>
+<%- include('./includes/footer.ejs') %>
 
 
 

@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction} from 'express';
 
-import { signup, login, getAllUsers, getUserByID, editUser, deleteUser } from '../controller/usercontroller';
+import { signup, login, getUserProfile, getAllUsers, getUserByID, editUser, deleteUser } from '../controller/usercontroller';
+import { authorize } from '../middleware/authorize';
 
 
 const router = express.Router();
@@ -13,11 +14,13 @@ router.post('/signup', signup)
 
 
 router.get('/login', function(req, res, next) {
-    res.render('login', { currentPage: 'login' });
+    res.render('login', { currentPage: 'login', message: null });
 });
 
 router.post('/login', login)
 
+
+router.get('/profile', authorize, getUserProfile  )
 
 router.get('/', getAllUsers)
 

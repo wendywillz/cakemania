@@ -1,10 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import Users from "../models/usermodel";
+import Orders from "../models/ordermodel";
 import { ZodError, z } from "zod";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import { validationSchemas } from "../validation/validate";
+
+interface AuthRequest extends Request {
+  user?: { userID: string }; // Add the user property
+}
 
 const {
   signupSchema,
@@ -97,7 +102,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
       // If the user is not found, return an error
       if (!user) {
-        return res.json({status: "failed, user does not exist"})
+        return res.render('login', { message: "Invalid email, user does not exist", currentPage: 'login'})
+        // return res.json({status: "failed, user does not exist"})
           // .json({ status: "failed", message: "User not found" });
       }
       // Compare the provided password with the hashed password in the database, If passwords match, the login is successful
@@ -113,19 +119,20 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         res.cookie('token', token, { httpOnly: true, secure: true });
 
         if(user.dataValues.isAdmin === true){
-            res.json({ status: "WELCOME ADMIN", token: token})
+            // res.json({ status: "WELCOME ADMIN", token: token})
+            res.redirect('/cakemania.ng/admin/dashboard')
         }
         else{
-            res.json({ status: "user successfully logged in", token: token})
+            // res.json({ status: "user successfully logged in", token: token})
+            res.redirect('/cakemania.ng/users/profile')
         }
-
-        // res.status(200).redirect('/store/products/myprofile')
     
       } else {
         // If passwords don't match, return an error
         return res
           .status(401)
-          .json({ status: "failed", message: "Invalid password" });
+          .render('login', { message: "Incorrect password", currentPage: 'login' });
+          // .json({ status: "failed", message: "Invalid password" });
       }
     }catch (error) {
         if (error instanceof ZodError) {
@@ -133,7 +140,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             path: err.path.join("."),
             message: err.message,
           }));
-          return res.status(400).json({
+          return res.status(400).render('login', {
+            currentPage: 'login',
             status: "failed",
             message: "Validation errors",
             errors: formattedErrors,
@@ -142,11 +150,35 @@ export async function login(req: Request, res: Response, next: NextFunction) {
           console.error("Error logging in:", error);
           return res
             .status(500)
-            .json({ status: "error", message: "Internal server error" });
+            .render('login', { message: "Internal server error", currentPage: 'login' });
         }
       }
   }
 
+
+export async function getUserProfile(req:AuthRequest, res:Response, next:NextFunction) {
+    try {
+
+      const userID = req.user?.userID;
+
+      const user = await Users.findAll({
+        where: { userID: userID, isAdmin: true }, // Adjust the column name according to your database schema
+      });
+
+
+      // Fetch products by user ID
+      const userOrders = await Orders.findAll({
+        // where: { userID: userID }, // Adjust the column name according to your database schema
+      });
+
+      res.json({ status: "successful", message: "welcome customer"})
+      // res.render('admin-index', { user })
+       
+        
+    } catch (error) {
+        res.status(500).json({ message: 'server error'})
+    }
+};  
 
 export async function getAllUsers(req:Request, res:Response, next:NextFunction) {
 
