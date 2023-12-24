@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 .login-container {
@@ -11,7 +12,7 @@
   background-repeat: no-repeat;
   font-family: 'Poppins', sans-serif;
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,13 +20,19 @@
 
 .bkground-img{
   width: 30%;
-  margin: 100px auto 0px auto;
+  margin: 0px auto 0px auto;
   background-color: rgb(255, 232, 214, 0.7);
   
 }
 
 main{
   display: flex;
+}
+.error-message{
+  color: red;
+  text-align: center;
+  background-color: white;
+  margin-bottom: 20px;
 }
 
 form {
@@ -41,6 +48,8 @@ h2{
   text-align: center;
   margin-bottom: 24px;
 }
+
+
 
 label {
   display: block;

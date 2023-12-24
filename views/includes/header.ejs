@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <title>Cake Mania</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
@@ -17,18 +20,16 @@
     <!-- Custom styles -->
     <% if (currentPage == 'index' || currentPage == 'products' ) { %>
         <link rel="stylesheet" href="/stylesheets/index.css">
-      <% } else if (currentPage === 'product-detail') { %>
+      <% } else if (currentPage == 'product-detail') { %>
+        <link rel="stylesheet" href="/stylesheets/index.css">
         <link rel="stylesheet" href="/stylesheets/product-detail.css">
-      <% } else if (currentPage === 'login') { %>
+      <% } else if (currentPage == 'login') { %>
+        <link rel="stylesheet" href="/stylesheets/index.css">
         <link rel="stylesheet" href="/stylesheets/login.css">
       <% } %>
 
-    <!-- Custom styles -->
-    <!-- <link rel="stylesheet" href="/stylesheets/index.css">
-
-    <link rel="stylesheet" href="/stylesheets/product-detail.css"> 
-
-    <link rel="stylesheet" href="/stylesheets/login.css">  -->
     
 </head>
 <body>
+
+<!-- <body onload="resetError()"> -->
