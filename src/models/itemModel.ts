@@ -14,7 +14,6 @@ Items.init({
     itemName: {
         type: DataTypes.STRING,
         allowNull: false
-
     },
     size : {
         type: DataTypes.STRING,
