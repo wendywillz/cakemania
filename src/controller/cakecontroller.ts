@@ -12,44 +12,6 @@ interface AuthRequest extends Request {
   user?: { userID: string }; // Add the user property
 }
 
-export const createCake: RequestHandler = async (req: AuthRequest, res: Response) => {
-  
-
-    const validation = cakeSchema.parse(req.body);
-
-    const{ cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,} =  validation;
-
-
-    const userID = req.user?.userID
-
-    try {
-
-    if(userID == undefined){
-        return res.status(401).json({message: "unathourized"})
-      }
-    // Create a cake
-    const cake = await Cakes.create({
-      cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,userID
-    });
-
-    return res.status(201).json({ status: 'Cake created successfully', cake,  });
-  } catch (error) {
-    if (error instanceof ZodError) {
-      const formattedErrors = error.errors.map((err) => ({
-        path: err.path.join('.'),
-        message: err.message,
-      }));
-      return res.status(400).json({
-        status: 'failed',
-        message: 'Validation errors',
-        errors: formattedErrors,
-      });
-    } else {
-      console.error('Error creating cake:', error);
-      res.status(500).json({ message: 'Failed to create cake', error });
-    }
-  }
-};
 
 export const findAllCakes: RequestHandler = async (req: Request, res: Response) => {
   try {
