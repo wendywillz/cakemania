@@ -1,0 +1,69 @@
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3 admin-sidebar rounded">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/cakemania.ng/admin/dashboard">
+                            <span data-feather="home"></span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="nav-link dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <span data-feather="file"></span>
+                                <span>Orders</span>
+                            </a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a href="admin_orders.html" class="dropdown-item">View Orders</a>
+                                <a href="#" class="dropdown-item">Add Orders</a>
+                                <a href="#" class="dropdown-item">Edit Orders</a>
+                                <a href="#" class="dropdown-item">Delete Orders</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <div class="nav-link dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <span data-feather="shopping-cart"></span>
+                                <span>Cakes</span>
+                            </a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a href="/cakemania.ng/admin/cakes" class="dropdown-item">View Cakes</a>
+                                <a href="/cakemania.ng/admin/cakes/add-cake" class="dropdown-item">Add Cakes</a>
+                                <a href="admin_edit_products.html" class="dropdown-item">Edit Products</a>
+                                <a href="admin_delete_products.html" class="dropdown-item">Delete Products</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <div class="nav-link dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <span data-feather="list"></span>
+                                <span>Categories</span>
+                            </a>
+                            <div class="dropdown-menu bg-transparent border-0">
+                                <a href="admin_show_categories.html" class="dropdown-item">View Categories</a>
+                                <a href="admin_add_categories.html" class="dropdown-item">Add Category</a>
+                                <a href="admin_edit_categories.html" class="dropdown-item">Edit Category</a>
+                                <a href="admin_delete_categories.html" class="dropdown-item">Delete Category</a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Add other sections here -->
+
+                </ul>
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Used for disabled links</span>
+                    <a class="link-secondary" href="#" aria-label="Add a new report">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+
+            </div>
+        </nav>
