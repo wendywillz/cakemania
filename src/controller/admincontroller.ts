@@ -4,6 +4,7 @@ import Cakes from "../models/cakemodel";
 import Categories from "../models/categorymodel";
 import { validationSchemas } from '../validation/validate';
 import { ZodError } from 'zod';
+import { Sequelize } from "sequelize";
 
 
 const { cakeSchema } = validationSchemas;
@@ -24,17 +25,25 @@ export async function getAdminDashboard(req: AuthRequest, res: Response){
 
   
       const admin = await Users.findAll({
-        where: { userID: userID, isAdmin: true }, // Adjust the column name according to your database schema
+        where: { userID: userID, isAdmin: true },
+         // Adjust the column name according to your database schema
       });
 
 
       // Fetch products by user ID
       const adminCakes = await Cakes.findAll({
-        where: { userID: userID }, // Adjust the column name according to your database schema
+        where: { userID: userID },
+        
+      });
+
+      const adminCategories = await Categories.findAll({
+        where: {
+          categoryID: adminCakes.map(cake => cake.dataValues.category),
+        },
       });
   
       // Render the products page with the fetched data
-      res.render('admin/index', { categories, admin, adminCakes});
+      res.render('admin/index', { categories, admin, adminCakes, adminCategories});
     } catch (error) {
       // Handle errors appropriately
       res.status(500).send('Internal Server Error');
@@ -93,11 +102,14 @@ export async function getAdminCategories(req: AuthRequest, res: Response){
 
 
 export const createCake: RequestHandler = async (req: AuthRequest, res: Response) => {
-  
+
+  console.log(req.body)
 
   const validation = cakeSchema.parse(req.body);
 
   const{ cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,} =  validation;
+
+  const categoryValue = parseInt(req.body.category, 10);
 
 
   const userID = req.user?.userID
@@ -109,10 +121,13 @@ export const createCake: RequestHandler = async (req: AuthRequest, res: Response
     }
   // Create a cake
   const cake = await Cakes.create({
-    cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,userID
+    cakeName, cakeID, category: categoryValue, description, image, flavour,price, rating, comments, numReviews,userID
   });
 
-  return res.status(201).json({ status: 'Cake created successfully', cake,  });
+  // return res.status(201).json({ status: 'Cake created successfully', cake,  });
+
+  return res.status(201).redirect('/cakemania.ng/admin/cakes')
+
 } catch (error) {
   if (error instanceof ZodError) {
     const formattedErrors = error.errors.map((err) => ({
@@ -130,3 +145,84 @@ export const createCake: RequestHandler = async (req: AuthRequest, res: Response
   }
 }
 };
+
+
+export const getUpdateCake: RequestHandler = async (req: AuthRequest, res: Response) => {
+  try {
+    const cakeID = req.params.id;
+
+    const userID = req.user?.userID
+
+    if(!userID){
+      res.json({ status: "failed", message: "unauthoried"})
+    }
+
+    const categories = await Categories.findAll()
+
+    const cake = await Cakes.findByPk(cakeID);
+
+    if (!cake) {
+      return res.status(404).render('admin/edit-cake',{ message: 'Cake Not Found' });
+    }
+
+    res.render('admin/edit-cake', { cake, categories, currentPage: 'edit-cake' });
+
+
+
+  } catch (error) {
+    console.error('Error updating cake:', error);
+    res.status(500).json({ message: 'Failed to update cake', error });
+  }
+};
+
+
+export const updateCake: RequestHandler = async (req: AuthRequest, res: Response) => {
+  try {
+    const cakeID = req.params.id;
+
+    const userID = req.user?.userID
+
+    if(!userID){
+      res.json({ status: "failed", message: "unauthoried"})
+    }
+
+    const cake = await Cakes.findByPk(cakeID);
+    if (!cake) {
+      return res.status(404).json({ message: 'Cake Not Found' });
+    }
+
+    await cake.update({ ...req.body });
+
+    // res.status(200).json({ status: 'Cake updated successfully', cake });
+
+    res.redirect('/cakemania.ng/admin/cakes')
+  } catch (error) {
+    console.error('Error updating cake:', error);
+    res.status(500).json({ message: 'Failed to update cake', error });
+  }
+};
+
+
+export const deleteCake: RequestHandler = async (req: AuthRequest, res: Response) => {
+  try {
+    const id = req.params.id;
+
+    const cake = await Cakes.findByPk(id);
+    if (!cake) {
+      return res.status(404).json({ message: 'Cake Not Found' });
+    }
+
+    console.log("my cake is detroying")
+    await cake.destroy();
+
+    console.log("my cake has destroyed")
+
+    return res.redirect('/cakemania.ng/admin/cakes')
+
+  } catch (error) {
+    console.error('Error deleting cake:', error);
+    res.status(500).json({ message: 'Failed to delete cake', error });
+  }
+};
+
+

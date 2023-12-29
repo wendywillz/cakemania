@@ -1,5 +1,5 @@
-<%- include('./includes/admin-header.ejs') %>
-<%- include('./includes/admin-sidebar.ejs') %>
+<%- include('../includes/admin-header.ejs') %>
+<%- include('../includes/admin-sidebar.ejs') %>
 
 
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -20,26 +20,23 @@
     <div class="container pt-4 px-4">
       <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12">
-              <form action="/submit-edit-category" method="post"> <!-- Replace "/submit-edit-category" with your actual form submission URL -->
+              <form action="/cakemania.ng/admin/categories/edit-cat/<%=category.categoryID%>?_method=PUT" method="post"> 
+
                   <div class="bg-secondary rounded h-100 p-4">
-                      <h6 class="mb-4">Edit Categories</h6>
-                      <div class="form-floating mb-3">
-                          <input type="text" class="form-control" id="categoryName" name="categoryName"
-                              placeholder="Your Name">
-                          <label for="categoryName">Category Name</label>
+                      <h3 class="mb-4">Edit Category</h3>
+
+                      <div class="mb-3">
+                        <label for="categoryName" class="form-label">Category Name</label>
+                          <input type="text" placeholder="Enter category name" class="form-control" id="categoryName" name="categoryName" value="<%= category.categoryName%>">
                       </div>
   
-                      <div class="form-floating mb-3">
-                          <input type="text" class="form-control" id="price" name="price"
-                              placeholder="Enter Price">
-                          <label for="price">Price</label>
+                      <div class="mb-3">
+                        <label for="categoryImage" class="form-label">Image URL</label>
+                          <input type="text" placeholder="Enter image url" class="form-control" id="categoryImage" name="categoryImage" value="<%= category.categoryImage%>">
                       </div>
+
   
-                      <label for="imageUrl" class="form-label">Category Image URL</label>
-                      <div class="input-group mb-3">
-                          <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-                          <input type="text" class="form-control" id="imageUrl" name="imageUrl" aria-describedby="basic-addon3">
-                      </div>
+                      
   
                       <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
@@ -63,7 +60,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
       integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
       crossorigin="anonymous"></script>
-<script src="dashboard.js"></script>
 
 </body>
 </html>

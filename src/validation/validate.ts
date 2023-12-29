@@ -91,9 +91,9 @@ const cakeSchema = z.object({
     .trim()
     .max(50, "Cake name should not excede 50 characters"),
 
-    category: z.number({
+    category: z.string({
         required_error: "category is required",
-        invalid_type_error: "category needs to be a string",
+        invalid_type_error: "category needs to be a number",
     }),
 
     description: z.string().nullable(),

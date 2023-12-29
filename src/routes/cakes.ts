@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction} from 'express';
-import { findAllCakes, getCakeById, updateCake, getCakesByCategory } from '../controller/cakecontroller';
+import { findAllCakes, getCakeById, getCakesByCategory } from '../controller/cakecontroller';
 import { authorize } from '../middleware/authorize';
 // const express = require('express');
 const router = express.Router();
@@ -13,7 +13,7 @@ router.get('/details/:id', getCakeById )
 
 
 
-router.put('/:id', authorize, updateCake)
+// router.put('/:id', authorize, updateCake)
 
 
 

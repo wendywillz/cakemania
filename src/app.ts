@@ -6,6 +6,7 @@ import logger from 'morgan'
 import bodyParser from 'body-parser'
 import {config} from 'dotenv'
 import sequelize from './database.config';
+import methodOverride from 'method-override'
 import Users from './models/usermodel';
 import Categories from './models/categorymodel';
 import Cakes from './models/cakemodel';
@@ -26,6 +27,7 @@ const api = process.env.API_URL
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(methodOverride('_method'))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

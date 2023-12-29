@@ -1,5 +1,11 @@
-import { Request, Response,} from "express";
+import { RequestHandler, Request, Response,} from "express";
 import Categories from "../models/categorymodel";
+
+
+interface AuthRequest extends Request {
+    user?: { userID: string }; // Add the user property
+  }
+
 
 
 const getAllCategories = (async(req:Request , res:Response )=> {
@@ -47,27 +53,71 @@ const addCategory = (async(req:Request , res:Response )=> {
     }
     const newCategory = await Categories.create(req.body)
     
-    res.status(200).json({ status: "successful", category: newCategory})
+    // res.status(200).json({ status: "successful", category: newCategory})
+    res.redirect('/cakemania.ng/admin/categories/add-cat')
 })
 
 
-export async function editCategory(req:Request, res:Response) {
+export const getEditCategory: RequestHandler = async (req: AuthRequest, res: Response) => {
+    try {
+      const categoryID = req.params.id;
+  
+      const userID = req.user?.userID
+  
+      if(!userID){
+        res.json({ status: "failed", message: "unauthoried"})
+      }
+  
+    //   const categories = await Categories.findAll()
+  
+      const category = await Categories.findByPk(categoryID);
+
+      if (!category) {
+
+        return res.status(404).json({ message: 'Category does not exist' })
+      }
+
+  
+      res.render('admin/edit-cat', { category, currentPage: 'edit-cake' });
+  
+  
+  
+    } catch (error) {
+      console.error('Error updating cake:', error);
+      res.status(500).json({ message: 'Failed to update cake', error });
+    }
+  };
+  
+
+
+export async function editCategory(req:AuthRequest, res:Response) {
 
     try {
-        const category = await Categories.findByPk(req.params.id);
+        const categoryID = req.params.id;
+    
+        const userID = req.user?.userID
+    
+        if(!userID){
+          res.json({ status: "failed", message: "unauthoried"})
+        }
+    
+        const category = await Categories.findByPk(categoryID);
 
-    if (category) {
-
-        await category.update(req.body);
-        res.status(200).json({ status: "category edited successfully", category});
-    } else {
-        res.status(404).json({ message: 'User not found' });
-    }
+        if (!category) {
+          return res.status(404).json({ message: 'Category Not Found' });
+        }
+    
+        await category.update({ ...req.body });
+    
+        // res.status(200).json({ status: 'Cake updated successfully', cake });
+        res.redirect('/cakemania.ng/admin/categories')
 
     } catch (error) {
         res.status(500).json({ message: 'server error'})
     } 
 };
+
+
 
 
 const removeCategory = (async(req:Request , res:Response )=> {
@@ -79,7 +129,10 @@ const removeCategory = (async(req:Request , res:Response )=> {
      */
      if (category) {
         await category.destroy();
-        res.status(200).json({ status: "success", message: 'Category deleted' });
+
+        // res.status(200).json({ status: "success", message: 'Category deleted' });
+
+        res.render('cakemania.ng/admin/categories')
     } else {
         res.status(404).json({ message: 'category not found' });
     }

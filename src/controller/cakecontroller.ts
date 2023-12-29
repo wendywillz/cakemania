@@ -52,48 +52,6 @@ export const getCakeById: RequestHandler = async (req: Request, res: Response) =
   }
 };
 
-export const updateCake: RequestHandler = async (req: AuthRequest, res: Response) => {
-  try {
-    const cakeID = req.params.id;
-
-    const userID = req.user?.userID
-
-    if(!userID){
-      res.json({ status: "failed", message: "unauthoried"})
-    }
-
-    const cake = await Cakes.findByPk(cakeID);
-    if (!cake) {
-      return res.status(404).json({ message: 'Cake Not Found' });
-    }
-
-    await cake.update({ ...req.body });
-
-    res.status(200).json({ status: 'Cake updated successfully', cake });
-  } catch (error) {
-    console.error('Error updating cake:', error);
-    res.status(500).json({ message: 'Failed to update cake', error });
-  }
-};
-
-export const deleteCake: RequestHandler = async (req: Request, res: Response) => {
-  try {
-    const id = req.params.id;
-
-    const cake = await Cakes.findByPk(id);
-    if (!cake) {
-      return res.status(404).json({ message: 'Cake Not Found' });
-    }
-
-    await cake.destroy();
-
-    res.status(204).json({ cake, status: 'Cake deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting cake:', error);
-    res.status(500).json({ message: 'Failed to delete cake', error });
-  }
-};
-
 
 export const getCakesByCategory: RequestHandler = async (req: Request, res: Response) => {
   

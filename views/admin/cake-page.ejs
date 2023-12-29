@@ -38,8 +38,15 @@
                             <td><%= cakes.flavour%></td>
                             <td><%= cakes.price%></td>
                             
-                            <td><a class="btn btn-sm btn-warning" href="">Edit</a></td>
-                            <td><a class="btn btn-sm btn-danger" href="">Delete</a></td>
+                            <td><a class="btn btn-sm btn-warning" href="/cakemania.ng/admin/cakes/edit-cake/<%=cakes.cakeID%>">Edit</a></td>
+
+                            <td>
+                                <form method="POST" action="/cakemania.ng/admin/cakes/remove-cake/<%=cakes.cakeID%>?_method=DELETE" style="display: inline;">
+                                  <input type="hidden" name="_method" value="DELETE">
+                                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </td>
+
                         </tr>
                         <% }); %>
                         
@@ -64,7 +71,32 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
       integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
       crossorigin="anonymous"></script>
-<script src="dashboard.js"></script>
+
+
+<!-- <script>
+    async function deleteProduct() {
+    try {
+      
+      const response = await fetch(`/store/products/myprofile/${productId}?_method=DELETE`, {
+        method: 'POST', // Use POST instead of DELETE for form submission
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        // Handle success, e.g., remove the product from the UI
+        document.getElementById(`editForm-${productId}`).remove(); // Remove the edit form if it exists
+        closeDeleteModal(); // Close the modal
+        location.reload();
+
+
+      } else {
+        console.error('Delete failed:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error during delete:', error);
+    }
+  }
+</script> -->
 
 </body>
 </html>

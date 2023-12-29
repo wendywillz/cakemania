@@ -5,99 +5,69 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Dashboard</h1>
-      <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-          <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-        </div>
-        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-          <span data-feather="calendar"></span>
-          This week
-        </button>
-      </div>
+    
     </div>
 
-       <!-- Recent Sales Start -->
-       <div class="containerpt-4 px-4">
-          <div class="row">
-              <div class="col-xs-12 col-sm-12  col-md-12  col-xl-12">
+    <div class="container pt-4 px-4">
+      <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12">
+              <form action="/cakemania.ng/admin/cakes/add-cake" method="post"> <!-- Replace "/submit-product" with your actual form submission URL -->
                   <div class="bg-secondary rounded h-100 p-4">
-                      <h6 class="mb-4"> Add Product </h6>
-                      <div class="form-floating mb-3">
-                          <input type="text" class="form-control" id="floatingInput"
-                              placeholder="Your Name">
-                          <label for="floatingInput">Cake Name</label>
-                      </div>
-                      <div class="form-floating mb-3">
-                          <select class="form-select" id="floatingSelect"
-                              aria-label="Floating label select example">
-                              <option selected> Sizes </option>
-                              <option value="1">Size 8</option>
-                              <option value="2"> Size 10 </option>
-                              <option value="3"> Size 12 </option>
-                          </select>
-                          <label for="floatingSelect"> Size </label>
-                      </div>
-                      <div class="form-floating mb-3">
-                          <input type="number" class="form-control" id="quantity"
-                              placeholder="Enter Quantity Available">
-                          <label for="floatingPassword"> Quantity </label>
+                      <h3 class="mb-4">Add Product</h3>
+
+                      <div class="mb-3">
+                        <label for="cakeName">Cake Name</label>
+                        <input type="text" class="form-control" id="cakeName" name="cakeName"placeholder="Cake Name">
                       </div>
 
-                      <div class="form-floating mb-3">
-                          <input type="number" class="form-control" id="price"
-                              placeholder="Enter Price">
-                          <label for="price"> Price </label>
-                      </div>
-                      
+                      <div class=" mb-3">
+                        <label for="category">Category</label>
+                        <select class="form-select" id="category" name="category"
+                            aria-label="Cake label select example">
+                            <option selected>Select Category</option>
+                            <option value="1">Wedding Cakes</option>
+                            <option value="2">Birthday Cakes</option>
+                            <option value="3">Cupcakes</option>
+                            <option value="4">Christmas Cakes</option>
+                            <option value="5">Desserts</option>
+                            <option value="6">Kiddies Cakes</option>
+                        </select>
+                        
+                    </div>
 
-                     <div class="form-floating mb-3">
-                          <select class="form-select" id="floatingSelect"
-                              aria-label="Cake label select example">
-                              <option selected> Category </option>
-                              <option value="1">  Christmas Cake</option>
-                              <option value="2">  Wedding Cakes</option>
-                              <option value="3">  Children's Cakes</option>
-                              <option value="4">  Birthday Cakes</option>
-                              <option value="5">  Valentine Cakes</option>
+                    <div class="mb-3">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" placeholder="Enter Product Description..."
+                            id="description" name="description" style="height: 150px; resize: none"></textarea>
+                    </div>
 
-                          </select>
-                          <label for="floatingSelect"> Cakes </label>
-                      </div>
-
-                      <div class="form-floating">
-                          <textarea class="form-control" placeholder="Enter Product Description"
-                              id="floatingTextarea" style="height: 150px; resize: none"></textarea>
-                          <label for="floatingTextarea">  Description </label>
-                      </div>
-
-
-                      <label for="basic-url" class="form-label">Image URL</label>
-                      <div class="input-group mb-3">
-                          <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-                          <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    
+                      <div class="mb-3">
+                        <label for="image" class="form-label">Image URL</label>
+                          <input type="text" placeholder="Enter image url" class="form-control" id="image" name="image">
                       </div>
 
-
-                      <div class="form-floating mb-3">
-                          <select class="form-select" id="floatingSelect"
-                              aria-label="Floating label select example">
-                              <option selected> Flavour </option>
-                              <option value="1">Chocolate </option>
-                              <option value="2"> Velvet </option>
-                              <option value="3"> Vanilla </option>
-                              <option value="3"> Vanilla and Chocolate mix </option>
-                              <option value="3"> Vanilla and Velvet mix </option>
-                              <option value="3"> Velvet and Chocolate </option>
+                      <div class="mb-3">
+                        <label for="flavour">Flavours</label>
+                        <input type="text" placeholder="Enter cake flavours" class="form-control" id="flavour" name="flavour">
                              
-                          </select>
-                          <label for="floatingSelect">Flavours </label>
                       </div>
-                      
+  
+                      <div class=" mb-3">
+                        <label for="price">Price</label>
+                          <input type="text" class="form-control" id="price" name="price"
+                              placeholder="Enter Price">
+                
+                      </div>
+                     
+  
+                      <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
-              </div>
+              </form>
           </div>
       </div>
+  </div>
+  
 
   </main>
 </div>
@@ -113,7 +83,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
       integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
       crossorigin="anonymous"></script>
-<script src="dashboard.js"></script>
+
 
 </body>
 </html>
