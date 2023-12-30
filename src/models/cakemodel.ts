@@ -2,7 +2,7 @@ import {Sequelize, Model, DataTypes} from "sequelize"
 import { v4 as uuidv4 } from 'uuid';
 import sequelize from "../database.config";
 import Users from "./usermodel";
-import Categories from "./categorymodel";
+import Categories from "./categoryModel";
 
 
 

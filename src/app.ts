@@ -8,9 +8,9 @@ import {config} from 'dotenv'
 import sequelize from './database.config';
 import methodOverride from 'method-override'
 import Users from './models/usermodel';
-import Categories from './models/categorymodel';
+import Categories from './models/categoryModel';
 import Cakes from './models/cakemodel';
-import Items from './models/itemmodel';
+import Items from './models/itemModel';
 import Orders from './models/ordermodel';
 
 import indexRouter from './routes/index';

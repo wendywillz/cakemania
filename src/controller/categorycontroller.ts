@@ -1,5 +1,5 @@
 import { RequestHandler, Request, Response,} from "express";
-import Categories from "../models/categorymodel";
+import Categories from "../models/categoryModel";
 
 
 interface AuthRequest extends Request {

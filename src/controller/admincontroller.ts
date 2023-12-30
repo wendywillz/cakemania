@@ -1,7 +1,7 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import Users from "../models/usermodel";
 import Cakes from "../models/cakemodel";
-import Categories from "../models/categorymodel";
+import Categories from "../models/categoryModel";
 import { validationSchemas } from '../validation/validate';
 import { ZodError } from 'zod';
 import { Sequelize } from "sequelize";
