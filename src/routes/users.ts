@@ -7,7 +7,7 @@ import { authorize } from '../middleware/authorize';
 const router = express.Router();
 
 router.get('/signup', function(req, res, next) {
-  res.render('signup', { currentPage: 'signup' });
+  res.render('signup', { currentPage: 'signup', message: null  });
 });
 
 router.post('/signup', signup)

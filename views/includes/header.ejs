@@ -19,14 +19,17 @@
 
     <!-- Custom styles -->
     <% if (currentPage == 'index' || currentPage == 'products' ) { %>
-        <link rel="stylesheet" href="/stylesheets/index.css">
-      <% } else if (currentPage == 'product-detail') { %>
-        <link rel="stylesheet" href="/stylesheets/index.css">
-        <link rel="stylesheet" href="/stylesheets/product-detail.css">
-      <% } else if (currentPage == 'login') { %>
-        <link rel="stylesheet" href="/stylesheets/index.css">
-        <link rel="stylesheet" href="/stylesheets/login.css">
-      <% } %>
+      <link rel="stylesheet" href="/stylesheets/index.css">
+    <% } else if (currentPage == 'product-detail') { %>
+      <link rel="stylesheet" href="/stylesheets/index.css">
+      <link rel="stylesheet" href="/stylesheets/product-detail.css">
+    <% } else if (currentPage == 'login') { %>
+      <link rel="stylesheet" href="/stylesheets/index.css">
+      <link rel="stylesheet" href="/stylesheets/login.css">
+    <% }  else if (currentPage == 'signup') { %>
+      <link rel="stylesheet" href="/stylesheets/index.css">
+      <link rel="stylesheet" href="/stylesheets/signup.css">
+    <% } %>
 
     
 </head>
