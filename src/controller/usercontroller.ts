@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 import { validationSchemas } from "../validation/validate";
 
 interface AuthRequest extends Request {
-  user?: { userID: string }; // Add the user property
+  user?: { userID: string, isAdmin: boolean }; // Add the user property
 }
 
 const {
@@ -114,7 +114,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         const secret: any = process.env.secret;
         // create secret token for authenticated users
   
-        const token = jwt.sign({ loginkey: user.dataValues.userID, }, secret, { expiresIn: "1h" }
+        const token = jwt.sign({ loginkey: user.dataValues.userID,
+          isAdmin: user.dataValues.isAdmin }, secret, { expiresIn: "1h" }
         );    
         res.cookie('token', token, { httpOnly: true, secure: true });
 

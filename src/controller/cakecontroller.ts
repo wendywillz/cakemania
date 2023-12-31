@@ -9,7 +9,7 @@ import { authorize } from '../middleware/authorize';
 
 
 interface AuthRequest extends Request {
-  user?: { userID: string }; // Add the user property
+  user?: { userID: string, isAdmin: boolean }; // Add the user property
 }
 
 

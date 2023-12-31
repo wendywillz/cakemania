@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 
 interface AuthRequest extends Request {
-    user?: { userID: string }; // Add the user property
+    user?: { userID: string, isAdmin: boolean }; // Add the user property
   }
 
 
@@ -12,6 +12,7 @@ export const authorize = async (req: AuthRequest, res: Response, next: NextFunct
   
     const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
     // const token = req.cookies.token
+
   
     if (!token) {
         return res.json({ status: "failed", message : "no token found"})
@@ -22,19 +23,20 @@ export const authorize = async (req: AuthRequest, res: Response, next: NextFunct
 
      const secret: any = process.env.secret
         
-      const decoded = jwt.verify(token, secret) as { loginkey: string };
+      const decoded = jwt.verify(token, secret) as { loginkey: string; isAdmin: boolean };
   
       // Use Sequelize's findOne method to retrieve the user
       const user = await Users.findOne({
         where: { userID: decoded.loginkey },
-        attributes: ['userID'],
+        attributes: ['userID', 'isAdmin'],
       });
+
   
       if (!user || user.dataValues.userID ==  null) {
         return res.status(401).json({ message: 'Unauthorized' });
       }
   
-      req.user = { userID: user.dataValues.userID }; // Attach the user to the request for further use
+      req.user = { userID: user.dataValues.userID, isAdmin: user.dataValues.isAdmin }; // Attach the user to the request for further use
       next();
   
     } catch (error) {
@@ -45,7 +47,7 @@ export const authorize = async (req: AuthRequest, res: Response, next: NextFunct
 
 
 export function noCache(req:AuthRequest, res:Response, next:NextFunction) {
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     next();
 }
 
