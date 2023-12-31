@@ -10,8 +10,8 @@ import { Sequelize } from "sequelize";
 const { cakeSchema } = validationSchemas;
 
 interface AuthRequest extends Request {
-    user?: { userID: string }; // Add the user property
-  }
+  user?: { userID: string, isAdmin: boolean }; // Add the user property
+}
 
 
 
@@ -49,6 +49,17 @@ export async function getAdminDashboard(req: AuthRequest, res: Response){
       res.status(500).send('Internal Server Error');
     }
 }
+
+export  function logout(req: AuthRequest, res: Response) {
+  try {
+    res.clearCookie('token');
+    res.status(200).redirect('/cakemania.ng/users/login');
+  } catch (error) {
+    console.error('Error during logout:', error);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
 
 export async function getAdminCakes(req: AuthRequest, res: Response){
   
@@ -103,7 +114,6 @@ export async function getAdminCategories(req: AuthRequest, res: Response){
 
 export const createCake: RequestHandler = async (req: AuthRequest, res: Response) => {
 
-  console.log(req.body)
 
   const validation = cakeSchema.parse(req.body);
 
@@ -206,6 +216,8 @@ export const updateCake: RequestHandler = async (req: AuthRequest, res: Response
 export const deleteCake: RequestHandler = async (req: AuthRequest, res: Response) => {
   try {
     const id = req.params.id;
+
+    console.log(id)
 
     const cake = await Cakes.findByPk(id);
     if (!cake) {

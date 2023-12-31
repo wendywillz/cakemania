@@ -2,13 +2,15 @@ import express, { Request, Response, NextFunction} from 'express';
 
 import { signup, login, getAllUsers, getUserByID, editUser, deleteUser } from '../controller/usercontroller';
 import {addCategory, getAllCategories, getCategory, removeCategory, editCategory, getEditCategory } from "../controller/categorycontroller"
-import { getAdminDashboard, getAdminCakes, getAdminCategories, createCake, getUpdateCake, updateCake, deleteCake } from '../controller/admincontroller';
-import { authorize } from '../middleware/authorize';
+import { getAdminDashboard, logout, getAdminCakes, getAdminCategories, createCake, getUpdateCake, updateCake, deleteCake } from '../controller/admincontroller';
+import { authorize, noCache } from '../middleware/authorize';
 
 
 const router = express.Router();
 
-router.get('/dashboard', authorize, getAdminDashboard)
+router.get('/dashboard', authorize, noCache, getAdminDashboard)
+
+router.get('/logout', authorize,logout )
 
 router.get('/cakes', authorize, getAdminCakes)
 
@@ -36,7 +38,9 @@ router.get('/categories/edit-cat/:id', authorize, getEditCategory)
 
 router.put('/categories/edit-cat/:id', authorize, editCategory)
 
-router.delete('/categories/remove-cake/:id', authorize, removeCategory)
+router.delete('/categories/remove-cat/:id', authorize, removeCategory)
+
+
 
 
 

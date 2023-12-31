@@ -3,8 +3,8 @@ import Categories from "../models/categoryModel";
 
 
 interface AuthRequest extends Request {
-    user?: { userID: string }; // Add the user property
-  }
+  user?: { userID: string, isAdmin: boolean }; // Add the user property
+}
 
 
 
@@ -54,7 +54,7 @@ const addCategory = (async(req:Request , res:Response )=> {
     const newCategory = await Categories.create(req.body)
     
     // res.status(200).json({ status: "successful", category: newCategory})
-    res.redirect('/cakemania.ng/admin/categories/add-cat')
+    res.redirect('/cakemania.ng/admin/categories')
 })
 
 
@@ -121,7 +121,9 @@ export async function editCategory(req:AuthRequest, res:Response) {
 
 
 const removeCategory = (async(req:Request , res:Response )=> {
-    const {categoryName, categoryID} = req.body
+
+    const categoryID = req.params.id
+    
     const category = await Categories.findByPk(categoryID)
     /**
      OR:
@@ -132,12 +134,11 @@ const removeCategory = (async(req:Request , res:Response )=> {
 
         // res.status(200).json({ status: "success", message: 'Category deleted' });
 
-        res.render('cakemania.ng/admin/categories')
+        res.redirect('/cakemania.ng/admin/categories')
     } else {
         res.status(404).json({ message: 'category not found' });
     }
     
-    res.status(200).json({message: `category ${categoryName} with id ${categoryID} has been removed`})
 })
 
 export {

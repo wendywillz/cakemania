@@ -41,9 +41,12 @@
                             <td><a class="btn btn-sm btn-warning" href="/cakemania.ng/admin/cakes/edit-cake/<%=cakes.cakeID%>">Edit</a></td>
 
                      
-                            <td><a class="btn btn-sm btn-danger trigger-btn" href="#myModal" data-bs-toggle="modal" >Delete</a></td>
+                            <td><a class="btn btn-sm btn-danger trigger-btn" href="#myModal-<%= cakes.cakeID %>" data-bs-toggle="modal" >Delete</a></td>
+
+                            <%- include('../includes/cake-modal.ejs', { cakeID: cakes.cakeID }) %>
 
                         </tr>
+                        
                         <% }); %>
                         
                     </tbody>
@@ -57,7 +60,5 @@
 </div>
 </div>
 
-
-<%- include('../includes/modal.ejs') %>
 
 <%- include('../includes/admin-footer.ejs') %>
