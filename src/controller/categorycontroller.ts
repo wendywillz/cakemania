@@ -1,6 +1,10 @@
 import { RequestHandler, Request, Response,} from "express";
 import Categories from "../models/categoryModel";
+import { validationSchemas } from "../validation/validate";
+import { ZodError, z } from "zod";
 
+
+const { signupSchema, loginSchema, cakeSchema, categorySchema, orderItemsSchema, orderSchema } = validationSchemas;
 
 interface AuthRequest extends Request {
   user?: { userID: string, isAdmin: boolean }; // Add the user property
@@ -37,24 +41,48 @@ const category = await Categories.findByPk(req.params.id)
 })
 
 const addCategory = (async(req:Request , res:Response )=> {
-    const {categoryName, categoryImage} = req.body
+
+  try {
+
+    const validation = categorySchema.parse(req.body);
+
+    const {categoryName, categoryImage} = validation
 
     const existingCategory = await Categories.findOne({
         where: {
             categoryName: categoryName
         }
     })
-    /*
-     const existingCategory = Categories.findByPk(categoryID)
-    */
-
     if(existingCategory){
-        res.status(400).json({ status: "failed", message: "Category already exists"})
+        res.render('admin/add-cat', { message: "Category already exists", successMessage: ''})
     }
-    const newCategory = await Categories.create(req.body)
+
+    else{
+      const newCategory = await Categories.create(req.body)
+      res.render('admin/add-cat', { successMessage: "Category has been successfully added", message: ''})
+      // res.redirect('/cakemania.ng/admin/categories')
+
+    }
     
-    // res.status(200).json({ status: "successful", category: newCategory})
-    res.redirect('/cakemania.ng/admin/categories')
+  } catch (error) {
+    if (error instanceof ZodError) {
+      const formattedErrors = error.errors.map((err) => (err.message
+      ));
+      console.log(error)
+      console.log(formattedErrors)
+      return res.render('admin/add-cat', {
+        currentPage: "add-cat",
+        message: formattedErrors.join(''),
+        successMessage: ''
+      });
+    } else {
+      console.error("Error creating user:", error);
+      return res
+        .status(500)
+        .render('admin/add-cat', {  currentPage: 'add-cat', message: "Internal server error", successMessage: '' });
+    }
+  }
+    
 })
 
 
@@ -74,16 +102,15 @@ export const getEditCategory: RequestHandler = async (req: AuthRequest, res: Res
 
       if (!category) {
 
-        return res.status(404).json({ message: 'Category does not exist' })
+        return res.render('admin/edit-cat', { message: 'Category does not exist' })
       }
 
-  
-      res.render('admin/edit-cat', { category, currentPage: 'edit-cake' });
+      res.render('admin/edit-cat', { category, currentPage: 'edit-cat' });
   
   
   
     } catch (error) {
-      console.error('Error updating cake:', error);
+      
       res.status(500).json({ message: 'Failed to update cake', error });
     }
   };
@@ -118,11 +145,11 @@ export async function editCategory(req:AuthRequest, res:Response) {
 };
 
 
-
-
 const removeCategory = (async(req:Request , res:Response )=> {
 
+  try {
     const categoryID = req.params.id
+    const categories = await Categories.findAll()
     
     const category = await Categories.findByPk(categoryID)
     /**
@@ -131,13 +158,20 @@ const removeCategory = (async(req:Request , res:Response )=> {
      */
      if (category) {
         await category.destroy();
+        res.render('admin/category-page', {categories, message: "Category has been removed" })
 
-        // res.status(200).json({ status: "success", message: 'Category deleted' });
-
-        res.redirect('/cakemania.ng/admin/categories')
+        // res.redirect('/cakemania.ng/admin/categories')
     } else {
-        res.status(404).json({ message: 'category not found' });
+      res.render('admin/category-page', {categories, message: "Category does not exist" })
     }
+    
+  } catch (error) {
+    // res.render('admin/category-page', { message: "failed, incorrect details", successMessage: ''})
+
+    
+  }
+
+    
     
 })
 

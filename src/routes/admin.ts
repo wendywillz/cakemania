@@ -20,7 +20,7 @@ router.get('/logout', logout )
 router.get('/cakes', getAdminCakes)
 
 router.get('/cakes/add-cake', function(req, res, next) {
-    res.render('admin/add-cake', { currentPage: 'add-cake', message: null });
+    res.render('admin/add-cake', { currentPage: 'add-cake', message: null, successMessage: null });
 });
 
 router.post('/cakes/add-cake', createCake)
@@ -34,7 +34,7 @@ router.delete('/cakes/remove-cake/:id', deleteCake)
 router.get('/categories', getAdminCategories)
 
 router.get('/categories/add-cat', function(req, res, next) {
-    res.render('admin/add-cat', { currentPage: 'add-cake', message: null });
+    res.render('admin/add-cat', { currentPage: 'add-cake', successMessage: null, message: null });
 });
 
 router.post('/categories/add-cat', addCategory)

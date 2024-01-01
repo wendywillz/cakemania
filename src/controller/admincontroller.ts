@@ -14,7 +14,6 @@ interface AuthRequest extends Request {
 }
 
 
-
 export async function getAdminDashboard(req: AuthRequest, res: Response){
   
     try {
@@ -77,9 +76,6 @@ export async function getAdminCakes(req: AuthRequest, res: Response){
       where: { userID: userID }, 
     });
 
-  
-    console.log(adminCakes)
-
     // Render the products page with the fetched data
     res.render('admin/cake-page', { admin, adminCakes, message: null});
   } catch (error) {
@@ -107,7 +103,7 @@ export async function getAdminCategories(req: AuthRequest, res: Response){
     const categories = await Categories.findAll();
 
     // Render the products page with the fetched data
-    res.render('admin/category-page', { admin, adminCakes, categories});
+    res.render('admin/category-page', { admin, adminCakes, categories, message: null});
   } catch (error) {
     // Handle errors appropriately
     res.status(500).send('Internal Server Error');
@@ -117,8 +113,8 @@ export async function getAdminCategories(req: AuthRequest, res: Response){
 
 export const createCake: RequestHandler = async (req: AuthRequest, res: Response) => {
 
-
-  const validation = cakeSchema.parse(req.body);
+  try {
+    const validation = cakeSchema.parse(req.body);
 
   const{ cakeName, cakeID, category, description, image, flavour,price, rating, comments, numReviews,} =  validation;
 
@@ -127,35 +123,37 @@ export const createCake: RequestHandler = async (req: AuthRequest, res: Response
 
   const userID = req.user?.userID
 
-  try {
-
   if(userID == undefined){
-      return res.status(401).json({message: "unathourized"})
+      return res.render('admin/add-cake', { successMessage: '', message: 'not authorized'})
     }
+
   // Create a cake
   const cake = await Cakes.create({
     cakeName, cakeID, category: categoryValue, description, image, flavour,price, rating, comments, numReviews,userID
   });
 
-  // return res.status(201).json({ status: 'Cake created successfully', cake,  });
+  res.render('admin/add-cake', { successMessage: "Cake has been successfully added", message: ''})
 
-  return res.status(201).redirect('/cakemania.ng/admin/cakes')
+  // return res.redirect('/cakemania.ng/admin/cakes')
 
 } catch (error) {
   if (error instanceof ZodError) {
-    const formattedErrors = error.errors.map((err) => ({
-      path: err.path.join('.'),
-      message: err.message,
-    }));
-    return res.status(400).json({
-      status: 'failed',
-      message: 'Validation errors',
-      errors: formattedErrors,
+    const formattedErrors = error.errors.map((err) => (err.message
+    ));
+    console.log(error)
+    console.log(formattedErrors)
+    return res.render('admin/add-cake', {
+      currentPage: "add-cake",
+      message: formattedErrors.join(''),
+      successMessage: ''
     });
   } else {
-    console.error('Error creating cake:', error);
-    res.status(500).json({ message: 'Failed to create cake', error });
+    console.error("Error creating user:", error);
+    return res
+      .status(500)
+      .render('admin/add-cake', {  currentPage: 'add-cake', message: "Internal server error", successMessage: '' });
   }
+  
 }
 };
 
