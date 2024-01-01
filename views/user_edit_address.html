@@ -1,0 +1,171 @@
+<%- include('./includes/header.ejs') %>
+    <style>
+    
+    
+        .main-cart-contents {
+            background-color: #483b2c;
+            color: #fff;
+
+        }
+
+        .user-sidebar {
+            padding-left: 0.2em; 
+            background-color: #483b2c;
+            color: #fff;
+            height: fit-content;
+        }
+        .user-account-contents {
+            padding-left: 0.2em; 
+            background-color: #483b2c;
+            color: #fff;
+            height: fit-content;
+        }
+    
+        .address-box {
+            max-width: 95%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .summary-1 {
+            border: 1px solid #fff;
+            margin-right: 1.5em;
+            height: 16.5em;
+          
+        }
+
+        .summary-1 h4, p {
+            padding-left: 1.5em;  
+        }
+
+        .summary-2 {
+            border: 1px solid #fff;
+            margin-right: 1.5em;
+        }
+
+        .summary-2  h4, p {
+            padding-left: 1.5em;  
+        }
+
+        .orders-tab {
+            border: 2px solid #fff;
+            border-radius: 0.4em;
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            margin-left: 0.8em;
+            margin-right: auto;
+            
+        }
+
+    </style>
+</head>
+
+<
+
+    <%- include('./includes/navbar.ejs') %>
+
+
+    <!-- Your page content goes here -->
+    <div class="container mt-5 mb-5">
+        <div class="row">
+
+
+            <!--Beginning of user sidebar summary-->
+            <div class="col-md-3 user-sidebar rounded-3"> <!-- col-md-3 to align to the right cart summary and checkout button -->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="text-center"></h1>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 cart-div">
+                           
+                            <div>
+                                <p><i class="bi bi-pencil"></i> &nbsp; &nbsp; My Cakemania Account </p>
+                                <p><i class="bi bi-cart"></i> &nbsp; &nbsp; Orders </p><hr>
+                                <p class="mb-2 mt-4 pe-5 text-decoration"> <i class="bi bi-box-arrow-right"></i> &nbsp; &nbsp; LOGOUT </p> 
+                              
+                            </div>    
+                            
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- End of user sidebar -->
+
+            <div class="col-md-9">
+                <div class="container user-account-contents rounded-3">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 mb-3 mt-3">
+                            <h3>Edit Address</h3>
+                        </div>
+                        <hr>
+            
+                        <!-- First Name and Last Name -->
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="Enter your last name">
+                        </div>
+            
+                        <!-- Phone Number and Additional Phone Number -->
+                        <div class="col-md-6">
+                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter your phone number">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="additionalPhoneNumber" class="form-label">Additional Phone Number</label>
+                            <input type="tel" class="form-control" id="additionalPhoneNumber" placeholder="Enter additional phone number">
+                        </div>
+            
+                        <!-- Delivery Address -->
+                        <div class="col-12">
+                            <label for="deliveryAddress" class="form-label">Delivery Address</label>
+                            <textarea class="form-control" id="deliveryAddress" rows="3" placeholder="Enter your delivery address"></textarea>
+                        </div>
+            
+                        <!-- States and Local Governments -->
+                        <div class="col-md-6">
+                            <label for="state" class="form-label">State</label>
+                            <select class="form-select" id="state">
+                                <!-- Add options for states -->
+                                <option value="state1">State 1</option>
+                                <option value="state2">State 2</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="localGovernment" class="form-label">Local Government</label>
+                            <select class="form-select" id="localGovernment">
+                                <!-- Add options for local governments -->
+                                <option value="lg1">Local Government 1</option>
+                                <option value="lg2">Local Government 2</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+            
+                        <!-- Save Button -->
+                        <div class="col-12 mt-3">
+                            <button type="button" class="btn btn-primary float-end">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                  
+
+</div>
+            </div> <!--End div class col-md-9 right align container --> 
+
+            
+        </div>
+    </div> <!-- End of main-cart-contents div -->
+
+
+    <%- include('./includes/footer.ejs') %>
