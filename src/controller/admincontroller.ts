@@ -74,11 +74,14 @@ export async function getAdminCakes(req: AuthRequest, res: Response){
 
     // Fetch products by user ID
     const adminCakes = await Cakes.findAll({
-      where: { userID: userID }, // Adjust the column name according to your database schema
+      where: { userID: userID }, 
     });
 
+  
+    console.log(adminCakes)
+
     // Render the products page with the fetched data
-    res.render('admin/cake-page', { admin, adminCakes});
+    res.render('admin/cake-page', { admin, adminCakes, message: null});
   } catch (error) {
     // Handle errors appropriately
     res.status(500).send('Internal Server Error');
@@ -175,7 +178,7 @@ export const getUpdateCake: RequestHandler = async (req: AuthRequest, res: Respo
       return res.status(404).render('admin/edit-cake',{ message: 'Cake Not Found' });
     }
 
-    res.render('admin/edit-cake', { cake, categories, currentPage: 'edit-cake' });
+    res.render('admin/edit-cake', { cake, categories, currentPage: 'edit-cake', message: null });
 
 
 
@@ -203,9 +206,10 @@ export const updateCake: RequestHandler = async (req: AuthRequest, res: Response
 
     await cake.update({ ...req.body });
 
-    // res.status(200).json({ status: 'Cake updated successfully', cake });
 
-    res.redirect('/cakemania.ng/admin/cakes')
+    res.render('admin/edit-cake', { cake, currentPage: 'edit-cake', message: 'Cake updated successfully' });
+
+
   } catch (error) {
     console.error('Error updating cake:', error);
     res.status(500).json({ message: 'Failed to update cake', error });
@@ -215,6 +219,19 @@ export const updateCake: RequestHandler = async (req: AuthRequest, res: Response
 
 export const deleteCake: RequestHandler = async (req: AuthRequest, res: Response) => {
   try {
+
+    const userID = req.user?.userID;
+
+    const admin = await Users.findAll({
+      where: { userID: userID, isAdmin: true }, // Adjust the column name according to your database schema
+    });
+
+
+    // Fetch products by user ID
+    const adminCakes = await Cakes.findAll({
+      where: { userID: userID }, 
+    });
+
     const id = req.params.id;
 
     console.log(id)
@@ -224,12 +241,9 @@ export const deleteCake: RequestHandler = async (req: AuthRequest, res: Response
       return res.status(404).json({ message: 'Cake Not Found' });
     }
 
-    console.log("my cake is detroying")
     await cake.destroy();
 
-    console.log("my cake has destroyed")
-
-    return res.redirect('/cakemania.ng/admin/cakes')
+    return res.render('admin/cake-page', { currentPage: 'cake-page', message: "Cake has been successfully deleted", admin, adminCakes})
 
   } catch (error) {
     console.error('Error deleting cake:', error);

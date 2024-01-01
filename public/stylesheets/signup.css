@@ -4,6 +4,8 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
   }
+
+  
   
   .signup-container {
     background: linear-gradient(rgba(255, 232, 214, 0.3), rgba(255, 232, 214, 0.3)), url('/images/bkground1.jpg');
@@ -12,7 +14,7 @@
     background-repeat: no-repeat;
     font-family: 'Poppins', sans-serif;
     width: 100%;
-    height: 90vh;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,12 +29,41 @@
   main {
     display: flex;
   }
+
+  
+  @keyframes animateMe {
+    0% {
+      transform: translateY(-70px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
   
   .error-message {
     color: red;
     text-align: center;
     background-color: white;
+    padding: 5px;
+    border: 1px solid red;
+    border-radius: 10px;
     margin-bottom: 20px;
+    animation: animateMe 1s forwards;
+  }
+
+  .success-message {
+    color: green;
+    text-align: center;
+    background-color: white;
+    padding: 5px;
+    border: 1px solid green;
+    box-shadow: 15px 15px 15px #042551ae;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-radius: 50px;
+    animation: animateMe 1s forwards;
   }
   
   form {

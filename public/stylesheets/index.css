@@ -6,13 +6,14 @@
 body {
   background-color: #ffe8d6;
   font-family: 'Poppins', sans-serif;
-  padding-top: 110px;
+  padding-top: 90px;
 
 }
 
 
 nav {
   background-color: #ffe8d6;
+  height: 90px;
   
 }
 

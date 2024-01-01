@@ -8,9 +8,13 @@
     <div class="container pt-4 px-4">
       <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12">
-              <form action="/cakemania.ng/admin/cakes/edit-cake/<%=cake.cakeID%>?_method=PUT" method="post"> <!-- Replace "/submit-edit-product" with your actual form submission URL -->
+              <form id="edit-cake-form" action="/cakemania.ng/admin/cakes/edit-cake/<%=cake.cakeID%>?_method=PUT" method="post"> <!-- Replace "/submit-edit-product" with your actual form submission URL -->
                   <div class="bg-secondary rounded h-100 p-4">
                       <h3 class="mb-4">Edit Cake</h3>
+
+                        <% if (message) { %>
+                          <div class="success-message"><%= message %></div>
+                      <% } %>
 
                         <div class="mb-3">
                             <label for="cakeName">Cake Name</label>

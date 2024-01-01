@@ -28,11 +28,27 @@
 main{
   display: flex;
 }
-.error-message{
+
+@keyframes animateMe {
+  0% {
+    transform: translateY(-70px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.error-message {
   color: red;
   text-align: center;
   background-color: white;
+  padding: 5px;
+  border: 1px solid red;
+  border-radius: 10px;
   margin-bottom: 20px;
+  animation: animateMe 1s forwards;
 }
 
 form {
