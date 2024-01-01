@@ -42,10 +42,10 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
 
     if (existingUser) {
       return res
-        .status(400)
-        .json({
-          status: "failed",
+        .render('signup', {
+          currentPage: 'signup',
           message: "Email is already in use, try another email",
+          successMessage: ''
         });
     }
     const newUser = await Users.create({
@@ -60,39 +60,37 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
     });
 
     if (!newUser) {
-      return res.status(400).json({
-        status: "failed",
+      return res.render('signup', {
+        currentPage: 'signup',
         message: "Invalid details, account cannot be created",
+        successMessage: ''
       });
     }
 
-    return res.status(200).json({ status: "account created", user: newUser });
+    return res.render('signup',{ currentPage: 'signup', message: "", successMessage: 'Your account has been successfully created, login' });
   } catch (error) {
     if (error instanceof ZodError) {
-      const formattedErrors = error.errors.map((err) => ({
-        path: err.path.join("."),
-        message: err.message,
-      }));
-      return res.status(400).json({
-        status: "failed",
-        message: "Validation errors",
-        errors: formattedErrors,
+      const formattedErrors = error.errors.map((err) => (err.message
+      ));
+      return res.render('signup', {
+        currentPage: "signup",
+        message: formattedErrors.join(''),
+        successMessage: ''
       });
     } else {
       console.error("Error creating user:", error);
       return res
         .status(500)
-        .json({ status: "error", message: "Internal server error" });
+        .render('signup', {  currentPage: 'signup', message: "Internal server error" });
     }
   }
 }
 
 export async function login(req: Request, res: Response, next: NextFunction) {
-
-    const validation = loginSchema.parse(req.body);
-    const { email, password } = validation;
   
     try {
+      const validation = loginSchema.parse(req.body);
+      const { email, password } = validation;
 
       // Find the user by email
       const user = await Users.findOne({
@@ -100,11 +98,9 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         attributes: [ "isAdmin", "userID", "email", "password"],
       });
 
-      // If the user is not found, return an error
       if (!user) {
         return res.render('login', { message: "Invalid email, user does not exist", currentPage: 'login'})
-        // return res.json({status: "failed, user does not exist"})
-          // .json({ status: "failed", message: "User not found" });
+       
       }
       // Compare the provided password with the hashed password in the database, If passwords match, the login is successful
       if (
@@ -131,29 +127,27 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       } else {
         // If passwords don't match, return an error
         return res
-          .status(401)
           .render('login', { message: "Incorrect password", currentPage: 'login' });
           // .json({ status: "failed", message: "Invalid password" });
       }
-    }catch (error) {
-        if (error instanceof ZodError) {
-          const formattedErrors = error.errors.map((err) => ({
-            path: err.path.join("."),
-            message: err.message,
-          }));
-          return res.status(400).render('login', {
-            currentPage: 'login',
-            status: "failed",
-            message: "Validation errors",
-            errors: formattedErrors,
-          });
-        } else {
-          console.error("Error logging in:", error);
-          return res
-            .status(500)
-            .render('login', { message: "Internal server error", currentPage: 'login' });
-        }
+    }
+
+    catch (error) {
+      if (error instanceof ZodError) {
+        const formattedErrors = error.errors.map((err) => (err.message
+        ));
+        return res.render('login', {
+          currentPage: "login",
+          message: formattedErrors.join('')
+        });
+      } else {
+        console.error("Error creating user:", error);
+        return res
+          .status(500)
+          .render('login', {  currentPage: 'login', message: "Internal server error" });
       }
+    }
+  
   }
 
 

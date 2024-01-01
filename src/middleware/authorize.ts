@@ -15,7 +15,7 @@ export const authorize = async (req: AuthRequest, res: Response, next: NextFunct
 
   
     if (!token) {
-        return res.json({ status: "failed", message : "no token found"})
+        return res.redirect('/cakemania.ng/users/login')
     //   return res.redirect('/store/users/login')
     }
   
@@ -37,6 +37,31 @@ export const authorize = async (req: AuthRequest, res: Response, next: NextFunct
       }
   
       req.user = { userID: user.dataValues.userID, isAdmin: user.dataValues.isAdmin }; // Attach the user to the request for further use
+      next();
+  
+    } catch (error) {
+      console.error(error);
+      res.render('login', { currentPage: 'login', message: 'Kindly login, your session has expired' });
+    }
+  };
+
+
+  export const adminAuthorization = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  
+    const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
+    // const token = req.cookies.token
+  
+    try {
+
+     const secret: any = process.env.secret
+        
+      const decoded = jwt.verify(token, secret) as { loginkey: string; isAdmin: boolean };
+
+      // Use Sequelize's findOne method to retrieve the user
+     if(decoded.isAdmin === false){
+      // return res.redirect('/cakemania.ng/users/login')
+      res.json({status: "failed", message: "You are not an admin"})
+     }
       next();
   
     } catch (error) {
