@@ -3,34 +3,51 @@
 
 <style>
     
-    
+   
     .main-cart-contents {
-        background-color: #483b2c;
-        color: #fff;
+            background-color: #483b2c;
+            color: #fff;
 
-    }
+        }
 
+        .user-sidebar {
+            padding-left: 0.2em; 
+            background-color: #483b2c;
+            color: #fff;
+            height: fit-content;
+        }
+        .user-account-contents {
+            padding-left: 0.2em; 
+            background-color: #483b2c;
+            color: #fff;
+            height: fit-content;
+        }
     
+        .address-box {
+            max-width: 95%;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .user-account-contents {
-        padding-left: 0.2em; 
-        background-color: #483b2c;
-        color: #fff;
-        height: fit-content;
-    }
+        .summary-1 {
+            border: 1px solid #fff;
+            margin-right: 1.5em;
+            height: 16.5em;
+          
+        }
 
-    .user-sidebar {
-        padding-left: 0.2em; 
-        background-color: #483b2c;
-        color: #fff;
-        height: fit-content;
-    }
+        .summary-1 h4, p {
+            padding-left: 1.5em;  
+        }
 
+        .summary-2 {
+            border: 1px solid #fff;
+            margin-right: 1.5em;
+        }
 
-    .summary {
-        border: 1px solid #fff;
-        max-width: 70%!important;
-    }
+        .summary-2  h4, p {
+            padding-left: 1.5em;  
+        }
 
     </style>
 <%- include('./includes/navbar.ejs') %>
@@ -40,7 +57,7 @@
  
  
  <!-- Your page content goes here -->
-  <div class="container mt-5 mb-5">
+ <div class="container mt-5 mb-5">
     <div class="row">
 
 
@@ -59,9 +76,10 @@
                        
                         <div>
                             <p><i class="bi bi-pencil"></i> &nbsp; &nbsp; My Cakemania Account </p>
-                            <p><i class="bi bi-cart"></i> &nbsp; &nbsp; Orders </p>
+                            <p><i class="bi bi-cart"></i> &nbsp; &nbsp; Orders </p><hr>
+                            <p class="mb-2 mt-4 pe-5 text-decoration"> <i class="bi bi-box-arrow-right"></i> &nbsp; &nbsp; LOGOUT </p> 
                           
-                        </div>    
+                        </div>      
                         
                     </div>
                 </div>
@@ -73,23 +91,32 @@
             <div class="container user-account-contents rounded-3">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 mb-3 mt-3"> <h3> Account Overview </h3> </div> <hr>
-                    <div class="col-sm-12 col-md-6 mt-4 mb-4 summary rounded-3">
-                        <h4> ACCOUNT DETAILS </h4> <hr>
-                        <p> NkaCHUKWU NWOBI</p>
-                        <p> nkachukwunwobi@gmail.com </p>
-                    </div>
+                       
+                        <div class="address-box d-flex align-items-center">  
+                            <div class="col-sm-12 col-md-6  mt-4 mb-4 summary-1 rounded-3">
+                                <h4> ACCOUNT DETAILS </h4> <hr>
+                                <p> NkaCHUKWU NWOBI</p>
+                                <p> nkachukwunwobi@gmail.com </p>
+                            </div>
+    
+                            <div class="col-sm-12 col-md-6 mt-4 mb-4 summary-2  rounded-3">
+                                <h4> ADDRESS BOOK <span class="float-end">  <i class="bi bi-pencil"></i> </span></h4> <hr>
+                                <p> Your default shipping address</p>
+                                <p> Nkachukwu Nwobi</p>
+                                <p>Orchid Rd, Lekki, Penusila || 101601, Lagos, state  </p>
+                                <p>LEKKI -VGC Lagos</p>
+                                <p> +234 704 5454 45</p>
+                            </div>
+                        </div>
+                        
 
-                    <div class="col-sm-12 col-md-6 mt-4 mb-4 summary  rounded-3">
-                        <h4> ADDRESS BOOK <span class="float-end">  <i class="bi bi-pencil"></i> </span></h4> <hr>
-                        <p> Your default shipping address</p>
-                        <p> Nkachukwu Nwobi</p>
-                        <p>Orchid Rd, Lekki, Penusila || 101601, Lagos, state  </p>
-                        <p>LEKKI -VGC Lagos</p>
-                        <p> +234 704 5454 45</p>
-                    </div>
-
+                        
+                    </div> <!--end offset columns -->
                     
-                </div>
+                </div><!--end row-->    
+            </div>
+                    
+        </div>
               
 
 </div>
@@ -98,5 +125,7 @@
         
     </div>
 </div> <!-- End of main-cart-contents div -->
+
+
 
 <%- include('./includes/footer.ejs') %>
