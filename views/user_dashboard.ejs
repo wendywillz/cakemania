@@ -1,0 +1,102 @@
+
+<%- include('./includes/header.ejs') %>
+
+<style>
+    
+    
+    .main-cart-contents {
+        background-color: #483b2c;
+        color: #fff;
+
+    }
+
+    
+
+    .user-account-contents {
+        padding-left: 0.2em; 
+        background-color: #483b2c;
+        color: #fff;
+        height: fit-content;
+    }
+
+    .user-sidebar {
+        padding-left: 0.2em; 
+        background-color: #483b2c;
+        color: #fff;
+        height: fit-content;
+    }
+
+
+    .summary {
+        border: 1px solid #fff;
+        max-width: 70%!important;
+    }
+
+    </style>
+<%- include('./includes/navbar.ejs') %>
+ 
+
+
+ 
+ 
+ <!-- Your page content goes here -->
+  <div class="container mt-5 mb-5">
+    <div class="row">
+
+
+        <!--Beginning of user sidebar summary-->
+        <div class="col-md-3 user-sidebar rounded-3"> <!-- col-md-3 to align to the right cart summary and checkout button -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="text-center"></h1>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-12 cart-div">
+                       
+                        <div>
+                            <p><i class="bi bi-pencil"></i> &nbsp; &nbsp; My Cakemania Account </p>
+                            <p><i class="bi bi-cart"></i> &nbsp; &nbsp; Orders </p>
+                          
+                        </div>    
+                        
+                    </div>
+                </div>
+            </div>
+        </div> <!-- End of user sidebar -->
+
+
+        <div class="col-md-9 "> <!-- col-md-9 address  align to the right -->
+            <div class="container user-account-contents rounded-3">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 mb-3 mt-3"> <h3> Account Overview </h3> </div> <hr>
+                    <div class="col-sm-12 col-md-6 mt-4 mb-4 summary rounded-3">
+                        <h4> ACCOUNT DETAILS </h4> <hr>
+                        <p> NkaCHUKWU NWOBI</p>
+                        <p> nkachukwunwobi@gmail.com </p>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 mt-4 mb-4 summary  rounded-3">
+                        <h4> ADDRESS BOOK <span class="float-end">  <i class="bi bi-pencil"></i> </span></h4> <hr>
+                        <p> Your default shipping address</p>
+                        <p> Nkachukwu Nwobi</p>
+                        <p>Orchid Rd, Lekki, Penusila || 101601, Lagos, state  </p>
+                        <p>LEKKI -VGC Lagos</p>
+                        <p> +234 704 5454 45</p>
+                    </div>
+
+                    
+                </div>
+              
+
+</div>
+        </div> <!--End div class col-md-9 right align container --> 
+
+        
+    </div>
+</div> <!-- End of main-cart-contents div -->
+
+<%- include('./includes/footer.ejs') %>
