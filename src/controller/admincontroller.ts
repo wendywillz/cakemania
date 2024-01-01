@@ -178,8 +178,6 @@ export const getUpdateCake: RequestHandler = async (req: AuthRequest, res: Respo
 
     res.render('admin/edit-cake', { cake, categories, currentPage: 'edit-cake', message: null });
 
-
-
   } catch (error) {
     console.error('Error updating cake:', error);
     res.status(500).json({ message: 'Failed to update cake', error });

@@ -151,23 +151,22 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   }
 
 
-export async function getUserProfile(req:AuthRequest, res:Response, next:NextFunction) {
+export async function getUserDashboard(req:AuthRequest, res:Response, next:NextFunction) {
     try {
 
       const userID = req.user?.userID;
 
       const user = await Users.findAll({
-        where: { userID: userID, isAdmin: true }, // Adjust the column name according to your database schema
+        where: { userID: userID, isAdmin: false }, // Adjust the column name according to your database schema
       });
-
 
       // Fetch products by user ID
       const userOrders = await Orders.findAll({
         // where: { userID: userID }, // Adjust the column name according to your database schema
       });
 
-      res.json({ status: "successful", message: "welcome customer"})
-      // res.render('admin-index', { user })
+      // res.json({ status: "successful", message: "welcome customer"})
+      res.render('users/user-dashboard', { user, userOrders, currentPage: "user-dashboard" })
        
         
     } catch (error) {
@@ -190,6 +189,7 @@ export async function getAllUsers(req:Request, res:Response, next:NextFunction) 
 };
 
 export async function getUserByID(req:Request, res:Response, next:NextFunction) {
+  
     try {
         const user = await Users.findByPk(req.params.id,  {
           attributes: { exclude: ['password'] }, 
@@ -204,6 +204,24 @@ export async function getUserByID(req:Request, res:Response, next:NextFunction) 
     } catch (error) {
         res.status(500).json({ message: 'server error'})
     }
+};
+
+export async function getEditUser(req:Request, res:Response, next:NextFunction) {
+
+  try {
+      const user = await Users.findByPk(req.params.id,  {
+        attributes: { exclude: ['password'] }, 
+        
+      });
+      if (user) {
+          res.render('users/user-edit-profile', { user, currentPage: 'user-dashboard'})
+      } else {
+          res.render('users/user-edit-profile', { message: "user does not exist", currentPage: 'user-dashboard'})
+      }
+      
+  } catch (error) {
+      res.status(500).json({ message: 'server error'})
+  }
 };
 
 export async function editUser(req:Request, res:Response, next:NextFunction) {
@@ -234,3 +252,29 @@ export async function deleteUser(req:Request, res:Response, next:NextFunction) {
         res.status(500).json({ message: 'server error'})
     }
 };
+
+export async function getUserOrders(req:AuthRequest, res:Response, next:NextFunction) {
+  try {
+
+    const userID = req.user?.userID;
+
+    const user = await Users.findAll({
+      where: { userID: userID, isAdmin: false }, // Adjust the column name according to your database schema
+    });
+
+    console.log(user)
+
+
+    // Fetch products by user ID
+    const userOrders = await Orders.findAll({
+      // where: { userID: userID }, // Adjust the column name according to your database schema
+    });
+
+    // res.json({ status: "successful", message: "welcome customer"})
+    res.render('users/user-orders', { user, userOrders, currentPage: "user-dashboard" })
+     
+      
+  } catch (error) {
+      res.status(500).json({ message: 'server error'})
+  }
+};  
