@@ -10,7 +10,11 @@
       <div class="d-flex align-items-center justify-content-between mb-4">
           <h6 class="mb-0">Categories</h6>
           <a href="">Show All Categories</a>
+
       </div>
+      <% if (message) { %>
+        <div class="success-message"><%= message %></div>
+    <% } %>
       <div class="table-responsive">
           <table class="table text-start align-middle table-bordered table-hover mb-0">
               <thead>

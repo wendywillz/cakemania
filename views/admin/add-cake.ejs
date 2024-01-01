@@ -15,6 +15,14 @@
                   <div class="bg-secondary rounded h-100 p-4">
                       <h3 class="mb-4">Add Product</h3>
 
+                      <% if (message) { %>
+                        <div class="error-message"><%= message %></div>
+                    <% } %>
+
+                    <% if (successMessage) { %>
+                      <div class="success-message"><%= successMessage %></div>
+                  <% } %>
+
                       <div class="mb-3">
                         <label for="cakeName">Cake Name</label>
                         <input type="text" class="form-control" id="cakeName" name="cakeName"placeholder="Cake Name">
