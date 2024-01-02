@@ -1,5 +1,5 @@
 <!-- Modal HTML -->
-<div id="myModal-<%= categoryID %>" class="modal fade">
+<div id="myModal-<%= userID %>" class="modal fade">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header flex-column">
@@ -10,12 +10,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Confirm that you want to delete this category</p>
+                <p>Confirm that you want to delete this user</p>
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 
-                <form method="POST" action="/cakemania.ng/admin/categories/remove-cat/<%=categoryID%>?_method=DELETE" style="display: inline;">
+                <form method="POST" action="/cakemania.ng/admin/users/remove-user/<%=userID%>?_method=DELETE" style="display: inline;">
                     <input type="hidden" name="_method" value="DELETE">
                     <button type="submit" class="btn btn-danger">Delete</button>
                     

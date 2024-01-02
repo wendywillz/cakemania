@@ -1,8 +1,8 @@
 import express, { Request, Response, NextFunction} from 'express';
 
-import { signup, login, getAllUsers, getUserByID, editUser, deleteUser } from '../controller/usercontroller';
+import { signup, login, editUser, deleteUser } from '../controller/usercontroller';
 import {addCategory, getAllCategories, getCategory, removeCategory, editCategory, getEditCategory } from "../controller/categorycontroller"
-import { getAdminDashboard, logout, getAdminCakes, getAdminCategories, createCake, getUpdateCake, updateCake, deleteCake } from '../controller/admincontroller';
+import { getAdminDashboard, logout, getAdminCakes, getAdminCategories, createCake, getUpdateCake, updateCake, deleteCake, getAllUsers, getUserByID } from '../controller/admincontroller';
 import { authorize, adminAuthorization, noCache } from '../middleware/authorize';
 
 
@@ -44,6 +44,13 @@ router.get('/categories/edit-cat/:id', getEditCategory)
 router.put('/categories/edit-cat/:id', editCategory)
 
 router.delete('/categories/remove-cat/:id', removeCategory)
+
+router.get('/users', getAllUsers)
+
+router.get('/users/:id', getUserByID)
+
+
+router.delete('/:id', authorize, noCache, deleteUser)
 
 
 

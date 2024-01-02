@@ -247,4 +247,50 @@ export const deleteCake: RequestHandler = async (req: AuthRequest, res: Response
   }
 };
 
+export async function getAllUsers(req:Request, res:Response, next:NextFunction) {
+
+  try {
+      const users = await Users.findAll({
+          attributes: {
+            exclude: ['password', 'passwordConfirm'] // Exclude the 'password' column from the result
+          }
+        });
+      res.render('admin/users-page', { users, currentPage:"admin-dashboard" })
+  } catch (error) {
+      res.status(500).json({ message: 'server error'})
+  }
+};
+
+export async function getUserByID(req:Request, res:Response, next:NextFunction) {
+
+  try {
+      const user = await Users.findByPk(req.params.id,  {
+        attributes: { exclude: ['password'] }, 
+        
+      });
+      if (user) {
+          res.status(200).json(user)
+      } else {
+          res.status(404).json({ message: 'User not found' });
+      }
+      
+  } catch (error) {
+      res.status(500).json({ message: 'server error'})
+  }
+};
+
+export async function deleteUser(req:Request, res:Response, next:NextFunction) {
+  try {
+      const user = await Users.findByPk(req.params.id);
+  if (user) {
+      await user.destroy();
+      res.status(200).json({ status: "success", message: 'User deleted' });
+  } else {
+      res.status(404).json({ message: 'User not found' });
+  }
+  } catch (error) {
+      res.status(500).json({ message: 'server error'})
+  }
+};
+
 

@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction} from 'express';
 
-import { signup, login, logout, getUserDashboard, getAllUsers, getUserByID, getEditUser, editUser, deleteUser, getUserOrders } from '../controller/usercontroller';
+import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteUser, getUserOrders } from '../controller/usercontroller';
 import { authorize, noCache } from '../middleware/authorize';
 
 
@@ -31,14 +31,6 @@ router.put('/profile/edit/:id', authorize, noCache, editUser)
 
 
 router.get('/profile/orders', authorize, noCache, getUserOrders  )
-
-
-router.get('/', getAllUsers)
-
-router.get('/:id', getUserByID)
-
-
-router.delete('/:id', authorize, noCache, deleteUser)
 
 
 
