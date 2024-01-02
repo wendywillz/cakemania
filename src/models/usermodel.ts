@@ -9,11 +9,10 @@ interface userAtrributes{
     userID: string | null;
     email: string;
     password: string;
-    // passwordConfirm: string;
     phoneNo: string;
-    // userAddress: string;
-    // userState: string;
-    // userLga: string;
+    address: string | null;
+    state: string | null;
+    lga: string | null;
     isAdmin: boolean;
 }
 
@@ -47,17 +46,23 @@ Users.init({
         allowNull: false
         
     },
-    // passwordConfirm: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false
-        
-    // },
     phoneNo: {
         type: DataTypes.STRING,
         allowNull: false,
         
     },
-    
+    address: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    state :{
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    lga: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     isAdmin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
@@ -78,7 +83,7 @@ Users.hasMany(Cakes, { foreignKey: 'userID' });
 export default Users
 
 
-// userAddress: {
+    // userAddress: {
     //     type: DataTypes.STRING,
     //     allowNull: false
     // },

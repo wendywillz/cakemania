@@ -2,43 +2,10 @@
 <%- include('../includes/header.ejs') %>
 
 <%- include('../includes/navbar.ejs') %>
+
+<%- include('../includes/user-sidebar.ejs') %>
  
 
- 
- <!-- Your page content goes here -->
- <div class="container mt-5 mb-5">
-    <div class="row">
-
-
-        <!--Beginning of user sidebar summary-->
-        <div class="col-md-3 user-sidebar rounded-3"> <!-- col-md-3 to align to the right cart summary and checkout button -->
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="text-center"></h1>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 cart-div">
-                       
-                        <div>
-                            <a href="/cakemania.ng/users/profile">
-                                <p><i class="bi bi-pencil"></i> &nbsp; &nbsp; My Cakemania Account </p>
-                            </a>
-                            
-                            <a href="/cakemania.ng/users/profile/orders">
-                                <p><i class="bi bi-cart"></i> &nbsp; &nbsp; Orders </p><hr>
-                            </a>
-    
-                            <p class="mb-2 mt-4 pe-5 text-decoration"> <i class="bi bi-box-arrow-right"></i> &nbsp; &nbsp; LOGOUT </p> 
-                          
-                        </div>      
-                        
-                    </div>
-                </div>
-            </div>
-        </div> <!-- End of user sidebar -->
 
 
         <div class="col-md-9 "> <!-- col-md-9 address  align to the right -->
@@ -63,10 +30,9 @@
                                         </a>  
                                     </span>
                                 </h4> <hr>
-                                <p> Your default shipping address</p>
-                                <p><%= user.firstName%> <%= user.lastName%> </p>
-                                <p>Orchid Rd, Lekki, Penusila || 101601, Lagos, state  </p>
-                                <p>LEKKI -VGC Lagos</p>
+                                <p>Address: <%= user.address%></p>
+                                <p>LGA: <%= user.lga%></p>
+                                <p>State: <%= user.state%></p>
                                 <p>+<%= user.phoneNo%></p>
                             </div>
                         </div>

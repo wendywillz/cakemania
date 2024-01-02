@@ -53,8 +53,26 @@ const signupSchema = z.object({
       })
       .min(13, "input phone number in 234 format")
       .max(13),
+    
+    address: z
+    .string({
+      required_error: "address is required",
+      invalid_type_error: "only strings accepted",
+    })
+    .min(10)
+    .max(150).optional(),
 
-      isAdmin: z.boolean().default(false),
+    lga: z.string({
+    required_error: "lga is required",
+    invalid_type_error: "lga must be a string",
+    }).optional(),
+
+    state: z.string({
+    required_error: "state is required",
+    invalid_type_error: "state must be a string",
+    }).optional(),
+    
+    isAdmin: z.boolean().default(false),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "Passwords do not match",
@@ -172,18 +190,4 @@ export const validationSchemas = { signupSchema, loginSchema, cakeSchema, catego
 
 
 
-// userAddress: z
-// .string({
-//   required_error: "address is required",
-//   invalid_type_error: "only strings accepted",
-// })
-// .min(10)
-// .max(150),
 
-// userLga: z.string({
-// required_error: "lga is required",
-// }),
-
-// userState: z.string({
-// required_error: "state is required",
-// }),
