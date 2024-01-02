@@ -61,6 +61,7 @@ const addCakeToCart =  async(req: Request, res:Response)=>{
 const removeCakeFromCart =  async(req: Request, res:Response)=>{
     try{
         const nameOfCake = req.body.cakeName
+        
         const specificCake = await Cakes.findOne({where: {cakeName:nameOfCake}})
         if(!specificCake){
             throw new Error(`Cake not found`)
