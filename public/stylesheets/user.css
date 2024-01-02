@@ -62,4 +62,45 @@ a{
 }
 
 
+@keyframes animateMe {
+    0% {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+  
+  .error-message {
+    color: white;
+    width: 50%;
+    text-align: center;
+    background-color: red;
+    padding: 5px;
+    font-size: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin: auto auto 20px auto;
+    animation: animateMe 0.6s forwards;
+  }
+
+  .success-message {
+    color: white;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    text-align: center;
+    background-color: green;
+    padding: 5px;
+    font-size: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin: auto auto 20px auto;
+    border-radius: 50px;
+    animation: animateMe 0.6s forwards;
+  }
+
+
 

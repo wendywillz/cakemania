@@ -2,101 +2,73 @@
    
 <%- include('../includes/navbar.ejs') %>
 
+<%- include('../includes/user-sidebar.ejs') %>
 
-    <!-- Your page content goes here -->
-    <div class="container mt-5 mb-5">
-        <div class="row">
-
-
-            <!--Beginning of user sidebar summary-->
-            <div class="col-md-3 user-sidebar rounded-3"> <!-- col-md-3 to align to the right cart summary and checkout button -->
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="text-center"></h1>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12 cart-div">
-                           
-                            <div>
-                                <a href="/cakemania.ng/users/profile">
-                                    <p><i class="bi bi-pencil"></i> &nbsp; &nbsp; My Cakemania Account </p>
-                                </a>
-                                
-                                <a href="/cakemania.ng/users/profile/orders">
-                                    <p><i class="bi bi-cart"></i> &nbsp; &nbsp; Orders </p><hr>
-                                </a>
-        
-                                <p class="mb-2 mt-4 pe-5 text-decoration"> <i class="bi bi-box-arrow-right"></i> &nbsp; &nbsp; LOGOUT </p> 
-                              
-                            </div>      
-                            
-                        </div>
-                    </div>
-                    
-                </div>
-            </div> <!-- End of user sidebar -->
 
             <div class="col-md-9">
                 <div class="container user-account-contents rounded-3">
                     <div class="row">
-                        <div class="col-sm-12 col-md-12 mb-3 mt-3">
-                            <h3>Edit Address</h3>
-                        </div>
-                        <hr>
-            
+                    <div class="col-sm-12 col-md-12 mb-3 mt-3">
+                        
+                        <form id="edit-profile-form" action="/cakemania.ng/users/profile/edit/<%=user.userID%>?_method=PUT" method="post">
+                            <h3>Edit Info</h3>
+                        
+                        <% if (successMessage) { %>
+                            <div class="success-message"><%= successMessage %></div>
+                        <% } %>
+
+
+                    </div>
+                    <hr>
+                        
+
                         <!-- First Name and Last Name -->
                         <div class="col-md-6">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
+                            <input type="text" class="form-control" name="firstName" id="firstName" value="<%= user.firstName%>" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="Enter your last name">
+                            <input type="text" class="form-control" name="lastName" id="lastName" value="<%= user.lastName%>" readonly>
                         </div>
             
                         <!-- Phone Number and Additional Phone Number -->
                         <div class="col-md-6">
-                            <label for="phoneNumber" class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter your phone number">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="additionalPhoneNumber" class="form-label">Additional Phone Number</label>
-                            <input type="tel" class="form-control" id="additionalPhoneNumber" placeholder="Enter additional phone number">
+                            <label for="phoneNo" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" name="phoneNo" id="phoneNo" value="<%= user.phoneNo%>">
                         </div>
             
                         <!-- Delivery Address -->
                         <div class="col-12">
-                            <label for="deliveryAddress" class="form-label">Delivery Address</label>
-                            <textarea class="form-control" id="deliveryAddress" rows="3" placeholder="Enter your delivery address"></textarea>
+                            <label for="address" class="form-label">Delivery Address</label>
+                            <textarea class="form-control" name="address" id="address" rows="3"><%= user.address%></textarea>
                         </div>
             
                         <!-- States and Local Governments -->
                         <div class="col-md-6">
                             <label for="state" class="form-label">State</label>
-                            <select class="form-select" id="state">
-                                <!-- Add options for states -->
-                                <option value="state1">State 1</option>
-                                <option value="state2">State 2</option>
+                            <select class="form-select" id="state" name="state">
+                                <!-- Add options for states -->\
+                                <option >Select State</option>
+                                <option value="Lagos" selected>Lagos</option>
                                 <!-- Add more options as needed -->
                             </select>
                         </div>
-                        <div class="col-md-6">
-                            <label for="localGovernment" class="form-label">Local Government</label>
-                            <select class="form-select" id="localGovernment">
-                                <!-- Add options for local governments -->
-                                <option value="lg1">Local Government 1</option>
-                                <option value="lg2">Local Government 2</option>
-                                <!-- Add more options as needed -->
-                            </select>
-                        </div>
+
+                        <%- include('../includes/user-lga.ejs') %>
+
+
+                        
             
                         <!-- Save Button -->
                         <div class="col-12 mt-3">
-                            <button type="button" class="btn btn-primary float-end">Save</button>
+                            <button type="submit" class="btn btn-primary float-end">Save</button>
                         </div>
+
+
+                        </form>
+            
+
                     </div>
                 </div>
             </div>

@@ -32,6 +32,9 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
       password,
       passwordConfirm,
       phoneNo,
+      address,
+      lga,
+      state,
       isAdmin,
     } = validation;
 
@@ -54,8 +57,10 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
       userID,
       email,
       password: hashedPassword,
-      // passwordConfirm: hashedPassword,
       phoneNo,
+      address,
+      lga,
+      state,
       isAdmin,
     });
 
@@ -66,8 +71,11 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
         successMessage: ''
       });
     }
+    
+    else{
+      return res.render('signup',{ currentPage: 'signup', message: "", successMessage: 'Your account has been successfully created, login' });
+    }
 
-    return res.render('signup',{ currentPage: 'signup', message: "", successMessage: 'Your account has been successfully created, login' });
   } catch (error) {
     if (error instanceof ZodError) {
       const formattedErrors = error.errors.map((err) => (err.message
@@ -81,7 +89,7 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
       console.error("Error creating user:", error);
       return res
         .status(500)
-        .render('signup', {  currentPage: 'signup', message: "Internal server error" });
+        .render('signup', {  currentPage: 'signup', message: "Internal server error", successMessage: '' });
     }
   }
 }
@@ -150,6 +158,15 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   
   }
 
+export  function logout(req: AuthRequest, res: Response) {
+  try {
+    res.clearCookie('token');
+    res.status(200).redirect('/cakemania.ng/users/login');
+  } catch (error) {
+    console.error('Error during logout:', error);
+    res.status(500).send('Internal Server Error');
+  }
+}
 
 export async function getUserDashboard(req:AuthRequest, res:Response, next:NextFunction) {
     try {
@@ -214,13 +231,13 @@ export async function getEditUser(req:Request, res:Response, next:NextFunction) 
         
       });
       if (user) {
-          res.render('users/user-edit-profile', { user, currentPage: 'user-dashboard'})
+          res.render('users/user-edit-profile', { user, currentPage: 'user-dashboard', message: null, successMessage: null})
       } else {
-          res.render('users/user-edit-profile', { message: "user does not exist", currentPage: 'user-dashboard'})
+          res.render('users/user-edit-profile', { user, successMessage: "user does not exist", currentPage: 'user-dashboard'})
       }
       
   } catch (error) {
-      res.status(500).json({ message: 'server error'})
+      res.status(500).json({  message: 'server error', successMessage: ''})
   }
 };
 
@@ -229,13 +246,14 @@ export async function editUser(req:Request, res:Response, next:NextFunction) {
         const user = await Users.findByPk(req.params.id);
     if (user) {
         await user.update(req.body);
-        res.status(200).json({ status: "user edited successfully", user});
+
+        res.render('users/user-edit-profile', { user, currentPage: 'user-dashboard', message: null, successMessage: "Your info has been successfuly updated"})
     } else {
-        res.status(404).json({ message: 'User not found' });
+      res.render('users/user-edit-profile', { user, currentPage: 'user-dashboard', message: null, successMessage: "User not found"})
     }
 
     } catch (error) {
-        res.status(500).json({ message: 'server error'})
+        res.status(500).json({ message: 'server error', successMessage: ''})
     } 
 };
 
