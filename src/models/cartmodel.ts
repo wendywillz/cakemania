@@ -6,7 +6,8 @@ import Cakes from "./cakemodel";
 import Users from "./usermodel";
 import { v4 as uuidv4 } from 'uuid';
 interface cartAtrributes{
-   // userID: string,
+    cartID: string
+    userID: string,
     cakeID: string|null;
     size: string;
     quantity: number;
@@ -17,16 +18,20 @@ export class Cart extends Model <cartAtrributes> {}
 
 
 Cart.init({
-    /*
+    cartID :{
+        type: DataTypes.TEXT,
+        defaultValue: ()=>uuidv4(),
+        primaryKey: true,
+        allowNull:false,
+        autoIncrement: false
+    },
     userID: {
         type: DataTypes.STRING,
         references: {
             model: Users,
             key: 'userID'
         },
-        primaryKey: true
     },
-    */
     cakeID: {
         type: DataTypes.STRING,
         references: {

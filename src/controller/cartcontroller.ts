@@ -3,17 +3,27 @@
 import { Request, Response,} from "express";
 import Cart from "../models/cartmodel"
 import Cakes from "../models/cakemodel";
+interface AuthRequest extends Request {
+    user?: { userID: string, isAdmin: boolean };
+  }
 
 
-async function addToCart(cakeId : string, cakeQuantity: number, size: string ){
+async function addToCart(cartID: string, userId: string, cakeId : string, cakeQuantity: number, size: string ){
     try {
+
+
+
         let specifiedCake = await Cakes.findByPk(cakeId)
         if(!specifiedCake){
             throw new Error(`Cake not found`)
         }
         let cakePrice = specifiedCake.dataValues.price
         
-        let cartItem = await Cart.findOne({where: {cakeID: cakeId}})
+        //cartItem checks that that specific cake has been added by a specific user
+        let cartItem = await Cart.findOne({where: 
+            {cakeID: specifiedCake.dataValues.cakeID,
+            userID:userId}
+        })
         //If the cake is already in the cart, just increase the quantity
         if(cartItem){
             cartItem.dataValues.quantity += cakeQuantity
@@ -28,6 +38,8 @@ async function addToCart(cakeId : string, cakeQuantity: number, size: string ){
             let tempcartPrice = (Number(cakePrice.split(",").join(""))) * cakeQuantity
             let cartPrice = tempcartPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             cartItem = await Cart.create({
+                cartID,
+                userID: userId,
                 cakeID: cakeId,
                 size: size,
                 quantity : cakeQuantity,
@@ -37,17 +49,34 @@ async function addToCart(cakeId : string, cakeQuantity: number, size: string ){
         }
         return cartItem
     } catch (error) {
-        throw new Error(`Error adding to cart`)
+        console.error('Error adding to cart', error)
     }
 }
 
+/*
+req: AuthRequest
+const userID = req.user?.userID;
+const userID = req.cookies.token
+*/
 
-const addCakeToCart =  async(req: Request, res:Response)=>{
-    try{
-        const {cakeID, quantity, size} = req.body
+
+const addCakeToCart =  async(req: AuthRequest, res:Response)=>{
+    try{ 
+        
+        
+        const userID = req.user?.userID;
+        const { ...cartID} = req.body
+
+        if(!userID){
+            res.status(401).json({error: "unauthorized. please log in"}).redirect("/login")
+            throw Error(`User not logged in`)
+        }
+        const cakeID = req.params.id
+        const quantity = req.body.quantity
+        const size = req.body.size
         const specificCake = Cakes.findByPk(cakeID)
         //const cakeID = specificCake.cakeID
-        const cartItem = await addToCart(cakeID, quantity, size)
+        const cartItem = await addToCart(cartID, userID, cakeID, quantity, size)
 
         res.status(200).send(`Cake Added to Cart`)
     } catch(error){
@@ -55,7 +84,22 @@ const addCakeToCart =  async(req: Request, res:Response)=>{
     }
 }
 
+const getUserCart = async(req: AuthRequest, res:Response)=>{
+    try {
+        const userID = req.user?.userID;
+    if(!userID){
+        res.status(401).json({error: "unauthorized. please log in"}).redirect("/login")
+        throw Error(`User not logged in`)
+    }
+    const userCart = await Cart.findOne({where:{userID: userID}})
+    return userCart
+    } catch (error) {
+        res.status(400).json({message: "Error getting cart"})
+        console.log(error);
+    }
+    
 
+}
 
 
 const removeCakeFromCart =  async(req: Request, res:Response)=>{
@@ -86,4 +130,4 @@ const removeCakeFromCart =  async(req: Request, res:Response)=>{
 }
 
 
-export {addToCart, addCakeToCart,removeCakeFromCart}
+export {addToCart, addCakeToCart,removeCakeFromCart, getUserCart,}
