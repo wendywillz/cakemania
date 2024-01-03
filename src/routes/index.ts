@@ -1,9 +1,15 @@
 import express, { Request, Response, NextFunction} from 'express';
 import { getAllCategories } from '../controller/categorycontroller';
+import { getUserNavbar } from '../controller/indexcontroller';
+import { authorize, noCache } from '../middleware/authorize';
 
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', getAllCategories)
+router.get('/', getUserNavbar);
+
+// router.get('/logout', authorize, noCache, logout);
+
+
 
 export default router;

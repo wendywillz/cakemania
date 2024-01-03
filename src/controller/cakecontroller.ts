@@ -15,6 +15,11 @@ interface AuthRequest extends Request {
 
 export const findAllCakes: RequestHandler = async (req: Request, res: Response) => {
   try {
+
+    const userInfo = await req.cookies.user
+
+    res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+    
     const cakes = await Cakes.findAll();
     res.status(200).json({ status: 'success', cakes  });
   } catch (error) {
@@ -40,6 +45,10 @@ export const getCakeById: RequestHandler = async (req: Request, res: Response) =
     const cakeID = req.params.id;
     const cake = await Cakes.findByPk(cakeID);
 
+    const userInfo = await req.cookies.user
+
+    res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
     if (!cake) {
       return res.status(404).json({ message: 'Cake Not Found' });
     }
@@ -54,10 +63,16 @@ export const getCakeById: RequestHandler = async (req: Request, res: Response) =
 
 
 export const getCakesByCategory: RequestHandler = async (req: Request, res: Response) => {
-  
-  const categoryID = req.params.categoryid;
+
 
   try {
+    const categoryID = req.params.categoryid;
+
+    const userInfo = await req.cookies.user
+
+    res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
+    
     // Find cakes by category ID
     const cakes = await Cakes.findAll({
       where: { category: categoryID },
@@ -65,7 +80,7 @@ export const getCakesByCategory: RequestHandler = async (req: Request, res: Resp
 
     if(!cakes){
       // res.json({ status: "successful", message: "No cakes in this category"})
-      res.status(400).render('products', { message: "no cakes available in this category"});
+      res.render('products', { message: "no cakes available in this category"})
 
     }
 

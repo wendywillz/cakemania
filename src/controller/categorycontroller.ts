@@ -18,7 +18,7 @@ const getAllCategories = (async(req:Request , res:Response )=> {
         res.status(404).send("NO CATEGORIES FOUND")
     }
 
-    res.status(200).render('index', { allCategories, currentPage: 'index' })
+    res.render('index', { allCategories, currentPage: 'index' })
 })
 
 

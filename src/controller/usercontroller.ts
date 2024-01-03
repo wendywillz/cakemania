@@ -103,7 +103,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
       // Find the user by email
       const user = await Users.findOne({
         where: { email },
-        attributes: [ "isAdmin", "userID", "email", "password"],
+        attributes: [ "isAdmin", "userID", "email", "password", "firstName", "lastName"],
       });
 
       if (!user) {
@@ -122,6 +122,14 @@ export async function login(req: Request, res: Response, next: NextFunction) {
           isAdmin: user.dataValues.isAdmin }, secret, { expiresIn: "1h" }
         );    
         res.cookie('token', token, { httpOnly: true, secure: true });
+        res.cookie('user', JSON.stringify({
+          userID: user.dataValues.userID,
+          isAdmin: user.dataValues.isAdmin,
+          email: user.dataValues.email,
+          firstName: user.dataValues.firstName,
+          lastName: user.dataValues.lastName,
+        }), { httpOnly: true, secure: true });
+
 
         if(user.dataValues.isAdmin === true){
             // res.json({ status: "WELCOME ADMIN", token: token})
@@ -129,7 +137,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         }
         else{
             // res.json({ status: "user successfully logged in", token: token})
-            res.redirect('/cakemania.ng/users/profile')
+            res.redirect('/cakemania.ng')
         }
     
       } else {
@@ -161,7 +169,9 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 export  function logout(req: AuthRequest, res: Response) {
   try {
     res.clearCookie('token');
-    res.status(200).redirect('/cakemania.ng/users/login');
+    res.clearCookie('user');
+    
+    res.status(200).redirect('/cakemania.ng');
   } catch (error) {
     console.error('Error during logout:', error);
     res.status(500).send('Internal Server Error');
@@ -172,6 +182,7 @@ export async function getUserDashboard(req:AuthRequest, res:Response, next:NextF
     try {
 
       const userID = req.user?.userID;
+      const userInfo = await req.cookies.user
 
       const user = await Users.findAll({
         where: { userID: userID, isAdmin: false }, // Adjust the column name according to your database schema
@@ -182,8 +193,10 @@ export async function getUserDashboard(req:AuthRequest, res:Response, next:NextF
         // where: { userID: userID }, // Adjust the column name according to your database schema
       });
 
+      const userDetails = JSON.parse(userInfo);
+
       // res.json({ status: "successful", message: "welcome customer"})
-      res.render('users/user-dashboard', { user, userOrders, currentPage: "user-dashboard" })
+      res.render('users/user-dashboard', { user, userOrders, userDetails, currentPage: "user-dashboard" })
        
         
     } catch (error) {
