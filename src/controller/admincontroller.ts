@@ -52,7 +52,9 @@ export async function getAdminDashboard(req: AuthRequest, res: Response){
 export  function logout(req: AuthRequest, res: Response) {
   try {
     res.clearCookie('token');
-    res.status(200).redirect('/cakemania.ng/users/login');
+    res.clearCookie('user');
+
+    res.redirect('/cakemania.ng');
   } catch (error) {
     console.error('Error during logout:', error);
     res.status(500).send('Internal Server Error');

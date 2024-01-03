@@ -30,23 +30,83 @@
             </ul>
 
             <!-- Shopping Cart and Profile Icons (Right) -->
-            <ul class="navbar-nav ms-auto">
+
+            <% if (locals.userDetails) { %>
+
+                <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                Welcome,<%= locals.userDetails.firstName %>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        My Orders
+                    </a>
+                    
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="bi bi-cart"></i>
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="bi bi-person"></i>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/cakemania.ng/users/signup">Sign Up</a>
-                        <a class="dropdown-item" href="/cakemania.ng/users/login">Login</a>
+                        <% if (locals.userDetails.isAdmin == true) { %>
+
+                            <a class="dropdown-item" href="/cakemania.ng/admin/dashboard">Dashboard
+                            </a>
+                            <a class="dropdown-item" href="/cakemania.ng/admin/logout">Logout</a>
+
+                         
+                        <% } else { %>
+                            <a class="dropdown-item" href="/cakemania.ng/users/profile">Profile
+                            </a>
+                            <a class="dropdown-item" href="/cakemania.ng/users/logout">Logout</a>
+                        <% } %>
+                             
+                    </div>
+                        
+            
+            <% } else { %>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-cart"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-person"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            
+                                <a class="dropdown-item" href="/cakemania.ng/users/signup">Sign Up</a>
+                                <a class="dropdown-item" href="/cakemania.ng/users/login">Login</a>
+
+
+                        <% } %>
                     </div>
                 </li>
             </ul>
+            
+
+
+
+
+
+
+
+
+
+         
+
+
+
+
         </div>
     </div>
 </nav>

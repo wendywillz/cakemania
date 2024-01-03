@@ -15,8 +15,9 @@ export const authorize = async (req: AuthRequest, res: Response, next: NextFunct
 
   
     if (!token) {
-        return res.redirect('/cakemania.ng/users/login')
-    //   return res.redirect('/store/users/login')
+      return res.redirect('/cakemania.ng/users/login')
+        //return res.redirect('/cakemania.ng/users/login')
+
     }
   
     try {
