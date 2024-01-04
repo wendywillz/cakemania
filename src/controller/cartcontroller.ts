@@ -8,46 +8,59 @@ interface AuthRequest extends Request {
   }
 
 
-async function addToCart(cartID: string, userId: string, cakeId : string, cakeQuantity: number, size: string ){
+async function addToCart(cartID: string, userId: string, cakeId : string, cakeQuantity: number, size: string, cakePrice: string){
     try {
 
-
-
         let specifiedCake = await Cakes.findByPk(cakeId)
+
+
         if(!specifiedCake){
             throw new Error(`Cake not found`)
         }
-        let cakePrice = specifiedCake.dataValues.price
+
+        // let cakePrice = specifiedCake.dataValues.price
         
         //cartItem checks that that specific cake has been added by a specific user
+        
         let cartItem = await Cart.findOne({where: 
             {cakeID: specifiedCake.dataValues.cakeID,
-            userID:userId}
+            userID:userId},
         })
+
+        console.log(cartItem)
+
         //If the cake is already in the cart, just increase the quantity
         if(cartItem){
-            cartItem.dataValues.quantity += cakeQuantity
-            let tempPrice= (parseFloat(cakePrice.split(",").join(""))) * (cartItem.dataValues.quantity)
+
+            cartItem.dataValues.quantity += cakeQuantity;
+
+            console.log(cakeQuantity)
+
+            let tempPrice = parseInt(cakePrice.replace(/,/g, '')) * cartItem.dataValues.quantity;
 
             
-            cartItem.dataValues.price = tempPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            //Price function would change depending on size. consider using a switch statement
-            await cartItem.save()
+
+            cartItem.dataValues.price = tempPrice.toLocaleString(); // Format price with commas
+            await cartItem.save();
+        
         } else{
-            //if the cake is not in the cart, create a new one.
-            let tempcartPrice = (Number(cakePrice.split(",").join(""))) * cakeQuantity
-            let cartPrice = tempcartPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+            let tempcartPrice = parseFloat(cakePrice.replace(/,/g, ''))
+
+            let cartPrice = tempcartPrice.toLocaleString(); // Format price with commas
+
             cartItem = await Cart.create({
                 cartID,
                 userID: userId,
                 cakeID: cakeId,
                 size: size,
-                quantity : cakeQuantity,
-                price: cartPrice
+                quantity: cakeQuantity,
+                price: cartPrice,
+            });
 
-            })
         }
         return cartItem
+
     } catch (error) {
         console.error('Error adding to cart', error)
     }
@@ -65,7 +78,7 @@ const addCakeToCart =  async(req: AuthRequest, res:Response)=>{
         
         
         const userID = req.user?.userID;
-        const { ...cartID} = req.body
+        const { cartID} = req.body
 
         if(!userID){
             res.status(401).json({error: "unauthorized. please log in"}).redirect("/login")
@@ -74,9 +87,16 @@ const addCakeToCart =  async(req: AuthRequest, res:Response)=>{
         const cakeID = req.params.id
         const quantity = req.body.quantity
         const size = req.body.size
-        const specificCake = Cakes.findByPk(cakeID)
-        //const cakeID = specificCake.cakeID
-        const cartItem = await addToCart(cartID, userID, cakeID, quantity, size)
+
+        const specificCake = await Cakes.findByPk(cakeID)
+
+        if (!specificCake) {
+            return res.status(404).send("Cake not found");
+          }
+
+        let cakePrice = specificCake?.dataValues.price
+
+        const cartItem = await addToCart(cartID, userID, cakeID, quantity, size, cakePrice)
 
         res.status(200).send(`Cake Added to Cart`)
     } catch(error){
@@ -87,12 +107,21 @@ const addCakeToCart =  async(req: AuthRequest, res:Response)=>{
 const getUserCart = async(req: AuthRequest, res:Response)=>{
     try {
         const userID = req.user?.userID;
+
+        const userInfo = await req.cookies.user
+
+        res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
     if(!userID){
-        res.status(401).json({error: "unauthorized. please log in"}).redirect("/login")
+        res.status(401).redirect("/cakemania.ng/users/login")
         throw Error(`User not logged in`)
     }
-    const userCart = await Cart.findOne({where:{userID: userID}})
-    return userCart
+    else{
+        const userCart = await Cart.findOne({where:{userID: userID}})
+
+        res.render('cart', { userCart , currentPage: 'cart'})
+
+    }
     } catch (error) {
         res.status(400).json({message: "Error getting cart"})
         console.log(error);
