@@ -8,11 +8,10 @@ interface AuthRequest extends Request {
   }
 
 
-async function addToCart(cartID: string, userId: string, cakeId : string, cakeQuantity: number, size: string, cakePrice: string){
+async function addToCart(cartID: string, userId: string, cakeId : string, cakeQuantity: any, size: string, cakePrice: string){
     try {
 
         let specifiedCake = await Cakes.findByPk(cakeId)
-
 
         if(!specifiedCake){
             throw new Error(`Cake not found`)
@@ -23,29 +22,38 @@ async function addToCart(cartID: string, userId: string, cakeId : string, cakeQu
         //cartItem checks that that specific cake has been added by a specific user
         
         let cartItem = await Cart.findOne({where: 
-            {cakeID: specifiedCake.dataValues.cakeID,
+            {cakeID: cakeId,
             userID:userId},
         })
-
-        console.log(cartItem)
 
         //If the cake is already in the cart, just increase the quantity
         if(cartItem){
 
-            cartItem.dataValues.quantity += cakeQuantity;
+            cartItem.dataValues.quantity  = cartItem.dataValues.quantity+ parseInt(cakeQuantity);
 
-            console.log(cakeQuantity)
 
             let tempPrice = parseInt(cakePrice.replace(/,/g, '')) * cartItem.dataValues.quantity;
 
+            cartItem.dataValues.price = tempPrice.toLocaleString(); 
             
+            // cartItem.set({
+                
+            //     quantity: cartItem.dataValues.quantity,
+            //     price: cartItem.dataValues.price,
+            // })
 
-            cartItem.dataValues.price = tempPrice.toLocaleString(); // Format price with commas
-            await cartItem.save();
+            console.log(cartItem)
+
+            await Cart.update({ quantity: cartItem.dataValues.quantity, price: cartItem.dataValues.price }, {
+                where: {
+                  cakeID: cakeId,
+                  userID: userId
+                },
+              });
         
         } else{
 
-            let tempcartPrice = parseFloat(cakePrice.replace(/,/g, ''))
+            let tempcartPrice = parseInt(cakePrice.replace(/,/g, '')) * cakeQuantity
 
             let cartPrice = tempcartPrice.toLocaleString(); // Format price with commas
 
@@ -66,12 +74,6 @@ async function addToCart(cartID: string, userId: string, cakeId : string, cakeQu
     }
 }
 
-/*
-req: AuthRequest
-const userID = req.user?.userID;
-const userID = req.cookies.token
-*/
-
 
 const addCakeToCart =  async(req: AuthRequest, res:Response)=>{
     try{ 
@@ -86,6 +88,7 @@ const addCakeToCart =  async(req: AuthRequest, res:Response)=>{
         }
         const cakeID = req.params.id
         const quantity = req.body.quantity
+
         const size = req.body.size
 
         const specificCake = await Cakes.findByPk(cakeID)

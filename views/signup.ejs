@@ -1,6 +1,5 @@
 <%- include('./includes/header.ejs') %>
 
-
 <div class="signup-container">
     <div class="bkground-img">
         <form action="/cakemania.ng/users/signup" method="post">
@@ -11,30 +10,37 @@
             <% } %>
 
             <% if (successMessage) { %>
-                <div class="success-message"><%=successMessage%> <a href="/cakemania.ng/users/login">here</a></div>
+                <div class="success-message"><%= successMessage %> <a href="/cakemania.ng/users/login">here</a></div>
             <% } %>
 
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" required>
+            <div class="row">
+              <div class="col">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" class="form-control" required>
 
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" required>
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" class="form-control" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+              </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+              <div class="col">
+                    <label for="phoneNo">Phone Number:</label>
+                    <input type="tel" id="phoneNo" name="phoneNo" class="form-control" required>
+                    
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
 
-            <label for="password">Confirm Password:</label>
-            <input type="password" id="passwordConfirm" name="passwordConfirm" required>
+                    <label for="passwordConfirm">Confirm Password:</label>
+                    <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Sign Up</button>
 
-            <label for="phoneNo">Phone Number:</label>
-            <input type="tel" id="phoneNo" name="phoneNo" required>
-
-            <button type="submit">Sign Up</button>
-        </form>
+            </div>
+          </form>
     </div>
 </div>
 
-<%- include('./includes/footer.ejs') %>
+
+
