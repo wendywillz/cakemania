@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction} from 'express';
-import { findAllCakes, getCakeById, getCakesByCategory } from '../controller/cakecontroller';
+import { findAllCakes, getCakeById, getCakesByCategory, filterCakesByPrice } from '../controller/cakecontroller';
 import { authorize } from '../middleware/authorize';
 // const express = require('express');
 const router = express.Router();
@@ -8,6 +8,9 @@ const router = express.Router();
 router.get('/', findAllCakes )
 
 router.get('/category/:categoryid', getCakesByCategory )
+
+// Define the route for filtering cakes by price
+router.post('/cakemania.ng/filterByPrice', filterCakesByPrice);
 
 router.get('/details/:id', getCakeById )
 

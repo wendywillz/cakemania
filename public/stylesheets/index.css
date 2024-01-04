@@ -17,11 +17,33 @@ nav {
   
 }
 
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.badge-warning[href] {
+  background-color: #c67605;
+}
+#cart-count{
+    font-size: 12px;
+    background: #ff0000;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -10px; 
+}
+
 /* landing page styles*/
 
 .img-fluid-contained{
   object-fit: contain;
 }
+
+
 
 .cake-container {
   position: relative;
@@ -41,9 +63,7 @@ nav {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(rgba(255, 232, 214, 0.3), rgba(255, 232, 214, 0.3));
-  /* background-color: rgba(206, 207, 209, 0.5);  */
-  /* Adjust the alpha (last value) for transparency */
+  background-color: rgba(236, 239, 244, 0.5); /* Adjust the alpha (last value) for transparency */
 }
 
 .overlay .row {
@@ -54,10 +74,10 @@ nav {
 /* Additional styles for overlay text and button  */
 .overlay h1,
 .overlay p
-{
-  color: #fff; 
-  font-family:  'Great Vibes', cursive;
-  font-size: 2em;
+ {
+    color: #fff; 
+    font-family:  'Great Vibes', cursive;
+    font-size: 4em;
 }
 
 
@@ -79,6 +99,7 @@ nav {
 .category-desc { 
   font-family: 'Great Vibes', cursive;
   font-size: 2.5em;
+  text-shadow: 0 0.3em 8px rgba(0, 0, 0, 0.4);
 }
 
 .card-content {
@@ -125,8 +146,9 @@ nav {
 }
 
 .product-card {
-  margin-bottom: 20px;
+  margin-bottom: 3em;
   transition: all 0.3s ease-in-out;
+  box-shadow: 0 0.7em 10px rgba(0, 0, 0, 0.2);
 }
 
 .product-card:hover {
@@ -137,6 +159,7 @@ nav {
 .product-card:hover .add-to-cart-btn {
   display: block;
 }
+
 
 .add-to-cart-btn {
   display: none;
