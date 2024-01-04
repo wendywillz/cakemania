@@ -41,12 +41,12 @@ Cart.init({
     },
     size: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 1,
     },
     price: {
         type: DataTypes.STRING,
@@ -57,7 +57,7 @@ Cart.init({
 }, 
 {
     sequelize,
-    modelName: "cart"
+    modelName: "Cart"
 })
 
 Cart.belongsTo(Cakes, {foreignKey: 'cakeID'})
