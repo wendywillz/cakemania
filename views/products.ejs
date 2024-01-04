@@ -35,7 +35,13 @@
                                     <p class="card-text"><%= cake.description %></p>
                                     <p class="card-text">Price: ₦<%= cake.price%></p>
                                 </div>
-                                <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
+                                <div class="add-to-cart-btn btn btn-success">
+                                        <form action="/cakemania.ng/users/cart/<%=cake.cakeID%>" method="post">
+                                            <input type="hidden">
+                                            <button type="submit" class="btn btn-success">Add to Cart</button>
+                                        
+                                        </form>
+                                </div>
                             </div>
                         </div>
                     <% }) %>
