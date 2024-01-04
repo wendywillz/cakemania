@@ -1,6 +1,7 @@
 import { RequestHandler, Request, Response } from 'express';
 import Cakes from '../models/cakemodel'; // Import cake models
 import { ZodError } from 'zod';
+import { Op } from 'sequelize';
   
 import { validationSchemas } from '../validation/validate';
 
@@ -12,6 +13,12 @@ interface AuthRequest extends Request {
   user?: { userID: string, isAdmin: boolean }; // Add the user property
 }
 
+// Define the interface for the AJAX request body (price filtering functionality)
+interface FilterRequest extends Request {
+  body: {
+    priceRange: number;
+  };
+}
 
 export const findAllCakes: RequestHandler = async (req: Request, res: Response) => {
   try {
@@ -64,7 +71,6 @@ export const getCakeById: RequestHandler = async (req: Request, res: Response) =
 
 export const getCakesByCategory: RequestHandler = async (req: Request, res: Response) => {
 
-
   try {
     const categoryID = req.params.categoryid;
 
@@ -94,3 +100,35 @@ export const getCakesByCategory: RequestHandler = async (req: Request, res: Resp
 };
 
 
+
+export const filterCakesByPrice: RequestHandler = async (req: FilterRequest, res: Response) => {
+  try {
+    const { priceRange } = req.body;
+
+    const userInfo = await req.cookies.user;
+    res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
+    // Implement logic to filter cakes based on the price range
+    const filteredCakes = await Cakes.findAll({
+      where: {
+        price: {
+          [Op.lte]: priceRange, // Assuming you want cakes with price less than or equal to the selected range
+        },
+      },
+    });
+
+
+  
+    // Render the filtered cakes on the page
+    res.status(200).render('products', { cakes: filteredCakes, currentPage: 'products' });
+  } catch (error) {
+    handleControllerError(error, res);
+  }
+};
+
+
+ // Helper function to handle errors in the controller
+const handleControllerError = (error: any, res: Response) => {
+  console.error('Error in controller:', error);
+  res.status(500).json({ message: 'Internal Server Error', error });
+};
