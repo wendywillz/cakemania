@@ -4,6 +4,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan'
 import bodyParser from 'body-parser'
+import multer from "multer"
 import {config} from 'dotenv'
 import sequelize from './database.config';
 import methodOverride from 'method-override'
@@ -20,6 +21,7 @@ import cakeRouter from './routes/cakes'
 import categoryRouter from './routes/cat'
 
 config()
+const upload = multer({ dest: 'uploads/' })
 const app = express();
 const api = process.env.API_URL
 

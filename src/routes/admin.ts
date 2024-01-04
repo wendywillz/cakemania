@@ -1,4 +1,6 @@
 import express, { Request, Response, NextFunction} from 'express';
+import multer from "multer"
+import path from 'path'
 
 import { signup, login, editUser, deleteUser } from '../controller/usercontroller';
 import {addCategory, getAllCategories, getCategory, removeCategory, editCategory, getEditCategory } from "../controller/categorycontroller"
@@ -7,6 +9,24 @@ import { authorize, adminAuthorization, noCache } from '../middleware/authorize'
 
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/data/uploads')
+    },
+    filename: (req, file, cb) => {
+        console.log(file)
+        const uniqueFilename = `${file.fieldname}-${Date.now()}-${path.extname(file.originalname)}`;
+
+        cb(null, uniqueFilename)
+
+    }
+})
+
+const upload = multer( { storage: storage})
+
+
+
 
 router.use(authorize)
 router.use(adminAuthorization)
@@ -37,7 +57,7 @@ router.get('/categories/add-cat', function(req, res, next) {
     res.render('admin/add-cat', { currentPage: 'add-cake', successMessage: null, message: null });
 });
 
-router.post('/categories/add-cat', addCategory)
+router.post('/categories/add-cat', upload.single('categoryImage'), addCategory)
 
 router.get('/categories/edit-cat/:id', getEditCategory)
 
