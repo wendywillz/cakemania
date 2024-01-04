@@ -6,7 +6,7 @@ import Cakes from "./cakemodel"
 
 interface categoryAtrributes{
     categoryName: string,
-    categoryID: number,
+    categoryID: number|null,
     categoryImage: string
 }
 
@@ -26,11 +26,9 @@ Categories.init({
 
     },
     categoryImage: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING, 
         allowNull: false,
-
-    },
-
+      },
 }, {
     sequelize,
     modelName: 'Categories'

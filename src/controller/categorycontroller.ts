@@ -4,6 +4,7 @@ import { validationSchemas } from "../validation/validate";
 import { ZodError, z } from "zod";
 
 
+
 const { signupSchema, loginSchema, cakeSchema, categorySchema, orderItemsSchema, orderSchema } = validationSchemas;
 
 interface AuthRequest extends Request {
@@ -44,10 +45,15 @@ const addCategory = (async(req:Request , res:Response )=> {
 
   try {
 
+    console.log(req.body)
+    console.log(req.file)
+
     const validation = categorySchema.parse(req.body);
 
-    const {categoryName, categoryImage} = validation
 
+    const { categoryName } = validation
+    const categoryImage = req.file?.filename
+ 
     const existingCategory = await Categories.findOne({
         where: {
             categoryName: categoryName
@@ -57,8 +63,17 @@ const addCategory = (async(req:Request , res:Response )=> {
         res.render('admin/add-cat', { message: "Category already exists", successMessage: ''})
     }
 
+    if( req.file === undefined){
+      res.json({ message: "No file uploaded"})
+    }
+
     else{
-      const newCategory = await Categories.create(req.body)
+
+      const newCategory = await Categories.create({
+        categoryName: categoryName,
+        categoryImage: req.file.filename
+      });
+
       res.render('admin/add-cat', { successMessage: "Category has been successfully added", message: ''})
       // res.redirect('/cakemania.ng/admin/categories')
 

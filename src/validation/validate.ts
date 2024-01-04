@@ -155,11 +155,11 @@ const categorySchema = z.object({
         required_error: "name is required",
         invalid_type_error: "name needs to be a string",
     }).max(50),
-    categoryID: z.number().nullish(),
-    categoryImage: z.string({
-      required_error: "cake image is required",
-      invalid_type_error: "image needs to be a url string",
-  }).url()
+    categoryID: z.number().nullable().optional()
+  //   categoryImage: z.string({
+  //     required_error: "cake image is required",
+  //     invalid_type_error: "image needs to be a url string",
+  // }).url()
 })
 
 const orderItemsSchema = z.object({
