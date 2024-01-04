@@ -28,23 +28,37 @@
 
         <!-- Right Column - Delivery Details and Quantity -->
         <div class="col-md-4 delivery-container">
+
+          <form action="/cakemania.ng/users/cart/<%=cake.cakeID%>" method="post">
             <div class="delivery-details mb-5">
-                <p>Delivery details go here.</p>
+              <p>Delivery details go here.</p>
             </div>
-            
+          
             <p class="mt-2">Quantity</p>
-            <!-- Quantity Adjustment -->
+          <!-- Quantity Adjustment -->
+
+
+          <input class="form-control"  id="quantity" name="quantity" type="number" value="1">
+
             <div class="quantity-container">
-                <i class="bi bi-dash quantity-icon"></i>
-                <span class="quantity">1</span>
-                <i class="bi bi-plus quantity-icon"></i>
+              <i class="bi bi-dash quantity-icon" onclick="decrementQuantity()"></i>
+              
+              <span name="quantityDisplay" id="quantityDisplay" class="quantity">1</span>
+
+              <i class="bi bi-plus quantity-icon" onclick="incrementQuantity()"></i>
+           </div>
+
+          <!-- Buy Now and Add to Cart Buttons -->
+            <div class="d-grid gap-2"> 
+              <button class="btn btn-secondary buy-now-btn">Add to Cart Button</button><br>
             </div>
 
-            <!-- Buy Now and Add to Cart Buttons -->
             <div class="d-grid gap-2"> 
-                <button class="btn btn-info buy-now-btn btn-block">Buy Now</button>
-                <button class="btn btn-secondary buy-now-btn">Add to Cart Button</button><br>
+            <button class="btn btn-info buy-now-btn btn-block">Buy Now</button>
             </div>
+
+          </form> 
+            
         </div>
     </div>
 </div>
