@@ -1,3 +1,7 @@
+:root {
+  --custom-background-color: rgb(120, 91, 16);
+  --custom-box-shadow: 0 0.7em 10px rgba(0, 0, 0, 0.2);
+}
 
 body{
     color: #fff;
@@ -5,9 +9,8 @@ body{
     padding-top: 0px;
 }
 
-
 nav #sidebarMenu{
-    background-color: #483b2c;
+    background-color: rgb(120, 91, 16);
     width: 100%;
     height: 100%;
    
@@ -16,11 +19,12 @@ nav #sidebarMenu{
 .admin-sidebar {
     width: 100%;
     height: 100%;
+    border-left: 0;
 }
 
-
 .admin-content, .sales, .orders, .admin-sidebar {
-    background-color: #483b2c;
+    background-color:  rgb(120, 91, 16);
+    box-shadow: 0 0.7em 10px rgba(0, 0, 0, 0.2);
 }
 
 .nav-item a {
@@ -84,4 +88,15 @@ table{
     margin-bottom: 20px;
     border-radius: 50px;
     animation: animateMe 0.6s forwards;
+  }
+
+ 
+  .add-cake-form{
+    background-color: var(--custom-background-color);
+    box-shadow: var(--custom-box-shadow);
+  }
+
+  .cake-container {
+    background-color: var(--custom-background-color);
+    box-shadow: var(--custom-box-shadow);
   }

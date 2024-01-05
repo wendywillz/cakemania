@@ -6,16 +6,7 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Dashboard</h1>
-      <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-          <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-          <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-        </div>
-        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-          <span data-feather="calendar"></span>
-          This week
-        </button>
-      </div>
+     
     </div>
 
     <div class="container pt-4 px-4">
@@ -23,7 +14,7 @@
           <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12">
               <form action="/cakemania.ng/admin/categories/edit-cat/<%=category.categoryID%>?_method=PUT" method="post"> 
 
-                  <div class="bg-secondary rounded h-100 p-4">
+                  <div class="cake-container rounded h-100 p-4">
                       <h3 class="mb-4">Edit Category</h3>
 
                       <div class="mb-3">
@@ -36,8 +27,6 @@
                           <input type="text" placeholder="Enter image url" class="form-control" id="categoryImage" name="categoryImage" value="<%= category.categoryImage%>">
                       </div>
 
-  
-                      
   
                       <button type="submit" class="btn btn-primary">Submit</button>
                   </div>

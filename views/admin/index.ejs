@@ -55,7 +55,6 @@
                             
                             <thead>
                                 <tr class="text-white">
-                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Category</th>
                                     <th scope="col">Price</th>
@@ -65,7 +64,6 @@
                             <tbody>
                                 <% adminCakes.slice(0, 3).forEach(cakes => { %>
                                 <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
                                     <td><%= cakes.cakeName%></td>
                                     
                                     <td><%= cakes.category%></td>
@@ -98,7 +96,6 @@
                             
                             <thead>
                                 <tr class="text-white">
-                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Category ID</th>
                                     <th scope="col"></th>
@@ -107,7 +104,6 @@
                             <tbody>
                                 <% categories.slice(0, 3).forEach(category => { %>
                                 <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
                                     <td><%= category.categoryName%></td>
                                     <td><%= category.categoryID%></td>
                                     
@@ -150,7 +146,6 @@
                 <table class="table text-start align-middle table-bordered table-hover mb-0 orders">
                     <thead>
                         <tr class="text-white">
-                            <th scope="col"><input class="form-check-input" type="checkbox"></th>
                             <th scope="col">Date</th>
                             <th scope="col">Invoice</th>
                             <th scope="col">Customer</th>
@@ -161,7 +156,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input class="form-check-input" type="checkbox"></td>
                             <td>01 Jan 2045</td>
                             <td>INV-0123</td>
                             <td>Jhon Doe</td>
@@ -182,9 +176,7 @@
 
 
 
-
 <%- include('../includes/admin-footer.ejs') %>
-
 
         <!-- <div>
         <p>Hi <%= admin.firstName %></p>
