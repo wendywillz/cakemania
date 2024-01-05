@@ -31,124 +31,30 @@
            
            
             <div class="row">
+                <% cakes.forEach(cake => { %>
+
+                    <div class="col-md-3">
+                        <div style="height: 550px;" class="card product-card position-relative">
+                            <a href="/cakemania.ng/cakes/details/<%= cake.cakeID %>">
+                                <img style="height: 300px;" src="<%= cake.image %>" class="card-img-top img-fluid" alt="Cake Image">
+                            </a>
+                            
+                            <div class="card-body">
+                                <h5 class="card-title"><%= cake.cakeName.slice(0, 20)%></h5>
+                                <p class="card-text"><%= cake.description.slice(0, 50) %></p>
+                                <p class="card-text">₦<%= cake.price %></p>
+                            </div>
+    
+                            <div class="add-to-cart-btn btn btn-success"><a style="text-decoration: none; color: white;" href="/cakemania.ng/cakes/details/<%= cake.cakeID %>">Add to Cart</a>
+                                </div>
+                        </div>
+                    </div>
+
+                 
+                <% }) %>
                
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
-                <div class="col-md-3">
-                    <div class="card product-card position-relative">
-                        <img src="./images/cupcake.jpeg" class="card-img-top img-fluid" alt="Cake Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Cake Name</h5>
-                            <p class="card-text">Short description of the cake.</p>
-                            <p class="card-text">Price: $19.99</p>
-                        </div>
-
-                        <div class="add-to-cart-btn btn btn-success">Add to Cart</div>
-                    </div>
-                </div>
-              
+                
+    
 
             </div>
         </div>

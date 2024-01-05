@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction} from 'express';
 
 import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteUser, getUserOrders } from '../controller/usercontroller';
 
-import { getUserCart, addCakeToCart } from '../controller/cartcontroller';
+import { getUserCart, addCakeToCart, changeCartQuantity, removeCakeFromCart } from '../controller/cartcontroller';
 
 import { authorize, noCache } from '../middleware/authorize';
 
@@ -30,7 +30,12 @@ router.get('/profile', authorize, noCache, getUserDashboard  )
 
 router.get('/cart', authorize, noCache, getUserCart )
 
-router.post('/cart/:id', authorize, addCakeToCart )
+router.put('/cart/:id', authorize, noCache, changeCartQuantity )
+
+router.post('/cart', authorize, noCache )
+
+
+
 
 router.get('/profile/edit/:id', authorize, noCache, getEditUser )
 

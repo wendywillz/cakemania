@@ -6,68 +6,53 @@
    
    <!-- Your page content goes here -->
    <div class="container mt-5 mb-5">
+
+
     <div class="row">
         <div class="col-md-8 "> <!-- col-md-8 to align to the left -->
             <div class="container main-cart-contents rounded-3">
+
                 <div class="row">
                     <div class="col-md-12 mt-4 mb-4">
-                        <h3>Shopping Cart (2)</h3>
+                        <h3>Shopping Cart (<%= userCart.length %>) </h3>
                     </div>
                 </div>
+
+                <% userCart.forEach(item => { %>
                 <div class="row">
                     <div class="col-md-3">
-                        <img src="./images/chrismas-cake.jpeg" alt="Product Image" class="product-image img-fluid rounded-3">
+                        <img src="<%= item.Cake.dataValues.image %>" alt="Product Image" class="product-image img-fluid rounded-3">
                     </div>
                     <div class="col-md-9">
-                      <div class="col-12">  Product long description talks a lot about the products it's uses vvvrvrv rv... <span class="float-end"> <i class="bi bi-trash"></i> </span> </div>
+                        <h2><%= item.Cake.dataValues.cakeName %></h2>
+                      <div class="col-12"> <%= item.Cake.dataValues.description %><span class="float-end"> <i class="bi bi-trash"></i> </span> </div>
                         <div class= "col-12  clearfix">
-                            <p  class="float-start mt-4"> #3,000  </p>
+                            <p  class="float-start mt-4"> <%= item.price %> </p>
                             <div class="quantity-container float-end mt-4">
+                                <form action="/cakemania.ng/users/cart/<%=item.cakeID%>?_method=PUT" method="post">
+                                    <input class="form-control d-none"  id="quantity" name="quantity" type="number" value="1">
+
+
+                                    <i onclick="decrementQuantity()" class="bi bi-dash quantity-icon"></i> &nbsp;
+
+                                    <span id="quantityDisplay" class="quantityDisplay"><%= item.quantity %></span> 
+                                    
+                                    &nbsp;
+                                    <i onclick="incrementQuantity()" class="bi bi-plus quantity-icon"></i>
+
+                                    <button style=" color: white; background-color: #483b2c;"  type="submit" class="btn">
+                                        confirm
+                                    </button>
+                                </form>
         
-                                <i class="bi bi-dash quantity-icon"></i> &nbsp;
-                                <span class="quantity">1</span> &nbsp;
-                                <i class="bi bi-plus quantity-icon"></i>
+                                
                             </div>
                         </div>    
                     </div> 
                 </div> <!--End div class row for cart item-->
                 <hr> 
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="./images/chrismas-cake.jpeg" alt="Product Image" class="product-image img-fluid rounded-3">
-                    </div>
-                    <div class="col-md-9">
-                    <div class="col-12">  Product long description talks a lot about the products it's uses vvvrvrv rv... <span class="float-end"> <i class="bi bi-trash"></i> </span> </div>
-                        <div class= "col-12  clearfix">
-                            <p  class="float-start mt-4"> #3,000  </p>
-                            <div class="quantity-container float-end mt-4">
-        
-                                <i class="bi bi-dash quantity-icon"></i> &nbsp;
-                                <span class="quantity">1</span> &nbsp;
-                                <i class="bi bi-plus quantity-icon"></i>
-                            </div>
-                        </div>    
-                    </div> 
-                </div> <!--End div class row for cart item-->
-                <hr> 
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="./images/chrismas-cake.jpeg" alt="Product Image" class="product-image img-fluid rounded-3">
-                    </div>
-                    <div class="col-md-9">
-                      <div class="col-12">  Product long description talks a lot about the products it's uses vvvrvrv rv... <span class="float-end"> <i class="bi bi-trash"></i> </span> </div>
-                            <div class= "col-12  clearfix">
-                                <p  class="float-start mt-4"> #3,000  </p>
-                                <div class="quantity-container float-end mt-4">
-            
-                                    <i class="bi bi-dash quantity-icon"></i> &nbsp;
-                                    <span class="quantity">1</span> &nbsp;
-                                    <i class="bi bi-plus quantity-icon"></i>
-                                </div>
-                            </div>    
-                    </div> 
-                </div> <!--End div class row for cart item-->
-                <hr> 
+            <% }); %>
+                
              
             </div> <!--End div class container-->
         </div> <!--End div class col-md-8 left container shopping cart items -->
@@ -84,13 +69,15 @@
                     <div class="col-md-12 cart-div">
                         <h3> Summary </h3>
                         <div>
-                            <p> Subtotal: <span class="float-end"> #3,000 </span> </p>
-                            <p> Shipping: <span class="float-end"> #0 </span> </p>
-                            <p> Total: <span class="float-end"> #3,000 </span> </p>
+                            <p> Subtotal: <span class="float-end">
+                                ₦<%= totalPrice %>
+                         </span> </p>
+                            <p> Shipping: <span class="float-end"> ₦0 </span> </p>
+                            <p> Total: <span class="float-end"> ₦<%= totalPrice %> </span> </p>
                         </div>
 
                         <div class="d-grid gap-2 mb-4">
-                            <button class="btn btn-info buy-now-btn rounded-3">Checkout (2)</button>
+                            <button class="btn btn-info buy-now-btn rounded-3">Checkout (<%= userCart.length %>)</button>
                         </div>
                         
                     </div>
@@ -99,3 +86,154 @@
         </div>
     </div>
 </div> <!-- End of main-cart-contents div -->
+
+<footer>
+    <div class="container-fluid footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <h4>Contact Us</h4>
+            <p>Email: info@example.com</p>
+            <p>Phone: +1 (123) 456-7890</p>
+          </div>
+          <div class="col-md-5 payment mb-3">
+            <h4>Accepted Payments</h4>
+            <div class="payment-icons">
+              <i class="bi bi-credit-card-fill"></i>
+              <i class="bi bi-paypal"></i>
+            </div>
+          </div>
+          <div class="col-md-4 mb-5">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <i class="bi bi-facebook"></i>
+              <i class="bi bi-twitter"></i>
+              <i class="bi bi-instagram"></i>
+              <i class="bi bi-linkedin"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="container-fluid text-center py-2">
+      <p>&copy; <span id="currentYear"></span> cakemania. All rights reserved.</p>
+    </div>
+  </footer>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Function to get the current year and update the span element
+    function getCurrentYear() {
+      var currentYear = new Date().getFullYear();
+      document.getElementById('currentYear').textContent = currentYear;
+    }
+  
+    // Call the function on page load
+    window.onload = getCurrentYear;
+  </script>
+
+    <script>
+
+        let counter = 1
+
+        function incrementQuantity() {
+
+            const quantity = document.getElementById('quantityDisplay')
+
+            if( counter >= 1 ){
+                counter ++
+                quantity.innerHTML = counter
+
+                updateQuantity()
+            }
+        }
+
+        function decrementQuantity() {
+
+            let quantity = document.getElementById('quantityDisplay')
+
+            if (counter > 1) {
+                counter --
+                quantity.innerHTML = counter;
+
+                updateQuantity()
+            }
+        }
+
+        function updateQuantity() {
+
+            const spanQuantity = document.getElementById('quantityDisplay')
+
+            const inputQuantity = document.getElementById('quantity')
+
+            inputQuantity.value = spanQuantity.innerHTML
+    
+            }
+
+
+    </script>
+
+
+
+<!-- This functionality adds real time changes to the cart counter on the navbar -->
+<script>
+    // Function to handle the "Add to Cart" button click
+    const addToCart = async (cakeId) => {
+        try {
+            // Make an Ajax request to add the cake to the cart
+            const response = await fetch(`/cart/${cakeId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin', // Include cookies in the request
+            });
+
+            if (response.ok) {
+                // Successfully added to the cart
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    // Update the cart count on the page
+                    const currentCount = parseInt(cartCountElement.innerText, 10) || 0;
+                    cartCountElement.innerText = (currentCount + 1).toString();
+                }
+            } else {
+                // Handle error (you may customize this based on your needs)
+                console.error('Failed to add to cart:', response.statusText);
+            }
+        } catch (error) {
+            // Handle network or other errors
+            console.error('Error adding to cart:', error.message);
+        }
+    };
+
+    // Example: Attach the addToCart function to the "Add to Cart" button click
+    document.getElementById('add-to-cart-button').addEventListener('click', () => {
+        const cakeId = 'replace_with_actual_cake_id'; // Replace with the actual cake ID
+        addToCart(cakeId);
+    });
+</script>
+
+
+<!--- Live  Chat integration  -->
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6596cc850ff6374032bc6c17/1hjagtr42';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
+  
+  </body>
+  </html>
+  
+
