@@ -28,8 +28,10 @@ export const findAllCakes: RequestHandler = async (req: Request, res: Response) 
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
     
     const cakes = await Cakes.findAll();
-    res.status(200).json({ status: 'success', cakes  });
-  } catch (error) {
+
+    res.render('all-products', { cakes, currentPage: "index"})
+  } 
+  catch (error) {
     if (error instanceof ZodError) {
       const formattedErrors = error.errors.map((err) => ({
         path: err.path.join('.'),
@@ -61,7 +63,7 @@ export const getCakeById: RequestHandler = async (req: Request, res: Response) =
     }
 
     // res.status(200).json({ status: 'success', cake });
-    res.status(200).render('product-detail', { cake, currentPage: "product-detail" })
+    res.status(200).render('product-detail', { cake, currentPage: "product-detail", successMessage: null })
   } catch (error) {
     console.error('Error fetching cake:', error);
     res.status(500).json({ message: 'Failed to fetch cake', error });

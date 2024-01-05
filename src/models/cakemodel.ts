@@ -3,8 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import sequelize from "../database.config";
 import Users from "./usermodel";
 import Categories from "./categoryModel";
-
-
+import Cart from "./cartmodel";
 
 
 
@@ -98,6 +97,9 @@ Cakes.init({
 })
 
 console.log(Cakes === sequelize.models.Cakes)
+
+// Cakes.hasMany(Cart, { foreignKey: 'cakeID' });
+// Cakes.belongsTo(Users, { foreignKey: 'userID' });
 
 
 export default Cakes
