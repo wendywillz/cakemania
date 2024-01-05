@@ -7,9 +7,7 @@ body {
   background-color: #ffe8d6;
   font-family: 'Poppins', sans-serif;
   padding-top: 90px;
-
 }
-
 
 nav {
   background-color: #ffe8d6;
@@ -43,12 +41,10 @@ nav {
   object-fit: contain;
 }
 
-
-
 .cake-container {
   position: relative;
   width: 100%;
-  height: 45vh;
+  height: 50vh;
   background: url("../images/cake.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -80,6 +76,9 @@ nav {
     font-size: 4em;
 }
 
+.carousel-caption {
+  margin-bottom: 6em;
+}
 
 .shop-btn {
   background-color: #a86e44;
@@ -160,6 +159,9 @@ nav {
   display: block;
 }
 
+.category-card { /* card that displays categories on index page */
+  box-shadow: 0 0.7em 10px rgba(0, 0, 0, 0.2);
+}
 
 .add-to-cart-btn {
   display: none;

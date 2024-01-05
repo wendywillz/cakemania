@@ -2,45 +2,53 @@
 
 <div class="signup-container">
     <div class="bkground-img">
-        <form action="/cakemania.ng/users/signup" method="post">
-            <h2>Sign Up</h2>
+        <form action="/cakemania.ng/users/signup" method="post" class="container">
+
+            <h2 class="text-center">Sign Up</h2>
 
             <% if (message) { %>
-                <div class="error-message"><%= message %></div>
+                <div class="error-message text-center"><%= message %></div>
             <% } %>
 
             <% if (successMessage) { %>
-                <div class="success-message"><%= successMessage %> <a href="/cakemania.ng/users/login">here</a></div>
+                <div class="success-message text-center"><%= successMessage %> <a href="/cakemania.ng/users/login">here</a></div>
             <% } %>
 
             <div class="row">
-              <div class="col">
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" class="form-control" required>
+                <div class="col-6">
+                    <label for="firstName" class="form-label">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" class="form-control" required>
+                </div>
 
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" class="form-control" required>
+                <div class="col-6">
+                    <label for="lastName" class="form-label">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" class="form-control" required>
+                </div>
 
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" class="form-control" required>
-              </div>
+                <div class="col-6">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
 
-              <div class="col">
-                    <label for="phoneNo">Phone Number:</label>
+                <div class="col-6">
+                    <label for="phoneNo" class="form-label">Phone Number:</label>
                     <input type="tel" id="phoneNo" name="phoneNo" class="form-control" required>
-                    
-                    <label for="password">Password:</label>
+                </div>
+
+                <div class="col-6">
+                    <label for="password" class="form-label">Password:</label>
                     <input type="password" id="password" name="password" class="form-control" required>
+                </div>
 
-                    <label for="passwordConfirm">Confirm Password:</label>
+                <div class="col-6">
+                    <label for="passwordConfirm" class="form-label">Confirm Password:</label>
                     <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" required>
-              </div>
-              <button type="submit" class="btn btn-primary">Sign Up</button>
+                </div>
 
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </div>
             </div>
-          </form>
+        </form>
     </div>
 </div>
-
-
-
