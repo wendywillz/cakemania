@@ -60,6 +60,11 @@ form {
   color: black;
 }
 
+.form-floating{
+  box-shadow: 0 0 10px rgba(37, 37, 37, 0.1);
+  
+}
+
 h2{
   text-align: center;
   margin-bottom: 24px;
@@ -70,13 +75,16 @@ h2{
 label {
   display: block;
   margin-bottom: 8px;
+  background: none;
 }
+
 
 input {
   width: 100%;
   padding: 8px;
   margin-bottom: 16px;
   box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(37, 37, 37, 0.1);
 }
 
 button {

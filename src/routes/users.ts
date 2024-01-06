@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction} from 'express';
 
-import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteUser, getUserOrders } from '../controller/usercontroller';
+import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteUser, getUserOrders, getOrdersPage } from '../controller/usercontroller';
 
 import { getUserCart, addCakeToCart, changeCartQuantity, removeCakeFromCart } from '../controller/cartcontroller';
 
@@ -34,6 +34,7 @@ router.put('/cart/:id', authorize, noCache, changeCartQuantity )
 
 router.post('/cart', authorize, noCache )
 
+router.get('/my-orders', authorize, getOrdersPage)
 
 
 
@@ -43,6 +44,7 @@ router.put('/profile/edit/:id', authorize, noCache, editUser)
 
 
 router.get('/profile/orders', authorize, noCache, getUserOrders  )
+
 
 
 
