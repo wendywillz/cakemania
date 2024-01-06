@@ -254,6 +254,17 @@ export async function deleteUser(req:Request, res:Response, next:NextFunction) {
     }
 };
 
+export async function getOrdersPage(req:AuthRequest, res:Response, next:NextFunction) {
+  try {
+    // res.json({ status: "successful", message: "welcome customer"})
+    res.render('orders', { currentPage: 'index'})
+     
+      
+  } catch (error) {
+      res.status(500).json({ message: 'server error'})
+  }
+}; 
+
 export async function getUserOrders(req:AuthRequest, res:Response, next:NextFunction) {
   try {
 
