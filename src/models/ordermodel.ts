@@ -1,5 +1,8 @@
 import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
 import sequelize from "../database.config" 
+import Users from "./usermodel";
+import Cart from "./cartmodel";
+import { v4 as uuidv4 } from 'uuid';
 
 //could change the path to the config file
 // import Items from "./itemModel"
@@ -7,8 +10,10 @@ import sequelize from "../database.config"
 // import  Cakes  from "./cakemodel"
 
 interface orderAtrributes{
-    orderID: number;
-    total: number;
+    orderID: string;
+    // carts: Cart[],
+    userID: string
+    total: string;
     status: string;
     deliveryPhoneNo: string;
     deliveryAddress: string;
@@ -24,13 +29,29 @@ export class Orders extends Model <orderAtrributes> {}
 
 Orders.init({
     orderID: {
-        type: DataTypes.UUID,
+        type: DataTypes.TEXT,
         allowNull: false,
+        defaultValue:()=>uuidv4(),
         primaryKey: true,
         autoIncrement: false
     },
+    // carts :{
+    //     type: DataTypes.ARRAY(DataTypes.UUID),
+    //     references: {
+    //         model: Cart,
+    //         key: 'cartID'
+    //     },
+    //     defaultValue: []
+    // },
+    userID: {
+        type: DataTypes.STRING,
+        references: {
+            model: Users,
+            key: 'userID'
+        },
+    },
     total: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.STRING,
         allowNull: false
     },
     status: {
@@ -63,9 +84,7 @@ Orders.init({
     modelName: "Orders"
 })
 
-// Orders.hasMany(Items, {as: "items", foreignKey: "orderId"})
-// Orders.hasMany(Cakes, {as: "cakes", foreignKey: "orderId"})
-//I think we shoud consider putting all the association in one document
+
 
 // Orders === sequelize.models.Orders
 
