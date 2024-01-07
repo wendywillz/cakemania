@@ -120,7 +120,9 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   
         const token = jwt.sign({ loginkey: user.dataValues.userID,
           isAdmin: user.dataValues.isAdmin }, secret, { expiresIn: "1h" }
-        );    
+        );
+        
+
         res.cookie('token', token, { httpOnly: true, secure: true });
         res.cookie('user', JSON.stringify({
           userID: user.dataValues.userID,
@@ -129,8 +131,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
           firstName: user.dataValues.firstName,
           lastName: user.dataValues.lastName,
         }), { httpOnly: true, secure: true });
-
-
+        
+        
         if(user.dataValues.isAdmin === true){
             // res.json({ status: "WELCOME ADMIN", token: token})
             res.redirect('/cakemania.ng/admin/dashboard')

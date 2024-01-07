@@ -32,6 +32,8 @@ router.get('/cart', authorize, noCache, getUserCart )
 
 router.put('/cart/:id', authorize, noCache, changeCartQuantity )
 
+router.delete('/cart/:id', authorize, noCache, removeCakeFromCart )
+
 router.post('/cart', authorize, noCache )
 
 router.get('/my-orders', authorize, getOrdersPage)

@@ -15,6 +15,10 @@
           <!-- Center Column - Product Information -->
           <div class="col-md-4">
             <div class="product-info">
+              <div class="product-name">
+                <p><%= cake.cakeName %></p>
+              </div>
+
               <div class="product-price">₦ <%= cake.price %></div>
               <div class="product-description">
                 <p><%= cake.description %></p>
@@ -29,7 +33,7 @@
         <!-- Right Column - Delivery Details and Quantity -->
         <div class="col-md-4 delivery-container">
           <% if (successMessage) { %>
-            <div class="success-message"><%= successMessage %></div>
+            <div id="successMessage" class="success-message"><%= successMessage %></div>
         <% } %>
 
           <form action="/cakemania.ng/cakes/details/<%=cake.cakeID%>" method="post">
@@ -50,7 +54,7 @@
 
           <!-- Buy Now and Add to Cart Buttons -->
             <div class="d-grid gap-2"> 
-              <button type="submit" class="btn btn-secondary buy-now-btn">Add to Cart Button</button><br>
+              <button onclick="window.location.reload" type="submit" class="btn btn-secondary buy-now-btn">Add to Cart Button</button><br>
             </div>
 
             <div class="d-grid gap-2"> 

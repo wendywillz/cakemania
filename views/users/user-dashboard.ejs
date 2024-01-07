@@ -12,21 +12,22 @@
             <div class="container user-account-contents rounded-3">
                 <div class="row">
                     <% user.forEach((user) => { %>
-                    <div class="col-sm-12 col-md-12 mb-3 mt-3"> <h3> Account Overview </h3> </div> <hr>
+                    <div class="col-sm-12 col-md-12 mb-3 mt-3"> 
+                        <h3 class="px-4"> Account Overview </h3> </div> <hr>
                        
                         <div class="address-box d-flex align-items-center">  
                             <div class="col-sm-12 col-md-6  mt-4 mb-4 summary-1 rounded-3">
-                                <h4> ACCOUNT DETAILS </h4> <hr>
+                                <h4 class="mt-4"> ACCOUNT DETAILS </h4> <hr>
                                 <p><%= user.firstName%> <%= user.lastName%> </p>
                                 <p><%= user.email%></p>
                                 <p>+<%= user.phoneNo%></p>
                             </div>
     
-                            <div class="col-sm-12 col-md-6 mt-4 mb-4 summary-2  rounded-3">
-                                <h4> ADDRESS BOOK 
+                            <div class="col-sm-12 col-md-6 mt-4 mb-4 summary-1  rounded-3">
+                                <h4 class="mt-4"> DELIVERY DETAILS 
                                     <span class="float-end">
                                         <a href="/cakemania.ng/users/profile/edit/<%=user.userID%>">
-                                            <i class="bi bi-pencil"></i> 
+                                            <i class="bi bi-pencil px-4"></i> 
                                         </a>  
                                     </span>
                                 </h4> <hr>

@@ -47,8 +47,6 @@ async function addToCart(cartID: string, userId: string, cakeId : string, cakeQu
             //     price: cartItem.dataValues.price,
             // })
 
-            console.log(cartItem)
-
             await Cart.update({ quantity: cartItem.dataValues.quantity, price: cartItem.dataValues.price }, {
                 where: {
                   cakeID: cakeId,
@@ -86,6 +84,10 @@ const addCakeToCart =  async(req: AuthRequest, res:Response)=>{
         const userInfo = await req.cookies.user
         res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
 
+        const userCart = await Cart.findAll({
+        where: { userID: JSON.parse(userInfo).userID},
+    })
+
         const userID = req.user?.userID;
         const { cartID} = req.body
 
@@ -109,7 +111,7 @@ const addCakeToCart =  async(req: AuthRequest, res:Response)=>{
 
         const cartItem = await addToCart(cartID, userID, cakeID, quantity, size, cakePrice)
 
-        res.render('product-detail', { successMessage: "cake added to cart", currentPage: "product-detail", cake })
+        res.render('product-detail', { successMessage: "cake added to cart", currentPage: "product-detail", cake, userCart })
     } catch(error){
         res.status(500).send(`Cake not added to Cart`)
     }
@@ -121,8 +123,12 @@ const getUserCart = async(req: AuthRequest, res:Response)=>{
         const userID = req.user?.userID;
 
         const userInfo = await req.cookies.user;
-
         res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
+        // const userCart = await Cart.findAll({
+        //     where: { userID: JSON.parse(userInfo).userID},
+        // })
+
 
         if (!userID) {
             res.status(401).redirect("/cakemania.ng/users/login");
@@ -134,29 +140,20 @@ const getUserCart = async(req: AuthRequest, res:Response)=>{
                 include: [Cakes] as any, // Cast include to any to prevent TypeScript error
             }) as CartWithCake[];
 
+
             const newPrice = userCart.reduce((total, cartItem) => {
-
-                console.log(cartItem.dataValues.price)
-                console.log(cartItem.dataValues.quantity)
-
-                return total + (parseInt(cartItem.dataValues.price.replace(/,/g, '')) * cartItem.dataValues.quantity);
+    
+                return total + (parseInt(cartItem.Cake.dataValues.price.replace(/,/g, '')) * cartItem.dataValues.quantity);
                 
-
-
             }, 0);
 
             const totalPrice = newPrice.toLocaleString()
 
-            userCart.forEach(cartItem => {
-            // console.log(cartItem)
-            // console.log(cartItem.Cake.dataValues)
-        })
-
 
             res.render('cart', { userCart, totalPrice, currentPage: 'cart' });
         
-    
     }
+
     } catch (error) {
         res.status(400).json({ message: "Error getting cart" });
         console.log(error);
@@ -173,16 +170,11 @@ async function changeCakeQuantity(cartID: string, userId: string, cakeId : strin
             throw new Error(`Cake not found`)
         }
  
-        // let cakePrice = specifiedCake.dataValues.price
-        
-        //cartItem checks that that specific cake has been added by a specific user
-        
         let cartItem = await Cart.findOne({where:
             {cakeID: cakeId,
             userID:userId},
         })
  
-        //If the cake is already in the cart, just increase the quantity
         if(cartItem){
  
             cartItem.dataValues.quantity  = parseInt(cakeQuantity);
@@ -192,13 +184,6 @@ async function changeCakeQuantity(cartID: string, userId: string, cakeId : strin
  
             cartItem.dataValues.price = tempPrice.toLocaleString();
             
-            // cartItem.set({
-                
-            //     quantity: cartItem.dataValues.quantity,
-            //     price: cartItem.dataValues.price,
-            // })
- 
-            console.log(cartItem)
  
             await Cart.update({ quantity: cartItem.dataValues.quantity, price: cartItem.dataValues.price }, {
                 where: {
@@ -251,28 +236,30 @@ const changeCartQuantity = async (req: AuthRequest, res:Response)=>{
  
 
 
-const removeCakeFromCart =  async(req: Request, res:Response)=>{
+const removeCakeFromCart =  async(req: AuthRequest, res:Response)=>{
     try{
-        const nameOfCake = req.body.cakeName
+
+        const cakeID = req.params.id
+        const userID = req.user?.userID
+
         
-        const specificCake = await Cakes.findOne({where: {cakeName:nameOfCake}})
-        if(!specificCake){
+        const specificItem = await Cart.findOne(
+            {where: {cakeID: cakeID,
+                    userID: userID
+            
+        }})
+        
+        if(!specificItem){
             throw new Error(`Cake not found`)
         }
 
-        const cakeid = specificCake.dataValues.cakeID
+        else{
+            await specificItem.destroy()
 
-        let cartItem = await Cart.findOne({where: {cakeID: cakeid}})
-        //find the cake and if it is already in the cart, just remove it. else (throw and error)
-        if(cartItem){
-            await cartItem.destroy()
+            res.redirect('/cakemania.ng/users/cart')
+
         
-        } else{
-            throw new Error (`Cake not in cart`)
-            
-        }
-        
-        res.status(200).send(`Cake removed from Cart`)
+        } 
     } catch(error){
         res.status(500).send(`Cake not removed from Cart`)
     }

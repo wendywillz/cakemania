@@ -34,20 +34,30 @@
             <% if (locals.userDetails) { %>
 
                 <ul class="navbar-nav ms-auto">
-                <li style="text-align: left; background-color: #483b2c; color:white; border-radius: 5px;" class="nav-item pt-2 px-3  ">
-                Welcome,<%= locals.userDetails.firstName %>
+                <li style="text-align: left; background-color: #483b2c; color:white; border-radius: 5px;" class="nav-item pt-2 px-3 mx-3  ">
+                    <% if (locals.userDetails.isAdmin == false) { %>
+                        <a href="/cakemania.ng/users/profile">
+                            Welcome <%= locals.userDetails.firstName %>
+                            </a>
+                    <% } else {%>
+                        <a href="/cakemania.ng/admin/dashboard">
+                            Welcome <%= locals.userDetails.firstName %>
+                            </a>
+                        <% } %>
+  
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         My Orders
                     </a>
-                    
                 </li>
                
                 <li class="nav-item">
                     <a class="nav-link" href="/cakemania.ng/users/cart">
                         <i id="cart-icon" class="bi bi-cart"></i>
-                        <span id="cart-count" class="badge bg-danger">0</span>
+                        <span id="cart-count" class="badge bg-danger">
+                            0
+                        </span>     
                     </a>
                 </li>
                 <li class="nav-item dropdown">
@@ -86,7 +96,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             
-                                <a class="dropdown-item" href="/cakemania.ng/users/signup">Sign Up</a>
+                                <a class="dropdown-item" href="/cakemania.ng/users/signup">Signup</a>
                                 <a class="dropdown-item" href="/cakemania.ng/users/login">Login</a>
 
                         <% } %>
