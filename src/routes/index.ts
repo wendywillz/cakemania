@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction} from 'express';
-import { getAllCategories } from '../controller/categorycontroller';
+
 import { getUserNavbar } from '../controller/indexcontroller';
 import { authorize, noCache } from '../middleware/authorize';
 

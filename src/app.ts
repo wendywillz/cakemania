@@ -82,15 +82,14 @@ app.set('views', path.join(__dirname, '../', 'views'));
 app.set('view engine', 'ejs');
 
 
-app.get(`${api}`, (req, res) => {
-  res.render('index')
-})
+
 
 app.get(`${api}/users/my-orders`, (req, res) => {
 
   const userInfo =  req.cookies.user
 
   res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+  
   res.render('orders', { currentPage: "index"})
 })
 
