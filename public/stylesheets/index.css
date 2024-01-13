@@ -52,6 +52,7 @@ nav {
   padding-top: 6em;
 }
 
+
 .overlay::before {
   content: "";
   position: absolute;
@@ -76,6 +77,11 @@ nav {
     font-size: 4em;
 }
 
+
+.carousel-item img {
+  height: 40em;
+  width: auto;
+}   
 .carousel-caption {
   margin-bottom: 6em;
 }

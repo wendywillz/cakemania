@@ -95,3 +95,59 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.login-form {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 2px solid #333;
+  outline: none;
+  background: transparent;
+}
+
+.login-form label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  pointer-events: none;
+  transition: 0.5s;
+}
+.login-form input:focus ~ label,
+.login-form input:valid ~ label {
+  transform: translateY(-20px);
+  font-size: 14px;
+  color: #333;
+}
+
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding-bottom: 1.8em;
+}
+
+.password-toggle-icon i {
+  font-size: 18px;
+  line-height: 1;
+  color: #333;
+  transition: color 0.3s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.password-toggle-icon i:hover {
+  color: #000;
+}
