@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import Users from "../models/usermodel";
 import Categories from "../models/categoryModel";
-import { getAllCategories } from "./categorycontroller";
+import Cart from "../models/cartmodel";
+
 
 
 interface AuthRequest extends Request {
@@ -10,20 +11,31 @@ interface AuthRequest extends Request {
 
 
 export async function getUserNavbar(req:Request, res:Response) {
+
     try {
 
-    const userInfo = await req.cookies.user
+    const userInfo = await req.cookies?.user
 
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
 
-    const allCategories = await Categories.findAll({})
-    if(!allCategories){
-        res.status(404).send("NO CATEGORIES FOUND")
-    }
 
-    res.render('index', { allCategories, currentPage: 'index' })
+
+    // const userCart = await Cart.findAll({
+    //     where: { userID: details.userID },
+    //     })
+    
+//     const userCart = 
+//     JSON.parse(userInfo).userID ? await Cart.findAll({
+//       where: { userID: JSON.parse(userInfo).userID },
+//     })
+//   : null;
 
     
+    const allCategories = await Categories.findAll()
+
+
+    res.render('index', { allCategories,  currentPage: 'index' })
+
     } catch (error) {
         res.render('index', { currentPage: 'index', userDetails: null} )
     }

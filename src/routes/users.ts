@@ -4,6 +4,8 @@ import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteU
 
 import { getUserCart, addCakeToCart, changeCartQuantity, removeCakeFromCart } from '../controller/cartcontroller';
 
+import { getOrderTotal } from '../controller/ordercontroller';
+
 import { authorize, noCache } from '../middleware/authorize';
 
 
@@ -32,9 +34,11 @@ router.get('/cart', authorize, noCache, getUserCart )
 
 router.put('/cart/:id', authorize, noCache, changeCartQuantity )
 
+router.delete('/cart/:id', authorize, noCache, removeCakeFromCart )
+
 router.post('/cart', authorize, noCache )
 
-router.get('/my-orders', authorize, getOrdersPage)
+router.get('/my-orders', authorize, getOrderTotal)
 
 
 
@@ -43,7 +47,7 @@ router.get('/profile/edit/:id', authorize, noCache, getEditUser )
 router.put('/profile/edit/:id', authorize, noCache, editUser)
 
 
-router.get('/profile/orders', authorize, noCache, getUserOrders  )
+
 
 
 

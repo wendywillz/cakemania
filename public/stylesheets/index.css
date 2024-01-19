@@ -15,6 +15,16 @@ nav {
   
 }
 
+.dropdown-menu{
+  width: 20px;
+}
+
+nav .dropdown-menu a:hover{
+  background-color: #483b2c;
+  color: white;
+
+}
+
 .badge {
   padding-left: 9px;
   padding-right: 9px;
@@ -64,11 +74,12 @@ nav {
 }
 
 .overlay .row {
-  z-index: 1; /* Ensure the content is above the overlay */
+  z-index: 1; 
   position: relative;
 }
 
 /* Additional styles for overlay text and button  */
+
 .overlay h1,
 .overlay p
  {
@@ -88,13 +99,14 @@ nav {
 
 .shop-btn {
   background-color: #a86e44;
+  color: white;
   font-family:'Poppins', sans-serif;
 }
 
-.shop-btn :hover {
-  background-color: #a86e44;
-  opacity: 0.5;
+.shop-btn :hover{
+  background-color: red;
 }
+
 
 .categories {
   margin-top: 3em;
@@ -176,3 +188,32 @@ nav {
   left: 0;
   width: 100%;
 } 
+
+a{
+  text-decoration: none;
+  color: white;
+}
+
+.delete-form{
+  /* background-color: red; */
+  width: 2%;
+  display: flex;
+  margin-left: auto;
+  margin-right: 7px;
+  
+}
+
+.icon-btn{
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.bi-trash{
+  font-size: 1.2rem;
+}
+
+.order-form{
+  padding: 10px;
+}
+

@@ -13,14 +13,14 @@ interface AuthRequest extends Request {
 
 
 
-const getAllCategories = (async(req:Request , res:Response )=> {
-    const allCategories = await Categories.findAll({})
-    if(!allCategories){
-        res.status(404).send("NO CATEGORIES FOUND")
-    }
+// const getAllCategories = (async(req:Request , res:Response )=> {
+//     const allCategories = await Categories.findAll({})
+//     if(!allCategories){
+//         res.status(404).send("NO CATEGORIES FOUND")
+//     }
 
-    res.render('index', { allCategories, currentPage: 'index' })
-})
+//     res.render('index', { allCategories, currentPage: 'index' })
+// })
 
 
 const getCategory = (async(req:Request , res:Response )=> {
@@ -193,7 +193,6 @@ const removeCategory = (async(req:Request , res:Response )=> {
 export {
     removeCategory,
     addCategory,
-    getAllCategories,
     getCategory
 }
     

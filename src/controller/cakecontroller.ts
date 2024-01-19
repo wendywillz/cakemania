@@ -1,5 +1,6 @@
 import { RequestHandler, Request, Response } from 'express';
 import Cakes from '../models/cakemodel'; // Import cake models
+import Cart from '../models/cartmodel';
 import { ZodError } from 'zod';
 import { Op } from 'sequelize';
   
@@ -24,8 +25,8 @@ export const findAllCakes: RequestHandler = async (req: Request, res: Response) 
   try {
 
     const userInfo = await req.cookies.user
-
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
     
     const cakes = await Cakes.findAll();
 
@@ -55,7 +56,6 @@ export const getCakeById: RequestHandler = async (req: Request, res: Response) =
     const cake = await Cakes.findByPk(cakeID);
 
     const userInfo = await req.cookies.user
-
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
 
     if (!cake) {
@@ -63,7 +63,7 @@ export const getCakeById: RequestHandler = async (req: Request, res: Response) =
     }
 
     // res.status(200).json({ status: 'success', cake });
-    res.status(200).render('product-detail', { cake, currentPage: "product-detail", successMessage: null })
+    res.status(200).render('product-detail', { cake,  currentPage: "product-detail", successMessage: null })
   } catch (error) {
     console.error('Error fetching cake:', error);
     res.status(500).json({ message: 'Failed to fetch cake', error });
@@ -77,8 +77,8 @@ export const getCakesByCategory: RequestHandler = async (req: Request, res: Resp
     const categoryID = req.params.categoryid;
 
     const userInfo = await req.cookies.user
-
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
 
     
     // Find cakes by category ID
@@ -92,7 +92,7 @@ export const getCakesByCategory: RequestHandler = async (req: Request, res: Resp
 
     }
 
-    res.status(200).render('products', { cakes, currentPage: 'products'});
+    res.render('products', { cakes, currentPage: 'products'});
   } 
   catch (error) {
     console.error('Error fetching cakes by category:', error);
@@ -110,6 +110,7 @@ export const filterCakesByPrice: RequestHandler = async (req: FilterRequest, res
     const userInfo = await req.cookies.user;
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
 
+
     // Implement logic to filter cakes based on the price range
     const filteredCakes = await Cakes.findAll({
       where: {
@@ -122,7 +123,7 @@ export const filterCakesByPrice: RequestHandler = async (req: FilterRequest, res
 
   
     // Render the filtered cakes on the page
-    res.status(200).render('products', { cakes: filteredCakes, currentPage: 'products' });
+    res.render('products', { cakes: filteredCakes, currentPage: 'products' });
   } catch (error) {
     handleControllerError(error, res);
   }

@@ -13,7 +13,7 @@
             <div class="container main-cart-contents rounded-3">
 
                 <div class="row">
-                    <div class="col-md-12 mt-4 mb-4">
+                    <div class="col-md-12 mt-1 mb-4">
                         <h3>Shopping Cart (<%= userCart.length %>) </h3>
                     </div>
                 </div>
@@ -25,20 +25,32 @@
                     </div>
                     <div class="col-md-9">
                         <h2><%= item.Cake.dataValues.cakeName %></h2>
-                      <div class="col-12"> <%= item.Cake.dataValues.description %><span class="float-end"> <i class="bi bi-trash"></i> </span> </div>
+                      <div class="col-12"> <%= item.Cake.dataValues.description %>
+
+                        <form class="delete-form" action="/cakemania.ng/users/cart/<%=item.cakeID%>?_method=DELETE" method="post">
+
+                            <input class="d-none" type="text">
+                            <button type="submit" class="icon-btn">
+                                <span class="float-end"> <i class="bi bi-trash"></i> </span>
+                            </button>
+                        </form>
+
+                        
+                         
+                    </div>
                         <div class= "col-12  clearfix">
-                            <p  class="float-start mt-4"> <%= item.price %> </p>
+                            <p  class="float-start mt-4">₦ <%= item.Cake.dataValues.price %> </p>
                             <div class="quantity-container float-end mt-4">
                                 <form action="/cakemania.ng/users/cart/<%=item.cakeID%>?_method=PUT" method="post">
-                                    <input class="form-control d-none"  id="quantity" name="quantity" type="number" value="1">
 
+                                    <input class="form-control d-none"  id="quantityInput<%=item.cakeID%>" name="quantity" type="number" value="<%= item.quantity %>">
 
-                                    <i onclick="decrementQuantity()" class="bi bi-dash quantity-icon"></i> &nbsp;
+                                    <i onclick="decrementQuantity('<%=item.cakeID%>')" class="bi bi-dash quantity-icon"></i> &nbsp;
 
-                                    <span id="quantityDisplay" class="quantityDisplay"><%= item.quantity %></span> 
+                                    <span id="quantityDisplay<%=item.cakeID%>" class="quantityDisplay<%=item.cakeID%>"><%= item.quantity %></span> 
                                     
                                     &nbsp;
-                                    <i onclick="incrementQuantity()" class="bi bi-plus quantity-icon"></i>
+                                    <i onclick="incrementQuantity('<%=item.cakeID%>')" class="bi bi-plus quantity-icon"></i>
 
                                     <button style=" color: white; background-color: #483b2c;"  type="submit" class="btn">
                                         confirm
@@ -78,7 +90,7 @@
 
                         <div class="d-grid gap-2 mb-4">
                             <a href="/cakemania.ng/users/my-orders">
-                                <button class="btn btn-info buy-now-btn rounded-3">Checkout (<%= userCart.length %>)</button>
+                                <button style="width: 100%;" class="btn btn-lg btn-info buy-now-btn rounded-3">Checkout (<%= userCart.length %>)</button>
                             </a>
                             
                         </div>
@@ -140,41 +152,41 @@
 
     <script>
 
-        let counter = 1
+        function incrementQuantity(cakeID) {
 
-        function incrementQuantity() {
+            const quantity = document.getElementById(`quantityDisplay${cakeID}`)
 
-            const quantity = document.getElementById('quantityDisplay')
+            const quantityInput = document.getElementById(`quantityInput${cakeID}`)
 
-            if( counter >= 1 ){
-                counter ++
-                quantity.innerHTML = counter
+            quantity.innerHTML = Math.max(1, parseInt(quantityInput.value) + 1);
 
-                updateQuantity()
-            }
+            updateQuantity(`${cakeID}`)
+
+            
         }
 
-        function decrementQuantity() {
+        function decrementQuantity(cakeID) {
 
-            let quantity = document.getElementById('quantityDisplay')
+            const quantity = document.getElementById(`quantityDisplay${cakeID}`)
 
-            if (counter > 1) {
-                counter --
-                quantity.innerHTML = counter;
+            const quantityInput = document.getElementById(`quantityInput${cakeID}`)
 
-                updateQuantity()
-            }
+            quantity.innerHTML = Math.max(1, parseInt(quantityInput.value) - 1);
+
+            updateQuantity(`${cakeID}`)
+
+            
         }
 
-        function updateQuantity() {
+        function updateQuantity(cakeID) {
 
-            const spanQuantity = document.getElementById('quantityDisplay')
+            const spanQuantity = document.getElementById(`quantityDisplay${cakeID}`)
 
-            const inputQuantity = document.getElementById('quantity')
+            const inputQuantity = document.getElementById(`quantityInput${cakeID}`)
 
             inputQuantity.value = spanQuantity.innerHTML
     
-            }
+        }
 
 
     </script>

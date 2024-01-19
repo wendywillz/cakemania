@@ -10,29 +10,43 @@
         <div class="col-md-8 "> <!-- col-md-8 to align to the left -->
             <div class="container main-cart-contents rounded-3">
                 <div class="row">
-                    <div class="col-md-12 mt-4 mb-4">
-                        <h4> CUSTOMER ADDRESS <span class="float-end"> Change > </span></h4> <hr>
-                        <p> NkaCHUKWU NWOBI</p>
-                        <p>Orchid Rd, Lekki, Penusila || 101601, Lagos, state  </p>
+                    <div class="col-md-12 mt-3 mb-4">
+
+                        <form class="order-form" action="">
+                            <h4> CUSTOMER ADDRESS <span class="float-end"> Change > </span></h4> <hr>
+                        <div class="col-md-6 mb-3">
+                            <h5><%= user.firstName %> <%= user.lastName %></h5>
+                        </div>
+
+                        <div class="col-md-8 mb-3">
+                            <label for="address" class="form-label">Delivery Address</label>
+                            <textarea class="form-control" name="address" id="address" rows="4"><%= user.address%></textarea>
+                        </div>
+                        
+
+                        <div class="col-md-6 mb-3">
+                            <label for="state" class="form-label">State</label>
+                            <select class="form-select" id="state" name="state">
+                                <!-- Add options for states -->\
+                                <option >Select State</option>
+                                <option value="Lagos" selected>Lagos</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+
+                        <%- include('./includes/user-lga.ejs') %>
+
+                        </form>
+                        
                     </div>
                 </div>
-              
-            <div class="container main-cart-contents rounded-3">
-                <div class="row">
-                    <div class="col-md-12 mt-4 mb-4">
-                        <h3> Customer's Address <span class="float-end"> Change </span></h3> <hr>
-                        <p></p>
-                    </div>
-                </div>
-                
-             
-            </div> <!--End div class container-->
+            
         </div>
     </div> <!--End div class col-md-8 left container shopping cart items -->
 
 
         <!--Beginning of order summary-->
-        <div class="col-md-4 order-summary-container rounded-3"> <!-- col-md-3 to align to the right cart summary and checkout button -->
+        <div class="col-md-4 order-summary-container rounded-3 mt-3"> <!-- col-md-3 to align to the right cart summary and checkout button -->
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -43,9 +57,17 @@
                     <div class="col-md-12 cart-div">
                         <h3> Order Summary </h3> <hr>
                         <div>
-                            <p> Item's total (1): <span class="float-end"> #70,000 </span> </p>
-                            <p> Delivery Fees: <span class="float-end"> #0 </span> </p>
-                            <p> Total: <span class="float-end"> #3,000 </span> </p>
+                            <p> Cake total (<%= allCartItems.length %>) </p>
+
+
+                            <% allCartItems.forEach(item => { %>
+                                <p> - <%= item.Cake.dataValues.cakeName %> (<%= item.quantity %>): <span class="float-end">₦<%= item.price %> </span> </p> 
+                             
+                            <% }) %>
+                            <hr>
+
+                            <p> Delivery Fees: <span class="float-end"> ₦0 </span> </p>
+                            <p> Total: <span class="float-end"> ₦ <%= orderTotal %> </span> </p>
                         </div>
 
                         <div class="d-grid gap-2 mb-4">

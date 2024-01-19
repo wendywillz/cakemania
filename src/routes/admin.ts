@@ -3,7 +3,7 @@ import multer from "multer"
 import path from 'path'
 
 import { signup, login, editUser, deleteUser } from '../controller/usercontroller';
-import {addCategory, getAllCategories, getCategory, removeCategory, editCategory, getEditCategory } from "../controller/categorycontroller"
+import {addCategory, getCategory, removeCategory, editCategory, getEditCategory } from "../controller/categorycontroller"
 import { getAdminDashboard, logout, getAdminCakes, getAdminCategories, createCake, getUpdateCake, updateCake, deleteCake, getAllUsers, getUserByID } from '../controller/admincontroller';
 import { authorize, adminAuthorization, noCache } from '../middleware/authorize';
 
