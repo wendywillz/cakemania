@@ -62,6 +62,7 @@ nav .dropdown-menu a:hover{
   padding-top: 6em;
 }
 
+
 .overlay::before {
   content: "";
   position: absolute;
@@ -87,6 +88,11 @@ nav .dropdown-menu a:hover{
     font-size: 4em;
 }
 
+
+.carousel-item img {
+  height: 40em;
+  width: auto;
+}   
 .carousel-caption {
   margin-bottom: 6em;
 }
