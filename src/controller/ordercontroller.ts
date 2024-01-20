@@ -3,7 +3,10 @@ import Cart from "../models/cartmodel"
 import Cakes from "../models/cakemodel";
 import Orders from '../models/ordermodel';
 import  UserCart  from "../models/userCartModel";
+import UserOrder from "../models/userOrderModel";
 import Users from "../models/usermodel";
+import { createUserCarts } from "./userCartController"
+import {createUserOrder} from "./userOrderController"
 
 import { where } from "sequelize";
 
@@ -109,7 +112,6 @@ async function getTotalOrder(userid: string){
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //CREATE ORDER
 const createOrder = async(req:AuthRequest, res:Response)=>{
-
     const specificUserID = req.user?.userID;
     if(!specificUserID){
         res.status(404).send(`User not found`)
@@ -126,16 +128,33 @@ const additionalInfo = req.body.additionalInfo
 const cart = await Cart.findAll({where:{userID:specificUserID}})
 const totalOrder = await getTotalOrder(specificUserID)
 
+/*
+//finding if the order already exists
+const existingUsercart = await UserOrder.findOne({where:{userID: specificUserID},
+include:{
+    model:Orders,
+    required:true,
+    where:{
+        userID: specificUserID
+    }
+}})
 
-const existingOrder = await Orders.findOne({where:{userID: specificUserID}})
+
+
+const existingOrder = await Orders.findOne({where:{userID: specificUserID}}) //find something else to query the Order. if you use the userID, the next time the same user makes an order, it would throw an error because there already exists an order with that userID. maybe use something specific to that order like the sessionID used to make it.
 if(existingOrder){
     res.status(400).send(`Order already exists`)
     throw new Error(`Order already exists`)
 } 
+*/
+//Commented out the above becuase it would still return an Order based on its userID, but one user could have many orders, So I need to fetch the specific order based on its orderID. but where do I get said orderID from? That's why I think it's best to create an order even if it might already "exist"
+
+
+
     const newOrder = await Orders.create({
         orderID: orderID,
-        cartItem: specificUserID,
         userID: specificUserID,
+        userCart: orderID,
         total: totalOrder,
         status,
         deliveryPhoneNo: deliveryPhoneNo,
@@ -145,11 +164,16 @@ if(existingOrder){
         additionalInfo: additionalInfo
     })
 console.log(newOrder);
+const newUserOrder = await createUserOrder(newOrder.dataValues.orderID)
+const newUserCarts = await createUserCarts(newOrder.dataValues.orderID)
 
+
+newOrder.dataValues.userCart = newOrder.dataValues.orderID
+newOrder.save()
 // const orderItems = await UserCart.findAll({where:{userID: newOrder.dataValues.userCart}})
 
 
-return newOrder
+//return newOrder
 // return orderItems
 
 }

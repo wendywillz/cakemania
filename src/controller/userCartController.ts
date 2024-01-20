@@ -3,6 +3,7 @@ import { Request, Response,} from "express";
 import Cart from "../models/cartmodel"
 import Cakes from "../models/cakemodel";
 import UserCart  from "../models/userCartModel";
+import Orders from "../models/ordermodel";
 
 interface AuthRequest extends Request {
     user?: { userID: string, isAdmin: boolean };
@@ -12,26 +13,28 @@ interface AuthRequest extends Request {
     Cake: Cakes;
 }
 
-const createUserCart = async (req:AuthRequest, res:Response)=>{
-    const specificUserID = req.user?.userID;
-    if (!specificUserID) {
-        res.status(401).redirect("/cakemania.ng/users/login");
-        throw Error(`User not logged in`);
-    } 
+const createUserCarts = async (newOrderId:string)=>{
    
-    const allUserCarts = await Cart.findAll({where:{userID: specificUserID}})
-    console.log(allUserCarts);
-
-    
-        for(let userCart of allUserCarts){
-            await UserCart.create({
-                userID: userCart.dataValues.userID, 
-                cartID: userCart.dataValues.cartID 
-            })
-        }
-    
-    
-}
+    const specificOrder = await Orders.findByPk(newOrderId)
+    if(!specificOrder){
+     throw new Error(`Order does not exist`)
+    }
+    const specificUserId = specificOrder.dataValues.userID
+     const allUserCarts = await Cart.findAll({where:{userID: specificUserId}})
+     console.log(allUserCarts);
+ 
+     
+         for(let userCart of allUserCarts){
+             await UserCart.create({
+                 orderID: newOrderId,
+                 userID: specificUserId,
+                 cartID: userCart.dataValues.cartID
+              })
+         }
+     
+     const createdUserCarts = await UserCart.findAll({where:{orderID:newOrderId}})
+     return createdUserCarts
+ }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //GET USER CARTS
 async function getUserCart(userId: string){
@@ -66,4 +69,4 @@ const deleteUserCart = async (req:AuthRequest, res:Response)=>{
     
 }
 
-export {deleteUserCart, createUserCart}
+export {deleteUserCart, createUserCarts}

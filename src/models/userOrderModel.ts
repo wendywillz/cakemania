@@ -10,18 +10,24 @@ import { v4 as uuidv4 } from 'uuid';
 // import Users  from "./usermodel"
 // import  Cakes  from "./cakemodel"
 
-interface UserCartAtrributes{
+interface UserOrderAtrributes{
+    userOrderID:string,
     orderID: string,
     userID: string,
-    cartID: string,
 }
 
-export class UserCart extends Model <UserCartAtrributes> {}
+export class UserOrder extends Model <UserOrderAtrributes> {}
 
 
-//Ive included the LGA and State. But I need to ask: if we're already asking for the address, doesn't that make requesting those, redundant?
 
-UserCart.init({
+UserOrder.init({
+    userOrderID :{
+        type: DataTypes.TEXT,
+        defaultValue: ()=>uuidv4(),
+        primaryKey: true,
+        allowNull:false,
+        autoIncrement: false
+    }, 
     orderID:{
         type: DataTypes.STRING,
         references: {
@@ -36,21 +42,14 @@ UserCart.init({
             key: 'userID'
         },
     },
-    cartID :{
-        type: DataTypes.STRING,
-        references: {
-            model: Cart,
-            key: 'cartID'
-        },
-    },
 
 }, {
     sequelize,
-    modelName: "UserCart"
+    modelName: "UserOrder"
 })
 
 
 
-// UserCart === sequelize.models.UserCart
+// UserOrder === sequelize.models.UserOrder
 
- export default UserCart
+ export default UserOrder
