@@ -1,7 +1,7 @@
 import {Sequelize, Model, DataTypes} from "sequelize" //I did not install any package
 import sequelize from "../database.config" 
 import Users from "./usermodel";
-import  UserCart  from "./userCartModel";
+import { UserCart } from "./userCartModel";
 import Cart from "./cartmodel";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -12,8 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface orderAtrributes{
     orderID: string;
-    cartItem: string;
     userID: string
+    userCart: string
     total: string;
     status: string;
     deliveryPhoneNo: string;
@@ -36,18 +36,18 @@ Orders.init({
         primaryKey: true,
         autoIncrement: false
     },
-    cartItem :{
-        type: DataTypes.STRING,
-        references: {
-            model: Cart,
-            key: 'cartID'
-        },
-    },
     userID: {
         type: DataTypes.STRING,
         references: {
             model: Users,
             key: 'userID'
+        },
+    },
+    userCart :{
+        type: DataTypes.STRING,
+        references: {
+            model: UserCart,
+            key: 'orderID'
         },
     },
     total: {
@@ -85,8 +85,8 @@ Orders.init({
     modelName: "Orders"
 })
 
-Orders.hasMany(Cart, {foreignKey: "cartID"})
-// Cart.belongsTo(Orders, {foreignKey: "userID"})
+Orders.hasMany(UserCart, {foreignKey: "userID"})
+UserCart.belongsTo(Orders, {foreignKey: "userID"})
 
 
 // Orders === sequelize.models.Orders
