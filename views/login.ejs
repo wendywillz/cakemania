@@ -17,30 +17,14 @@
                 <input class="form-control" type="email" id="email" name="email" placeholder="Email Address" required >
                 <label for="email">Email</label>
             </div>
-            
-    
-            
-            
 
-          <!-- <div class="form-floating user-box " >
+            <div class="password-input form-floating">
+                <input class="form-control" type="password" id="password" name="password" placeholder="Password" required ><span class="password-toggle-icon"><i class="reveal bi bi-eye"></i></span>
                 
-                <input class="form-control" type="password" id="password" name="password" required>
-
-                <label for="password">Password:</label>
-                <span class="password-toggle-icon"><i class="fas fa-eye"></i></span>
-                <i class="bi bi-eye"></i>
-            </div>  -->
-
-            <div class="login-form">
-                <input type="password" name="" id="password" required="" />
-                <label>Password</label>
-                <span class="password-toggle-icon"><i class="tbi bi-eye"></i></span>
-              </div>
-
-                <label for="password">Password</label>
+                <label for="email">Password</label>
+                
             </div>
 
-            
             <button type="submit">Login</button>
         </form>
     </div>
@@ -50,17 +34,17 @@
 
 
 const passwordField = document.getElementById("password");
-    const togglePassword = document.querySelector(".password-toggle-icon i");
+    const togglePassword = document.querySelector(".reveal");
 
     togglePassword.addEventListener("click", function () {
     if (passwordField.type === "password") {
         passwordField.type = "text";
-        togglePassword.classList.remove("fa-eye");
-        togglePassword.classList.add("fa-eye-slash");
+        togglePassword.classList.remove("bi-eye");
+        togglePassword.classList.add("bi-eye-slash");
     } else {
         passwordField.type = "password";
-        togglePassword.classList.remove("fa-eye-slash");
-        togglePassword.classList.add("fa-eye");
+        togglePassword.classList.remove("bi-eye-slash");
+        togglePassword.classList.add("bi-eye");
     }
     });
 
