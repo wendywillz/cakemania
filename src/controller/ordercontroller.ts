@@ -1,12 +1,12 @@
 import { Request, Response,} from "express";
 import Cart from "../models/cartmodel"
 import Cakes from "../models/cakemodel";
-import Orders from '../models/ordermodel';
-import  UserCart  from "../models/userCartModel";
-import UserOrder from "../models/userOrderModel";
+// import Orders from '../models/ordermodel';
+// import  UserCart  from "../models/userCartModel";
+// import UserOrder from "../models/userOrderModel";
 import Users from "../models/usermodel";
-import { createUserCarts } from "./userCartController"
-import {createUserOrder} from "./userOrderController"
+// import { createUserCarts } from "./userCartController"
+// import {createUserOrder} from "./userOrderController"
 
 import { where } from "sequelize";
 
@@ -67,9 +67,18 @@ const getOrderTotal = async(req: AuthRequest, res:Response)=>{
 
 
 
+
+
     const userInfo =  await req.cookies.user
   
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
+    const userCart = 
+    JSON.parse(userInfo).userID ? await Cart.findAll({
+      where: { userID: JSON.parse(userInfo).userID },
+    }) : null;
+
+    res.locals.userCart = userCart
     
 
     const specificUserID = req.user?.userID;
@@ -110,143 +119,147 @@ async function getTotalOrder(userid: string){
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 //CREATE ORDER
-const createOrder = async(req:AuthRequest, res:Response)=>{
-    const specificUserID = req.user?.userID;
-    if(!specificUserID){
-        res.status(404).send(`User not found`)
-        throw new Error(`User not fund`)
-    }
-const { orderID} = req.body
+// const createOrder = async(req:AuthRequest, res:Response)=>{
+//     const specificUserID = req.user?.userID;
+//     if(!specificUserID){
+//         res.status(404).send(`User not found`)
+//         throw new Error(`User not fund`)
+//     }
+// const { orderID} = req.body
 
-const deliveryPhoneNo = req.body.deliveryPhoneNo
-const deliveryAddress = req.body.deliveryAddress
-const deliveryState = req.body.deliveryState
-const deliveryLga = req.body.deliveryLga
-const additionalInfo = req.body.additionalInfo
+// const deliveryPhoneNo = req.body.deliveryPhoneNo
+// const deliveryAddress = req.body.deliveryAddress
+// const deliveryState = req.body.deliveryState
+// const deliveryLga = req.body.deliveryLga
+// const additionalInfo = req.body.additionalInfo
 
-const cart = await Cart.findAll({where:{userID:specificUserID}})
-const totalOrder = await getTotalOrder(specificUserID)
+// const cart = await Cart.findAll({where:{userID:specificUserID}})
+// const totalOrder = await getTotalOrder(specificUserID)
 
-/*
-//finding if the order already exists
-const existingUsercart = await UserOrder.findOne({where:{userID: specificUserID},
-include:{
-    model:Orders,
-    required:true,
-    where:{
-        userID: specificUserID
-    }
-}})
-
-
-
-const existingOrder = await Orders.findOne({where:{userID: specificUserID}}) //find something else to query the Order. if you use the userID, the next time the same user makes an order, it would throw an error because there already exists an order with that userID. maybe use something specific to that order like the sessionID used to make it.
-if(existingOrder){
-    res.status(400).send(`Order already exists`)
-    throw new Error(`Order already exists`)
-} 
-*/
-//Commented out the above becuase it would still return an Order based on its userID, but one user could have many orders, So I need to fetch the specific order based on its orderID. but where do I get said orderID from? That's why I think it's best to create an order even if it might already "exist"
+// /*
+// //finding if the order already exists
+// const existingUsercart = await UserOrder.findOne({where:{userID: specificUserID},
+// include:{
+//     model:Orders,
+//     required:true,
+//     where:{
+//         userID: specificUserID
+//     }
+// }})
 
 
 
-    const newOrder = await Orders.create({
-        orderID: orderID,
-        userID: specificUserID,
-        userCart: orderID,
-        total: totalOrder,
-        status,
-        deliveryPhoneNo: deliveryPhoneNo,
-        deliveryAddress: deliveryAddress,
-        deliveryState: deliveryState,
-        deliveryLga: deliveryLga,
-        additionalInfo: additionalInfo
-    })
-console.log(newOrder);
-const newUserOrder = await createUserOrder(newOrder.dataValues.orderID)
-const newUserCarts = await createUserCarts(newOrder.dataValues.orderID)
+// const existingOrder = await Orders.findOne({where:{userID: specificUserID}}) //find something else to query the Order. if you use the userID, the next time the same user makes an order, it would throw an error because there already exists an order with that userID. maybe use something specific to that order like the sessionID used to make it.
+// if(existingOrder){
+//     res.status(400).send(`Order already exists`)
+//     throw new Error(`Order already exists`)
+// } 
+// */
+// //Commented out the above becuase it would still return an Order based on its userID, but one user could have many orders, So I need to fetch the specific order based on its orderID. but where do I get said orderID from? That's why I think it's best to create an order even if it might already "exist"
 
 
-newOrder.dataValues.userCart = newOrder.dataValues.orderID
-newOrder.save()
-// const orderItems = await UserCart.findAll({where:{userID: newOrder.dataValues.userCart}})
+
+//     const newOrder = await Orders.create({
+//         orderID: orderID,
+//         userID: specificUserID,
+//         userCart: orderID,
+//         total: totalOrder,
+//         status,
+//         deliveryPhoneNo: deliveryPhoneNo,
+//         deliveryAddress: deliveryAddress,
+//         deliveryState: deliveryState,
+//         deliveryLga: deliveryLga,
+//         additionalInfo: additionalInfo
+//     })
+// console.log(newOrder);
+// const newUserOrder = await createUserOrder(newOrder.dataValues.orderID)
+// const newUserCarts = await createUserCarts(newOrder.dataValues.orderID)
 
 
-//return newOrder
-// return orderItems
+// newOrder.dataValues.userCart = newOrder.dataValues.orderID
+// newOrder.save()
+// // const orderItems = await UserCart.findAll({where:{userID: newOrder.dataValues.userCart}})
 
-}
+
+// //return newOrder
+// // return orderItems
+
+// }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //Getting an order
 
-const getOrder = async(req:AuthRequest, res:Response) =>{
-    const specificUserID = req.user?.userID;
-    if(!specificUserID){
-        res.status(404).send(`User not found`)
-        throw new Error(`User not found`)
-    }
-    const specificOrder = await Orders.findOne({where:{userID:specificUserID}})
+// const getOrder = async(req:AuthRequest, res:Response) =>{
+//     const specificUserID = req.user?.userID;
+//     if(!specificUserID){
+//         res.status(404).send(`User not found`)
+//         throw new Error(`User not found`)
+//     }
+//     const specificOrder = await Orders.findOne({where:{userID:specificUserID}})
 
 
-    /*
-    const specificOrder = await Orders.findOne({where:{userID:specificUserID}, 
-        include:{model: UserCart, 
-            where:{userID:specificUserID}}})
+//     /*
+//     const specificOrder = await Orders.findOne({where:{userID:specificUserID}, 
+//         include:{model: UserCart, 
+//             where:{userID:specificUserID}}})
     
-    */
-    if(!specificOrder){
-        res.status(404).send(`Order not found`)
-        throw new Error(`Order not found`)
-    }
+//     */
+//     if(!specificOrder){
+//         res.status(404).send(`Order not found`)
+//         throw new Error(`Order not found`)
+//     }
   
-    return specificOrder
-}
+//     return specificOrder
+// }
 
 
-const getAllOrderItems = async(req:AuthRequest, res:Response) =>{
-    const specificUserID = req.user?.userID;
-    if(!specificUserID){
-        res.status(404).send(`User not found`)
-        throw new Error(`User not found`)
-    }
-    const specificOrder = await Orders.findOne({where:{userID:specificUserID}})
+// const getAllOrderItems = async(req:AuthRequest, res:Response) =>{
+//     const specificUserID = req.user?.userID;
+//     if(!specificUserID){
+//         res.status(404).send(`User not found`)
+//         throw new Error(`User not found`)
+//     }
+//     const specificOrder = await Orders.findOne({where:{userID:specificUserID}})
 
 
-    /*
-    const specificOrder = await Orders.findOne({where:{userID:specificUserID}, 
-        include:{model: UserCart, 
-            where:{userID:specificUserID}}})
-    */
+//     /*
+//     const specificOrder = await Orders.findOne({where:{userID:specificUserID}, 
+//         include:{model: UserCart, 
+//             where:{userID:specificUserID}}})
+//     */
    
-    if(!specificOrder){
-        res.status(404).send(`Order not found`)
-        throw new Error(`Order not found`)
-    }
-    const allOrderItems = await UserCart.findAll({where:{userID:specificOrder.dataValues.userID}})
-    return allOrderItems
-}
+//     if(!specificOrder){
+//         res.status(404).send(`Order not found`)
+//         throw new Error(`Order not found`)
+//     }
+//     const allOrderItems = await UserCart.findAll({where:{userID:specificOrder.dataValues.userID}})
+//     return allOrderItems
+// }
 
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //DELETING ORDERS
-const deleteOrder = async(req:Request, res:Response)=>{
+
+
+// const deleteOrder = async(req:Request, res:Response)=>{
     
-    const specificOrderId = req.params.id
-    const existingOrder = await Orders.findOne({where:{orderID: specificOrderId}})
-    if(!existingOrder){
-        res.status(404).send(`Order not found`)
-        throw new Error(`Order does not exist`)
-    }
-    await existingOrder.destroy()
-}
+//     const specificOrderId = req.params.id
+//     const existingOrder = await Orders.findOne({where:{orderID: specificOrderId}})
+//     if(!existingOrder){
+//         res.status(404).send(`Order not found`)
+//         throw new Error(`Order does not exist`)
+//     }
+//     await existingOrder.destroy()
+// }
 
 
 
 
 
-export {getOrderTotal, getCartItems, deleteOrder, createOrder, getAllOrderItems, getOrder}
+export {getOrderTotal, getCartItems}
 /**
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

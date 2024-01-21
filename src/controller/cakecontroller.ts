@@ -27,6 +27,19 @@ export const findAllCakes: RequestHandler = async (req: Request, res: Response) 
     const userInfo = await req.cookies.user
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
 
+
+    // const userCart = await Cart.findAll({
+    //     where: { userID: details.userID },
+    //     })
+    
+    const userCart = 
+    JSON.parse(userInfo).userID ? await Cart.findAll({
+      where: { userID: JSON.parse(userInfo).userID },
+    })
+  : null;
+
+  res.locals.userCart = userCart
+
     
     const cakes = await Cakes.findAll();
 
@@ -57,6 +70,14 @@ export const getCakeById: RequestHandler = async (req: Request, res: Response) =
 
     const userInfo = await req.cookies.user
     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+
+    const userCart = 
+    JSON.parse(userInfo).userID ? await Cart.findAll({
+      where: { userID: JSON.parse(userInfo).userID },
+    })
+  : null;
+
+  res.locals.userCart = userCart
 
     if (!cake) {
       return res.status(404).json({ message: 'Cake Not Found' });

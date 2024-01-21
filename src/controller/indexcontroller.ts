@@ -16,25 +16,28 @@ export async function getUserNavbar(req:Request, res:Response) {
 
     const userInfo = await req.cookies?.user
 
-    res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
 
+    if(! userInfo){
+      const allCategories = await Categories.findAll()
+    return res.render('index', { allCategories: allCategories, currentPage: 'index' })
+    }
 
+    else{
 
-    // const userCart = await Cart.findAll({
-    //     where: { userID: details.userID },
-    //     })
-    
-//     const userCart = 
-//     JSON.parse(userInfo).userID ? await Cart.findAll({
-//       where: { userID: JSON.parse(userInfo).userID },
-//     })
-//   : null;
+     res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
 
-    
+    const userCart = 
+    JSON.parse(userInfo).userID ? await Cart.findAll({
+      where: { userID: JSON.parse(userInfo).userID },
+    })
+  : null;
+
+  res.locals.userCart = userCart
+
     const allCategories = await Categories.findAll()
 
-
-    res.render('index', { allCategories,  currentPage: 'index' })
+    res.render('index', { allCategories: allCategories || [], currentPage: 'index' })
+    }
 
     } catch (error) {
         res.render('index', { currentPage: 'index', userDetails: null} )

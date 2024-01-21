@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import Users from "../models/usermodel";
-import Orders from "../models/ordermodel";
+// import Orders from "../models/ordermodel";
 import { ZodError, z } from "zod";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import Cart from "../models/cartmodel";
 
 import { validationSchemas } from "../validation/validate";
 
@@ -170,6 +171,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
 export  function logout(req: AuthRequest, res: Response) {
   try {
+
+
     res.clearCookie('token');
     res.clearCookie('user');
     
@@ -185,20 +188,29 @@ export async function getUserDashboard(req:AuthRequest, res:Response, next:NextF
 
       const userID = req.user?.userID;
       const userInfo = await req.cookies.user
+     
+      res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+  
+      const userCart = 
+      JSON.parse(userInfo).userID ? await Cart.findAll({
+        where: { userID: JSON.parse(userInfo).userID },
+      })
+    : null;
+  
+    res.locals.userCart = userCart
+  
+
 
       const user = await Users.findAll({
         where: { userID: userID, isAdmin: false }, // Adjust the column name according to your database schema
       });
 
-      // Fetch products by user ID
-      const userOrders = await Orders.findAll({
-        // where: { userID: userID }, // Adjust the column name according to your database schema
-      });
+      5
 
       const userDetails = JSON.parse(userInfo);
 
       // res.json({ status: "successful", message: "welcome customer"})
-      res.render('users/user-dashboard', { user, userOrders, userDetails, currentPage: "user-dashboard" })
+      res.render('users/user-dashboard', { user, userDetails, currentPage: "user-dashboard" })
        
         
     } catch (error) {
@@ -267,28 +279,28 @@ export async function getOrdersPage(req:AuthRequest, res:Response, next:NextFunc
   }
 }; 
 
-export async function getUserOrders(req:AuthRequest, res:Response, next:NextFunction) {
-  try {
+// export async function getUserOrders(req:AuthRequest, res:Response, next:NextFunction) {
+//   try {
 
-    const userID = req.user?.userID;
+//     const userID = req.user?.userID;
 
-    const user = await Users.findAll({
-      where: { userID: userID, isAdmin: false }, // Adjust the column name according to your database schema
-    });
+//     const user = await Users.findAll({
+//       where: { userID: userID, isAdmin: false }, // Adjust the column name according to your database schema
+//     });
 
-    console.log(user)
+//     console.log(user)
 
 
-    // Fetch products by user ID
-    const userOrders = await Orders.findAll({
-      // where: { userID: userID }, // Adjust the column name according to your database schema
-    });
+//     // Fetch products by user ID
+//     const userOrders = await Orders.findAll({
+//       // where: { userID: userID }, // Adjust the column name according to your database schema
+//     });
 
-    // res.json({ status: "successful", message: "welcome customer"})
-    res.render('users/user-orders', { user, userOrders, currentPage: "user-dashboard" })
+//     // res.json({ status: "successful", message: "welcome customer"})
+//     res.render('users/user-orders', { user, userOrders, currentPage: "user-dashboard" })
      
       
-  } catch (error) {
-      res.status(500).json({ message: 'server error'})
-  }
-};  
+//   } catch (error) {
+//       res.status(500).json({ message: 'server error'})
+//   }
+// };  

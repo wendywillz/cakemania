@@ -46,7 +46,7 @@
     window.onload = getCurrentYear;
   </script>
 
-    <script>
+<script>
 
         let counter = 1
 
@@ -85,48 +85,31 @@
             }
 
 
-    </script>
-
-
-
-<!-- This functionality adds real time changes to the cart counter on the navbar -->
+</script>
 <script>
-    // Function to handle the "Add to Cart" button click
-    const addToCart = async (cakeId) => {
-        try {
-            // Make an Ajax request to add the cake to the cart
-            const response = await fetch(`/cart/${cakeId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'same-origin', // Include cookies in the request
-            });
+  function addToCart(event) {
+    // Get the form by its ID
+    const addToCartForm = document.getElementById('addToCartForm');
 
-            if (response.ok) {
-                // Successfully added to the cart
-                const cartCountElement = document.getElementById('cart-count');
-                if (cartCountElement) {
-                    // Update the cart count on the page
-                    const currentCount = parseInt(cartCountElement.innerText, 10) || 0;
-                    cartCountElement.innerText = (currentCount + 1).toString();
-                }
-            } else {
-                // Handle error (you may customize this based on your needs)
-                console.error('Failed to add to cart:', response.statusText);
-            }
-        } catch (error) {
-            // Handle network or other errors
-            console.error('Error adding to cart:', error.message);
-        }
+    // Submit the form
+    addToCartForm.submit();
+
+    // Attach an event listener for the form submission
+    addToCartForm.onsubmit = function() {
+      // Delay the reload by 2 seconds
+      setTimeout(function() {
+        // Reload the page after 2 seconds
+        location.reload();
+      }, 2000);
     };
 
-    // Example: Attach the addToCart function to the "Add to Cart" button click
-    document.getElementById('add-to-cart-button').addEventListener('click', () => {
-        const cakeId = 'replace_with_actual_cake_id'; // Replace with the actual cake ID
-        addToCart(cakeId);
-    });
+    
+  }
 </script>
+
+
+
+
 
 
 <!--- Live  Chat integration  -->
@@ -141,7 +124,7 @@
     s1.setAttribute('crossorigin','*');
     s0.parentNode.insertBefore(s1,s0);
     })();
-  </script>
+</script>
     <!--End of Tawk.to Script-->
   
   </body>

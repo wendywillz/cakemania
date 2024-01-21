@@ -31,7 +31,7 @@
 
             <!-- Shopping Cart and Profile Icons (Right) -->
 
-            <% if (locals.userDetails) { %>
+            <% if (locals.userDetails && locals.userCart) { %>
 
                 <ul class="navbar-nav ms-auto">
                 <li style="text-align: left; background-color: #483b2c; color:white; border-radius: 5px;" class="nav-item pt-2 px-3 mx-3  ">
@@ -56,7 +56,7 @@
                     <a class="nav-link" href="/cakemania.ng/users/cart">
                         <i id="cart-icon" class="bi bi-cart"></i>
                         <span id="cart-count" class="badge bg-danger">
-                            0
+                            <%= locals.userCart.length %>
                         </span>     
                     </a>
                 </li>

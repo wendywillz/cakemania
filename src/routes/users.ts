@@ -1,10 +1,10 @@
 import express, { Request, Response, NextFunction} from 'express';
 
-import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteUser, getUserOrders, getOrdersPage } from '../controller/usercontroller';
+import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteUser, getOrdersPage } from '../controller/usercontroller';
 
 import { getUserCart, addCakeToCart, changeCartQuantity, removeCakeFromCart } from '../controller/cartcontroller';
 
-import { getOrderTotal } from '../controller/ordercontroller';
+import { getOrderTotal, getCartItems } from '../controller/ordercontroller';
 
 import { authorize, noCache } from '../middleware/authorize';
 
@@ -38,7 +38,7 @@ router.delete('/cart/:id', authorize, noCache, removeCakeFromCart )
 
 router.post('/cart', authorize, noCache )
 
-router.get('/my-orders', authorize, getOrderTotal)
+router.get('/my-orders', authorize, getOrderTotal )
 
 
 
