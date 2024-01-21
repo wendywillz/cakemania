@@ -12,7 +12,7 @@ import Users from './models/usermodel';
 import Categories from './models/categoryModel';
 import Cakes from './models/cakemodel';
 import Items from './models/itemModel';
-import Orders from './models/ordermodel';
+// import Orders from './models/ordermodel';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
@@ -45,7 +45,7 @@ app.use(`${api}/cakes`, cakeRouter)
 app.use(`${api}/categories`, categoryRouter)
 
 //database connection
-const models = [ Cakes, Categories, Items, Orders, Users];
+const models = [ Cakes, Categories, Items, Users];
 
 // Synchronize the models with the database
 async function syncDatabase() {
