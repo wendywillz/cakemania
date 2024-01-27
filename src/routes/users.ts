@@ -1,12 +1,16 @@
 import express, { Request, Response, NextFunction} from 'express';
 
-import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteUser, getOrdersPage } from '../controller/usercontroller';
+import { signup, login, logout, getUserDashboard, getEditUser, editUser, deleteUser  } from '../controller/usercontroller';
 
 import { getUserCart, addCakeToCart, changeCartQuantity, removeCakeFromCart } from '../controller/cartcontroller';
 
-import { getOrderTotal, getCartItems } from '../controller/ordercontroller';
+import { getOrderTotal, createOrder, getOrderSuccessPage, getOrdersInProfilePage } from '../controller/ordercontroller';
 
 import { authorize, noCache } from '../middleware/authorize';
+
+interface AuthRequest extends Request {
+  user?: { userID: string, isAdmin: boolean };
+}
 
 
 const router = express.Router();
@@ -38,13 +42,17 @@ router.delete('/cart/:id', authorize, noCache, removeCakeFromCart )
 
 router.post('/cart', authorize, noCache )
 
-router.get('/my-orders', authorize, getOrderTotal )
+router.get('/confirm-order', authorize, getOrderTotal )
 
+router.post('/confirm-order', authorize, createOrder )
 
+router.get('/order/success', authorize, getOrderSuccessPage)
 
 router.get('/profile/edit/:id', authorize, noCache, getEditUser )
 
 router.put('/profile/edit/:id', authorize, noCache, editUser)
+
+router.get('/profile/orders', authorize, noCache, getOrdersInProfilePage)
 
 
 
