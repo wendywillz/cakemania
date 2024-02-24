@@ -50,18 +50,18 @@ export async function createOrder(req: AuthRequest, res: Response) {
 
       res.locals.userCart = userCart;
 
-      const userItems = await Cart.findAll({
+      const userItems = (await Cart.findAll({
         where: {
-          userID: specificUserID},
-          include: [Cakes], // Cast include to any to prevent TypeScript error
-        }) as CartWithCake[];
+          userID: specificUserID,
+        },
+        include: [Cakes], // Cast include to any to prevent TypeScript error
+      })) as CartWithCake[];
 
+      //   const orderItems = {
+      //     items: userItems,
+      //   };
 
-    //   const orderItems = {
-    //     items: userItems,
-    //   };
-
-    const orderItems = userItems.map(item => ({
+      const orderItems = userItems.map((item) => ({
         cartID: item.dataValues.cartID,
         cakeID: item.dataValues.cakeID,
         cakeName: item.Cake.dataValues.cakeName,
@@ -69,12 +69,12 @@ export async function createOrder(req: AuthRequest, res: Response) {
         quantity: item.dataValues.quantity,
         price: item.dataValues.price,
         size: item.dataValues.quantity,
-        userID: item.dataValues.userID
-        
+        userID: item.dataValues.userID,
+
         // ... other item details you might want to include
       }));
 
-      const orderID = req.body.orderID
+      const orderID = req.body.orderID;
       const totalOrder = await getTotalOrder(specificUserID);
       const deliveryPhoneNo = req.body.deliveryPhoneNo;
       const deliveryAddress = req.body.deliveryAddress;
@@ -82,9 +82,9 @@ export async function createOrder(req: AuthRequest, res: Response) {
       const lga = req.body.lga;
       const additionalInfo = req.body.additionalInfo;
       const orderTime = Date.now();
-      const deliveryStatus = req.body.deliveryStatus
+      const deliveryStatus = req.body.deliveryStatus;
 
-      console.log(orderID)
+      console.log(orderID);
 
       const placedOrder = await Orders.create({
         orderID,
@@ -97,167 +97,144 @@ export async function createOrder(req: AuthRequest, res: Response) {
         lga,
         additionalInfo,
         deliveryState,
-        orderTime
-      })
+        orderTime,
+      });
 
-      console.log(placedOrder)
+      console.log(placedOrder);
 
-      res.redirect('/cakemania.ng/users/order/success')
-
+      res.redirect("/cakemania.ng/users/order/success");
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
-export async function getCartItems(req: AuthRequest, res:Response){
+export async function getCartItems(req: AuthRequest, res: Response) {
+  const specificUserID = req.user?.userID;
 
-    const specificUserID = req.user?.userID;
+  const allCartItems = await Cart.findAll({
+    where: { userID: specificUserID },
+    include: [Cakes] as any,
+  });
 
-    const allCartItems = await Cart.findAll(
-      {where:{userID:specificUserID},
-      include: [Cakes] as any,
-
-    })
-
-    res.render('orders', {  allCartItems, currentPage: 'index'} )
+  res.render("orders", { allCartItems, currentPage: "index" });
 }
 
-export async function getOrderTotal (req: AuthRequest, res:Response){
+export async function getOrderTotal(req: AuthRequest, res: Response) {
+  const userInfo = await req.cookies.user;
 
-    const userInfo =  await req.cookies.user
+  res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
 
-    res.locals.userDetails = userInfo ? JSON.parse(userInfo) : null;
+  const userCart = JSON.parse(userInfo).userID
+    ? await Cart.findAll({
+        where: { userID: JSON.parse(userInfo).userID },
+      })
+    : null;
 
-    const userCart =
-    JSON.parse(userInfo).userID ? await Cart.findAll({
-      where: { userID: JSON.parse(userInfo).userID },
-    }) : null;
+  res.locals.userCart = userCart;
 
-    res.locals.userCart = userCart
+  const specificUserID = req.user?.userID;
 
-    const specificUserID = req.user?.userID;
+  const user = await Users.findByPk(specificUserID);
 
-    const user = await Users.findByPk(specificUserID)
+  const allCartItems = (await Cart.findAll({
+    where: { userID: specificUserID },
+    include: [Cakes] as any,
+  })) as CartWithCake[];
 
-    const allCartItems = await Cart.findAll(
-      {
-        where:{userID:specificUserID},
-        include: [Cakes] as any, 
-            }) as CartWithCake[];
-
-    let tempOrderTotal:number = 0
-    if(allCartItems.length>0){
-        for(let cart of allCartItems){
-            tempOrderTotal += parseInt(cart.dataValues.price.replace(/,/g, ''))
-        }
+  let tempOrderTotal: number = 0;
+  if (allCartItems.length > 0) {
+    for (let cart of allCartItems) {
+      tempOrderTotal += parseInt(cart.dataValues.price.replace(/,/g, ""));
     }
-    let orderTotal = tempOrderTotal.toLocaleString()
+  }
+  let orderTotal = tempOrderTotal.toLocaleString();
 
-    res. render('orders', { user, allCartItems, orderTotal, currentPage: 'index'})
+  res.render("orders", {
+    user,
+    allCartItems,
+    orderTotal,
+    currentPage: "index",
+  });
 }
 
-export async function getOrderSuccessPage(req: AuthRequest, res:Response){
+export async function getOrderSuccessPage(req: AuthRequest, res: Response) {
+  try {
+    const userID = req.user?.userID;
 
-    try {
+    if (!userID) {
+      res.render("login", { message: "unauthorized" });
+    } else {
+      const user = await Users.findByPk(userID);
 
-        const userID = req.user?.userID;
-    
-    if(!userID){
-        res.render('login', { message: "unauthorized"})
-    }else{
-       const user = await Users.findByPk(userID)
-
-
-        res.render('quicktest', { currentPage: 'index', user})
-
-
+      res.render("order-success", { currentPage: "index", user });
     }
-        
-    } catch (error) {
-        console.error(error)
-        
-    }
-    
+  } catch (error) {
+    console.error(error);
+  }
 }
 
+export async function getOrdersInProfilePage(req: AuthRequest, res: Response) {
+  try {
+    const userID = req.user?.userID;
 
-export async function getOrdersInProfilePage(req: AuthRequest, res:Response){
+    const usersOrders = await Orders.findAll({
+      where: {
+        userID: userID,
+      },
+      include: [
+        {
+          model: Cart,
+          as: "cartItems", // Use the correct alias here
+          include: [Cakes],
+        },
+      ],
+    });
 
-    try {
+    console.log(usersOrders);
 
-        const userID = req.user?.userID;
+    const formattedOrders = usersOrders.map((order) => {
+      const orderItemsDetails = Array.isArray(order.dataValues.orderItems)
+        ? order.dataValues.orderItems.map((item) => ({
+            cartID: item.cartID,
+            cakeID: item.cakeID,
+            cakeName: item.Cake.cakeName, // Access the cakeName from the associated Cake model
+            cakeImage: item.Cake.image, // Access the image from the associated Cake model
+            quantity: item.quantity,
+            price: item.price,
+            size: item.size,
+            userID: item.userID,
+            // ... other item details you might want to include
+          }))
+        : [];
 
-        const usersOrders = await Orders.findAll({
-            where:{
-                userID: userID
-            },
-            include: [{
-                model: Cart,
-                as: 'cartItems',// Use the correct alias here
-                include: [Cakes]
-              }]
-        })
+      console.log(orderItemsDetails);
 
-        console.log(usersOrders)
+      return {
+        orderID: order.dataValues.orderID,
+        userID: order.dataValues.userID,
+        orderItems: orderItemsDetails,
+        total: order.dataValues.total,
+        deliveryStatus: order.dataValues.deliveryStatus,
+        deliveryPhoneNo: order.dataValues.deliveryPhoneNo,
+        deliveryAddress: order.dataValues.deliveryAddress,
+        lga: order.dataValues.lga,
+        additionalInfo: order.dataValues.additionalInfo,
+        deliveryState: order.dataValues.deliveryState,
+        orderTime: order.dataValues.orderTime,
+      };
+    });
 
-        const formattedOrders = usersOrders.map(order => {
-            const orderItemsDetails = Array.isArray(order.dataValues.orderItems) ?
-              order.dataValues.orderItems.map(item => ({
-                cartID: item.cartID,
-                cakeID: item.cakeID,
-                cakeName: item.Cake.cakeName, // Access the cakeName from the associated Cake model
-                cakeImage: item.Cake.image,  // Access the image from the associated Cake model
-                quantity: item.quantity,
-                price: item.price,
-                size: item.size,
-                userID: item.userID,
-                // ... other item details you might want to include
-              })) :
-              [];
+    console.log(formattedOrders);
 
-              console.log(orderItemsDetails)
-      
-            return {
-              orderID: order.dataValues.orderID,
-              userID: order.dataValues.userID,
-              orderItems: orderItemsDetails,
-              total: order.dataValues.total,
-              deliveryStatus: order.dataValues.deliveryStatus,
-              deliveryPhoneNo: order.dataValues.deliveryPhoneNo,
-              deliveryAddress: order.dataValues.deliveryAddress,
-              lga: order.dataValues.lga,
-              additionalInfo: order.dataValues.additionalInfo,
-              deliveryState: order.dataValues.deliveryState,
-              orderTime: order.dataValues.orderTime,
-            };
-          });
-
-          console.log(formattedOrders)
-         
-      
-          res.render('users/user-orders', { currentPage: 'user-dashboard', formattedOrders });
-
-
-
-
-        
-    } catch (error) {
-        console.error(error)
-        
-    }
-
-
-
-
-
-
-
-
+    res.render("users/user-orders", {
+      currentPage: "user-dashboard",
+      formattedOrders,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
-
-
-
 
 // /*
 // //finding if the order already exists
